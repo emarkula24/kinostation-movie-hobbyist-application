@@ -1,0 +1,26 @@
+### Get posts 
+GET http://localhost:3001
+
+### Login with valid credentials 
+POST http://localhost:3001/user/login
+Content-Type: application/json
+
+{ "users_email":"user@example.com", 
+"users_password":"password" }
+
+### Login with invalid credentials 
+POST http://localhost:3001/user/login 
+Content-Type: application/json
+
+{ "users_email":"user@example.com", 
+  "users_password":"wrongpassword"
+   }
+
+### Registration 
+POST http://localhost:3001/user/register 
+Content-Type: application/json
+
+{
+  "users_email": "user1@example.com",
+  "users_password": "password"
+}
