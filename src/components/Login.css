@@ -9,6 +9,55 @@
     width: 100%;
     height: 100vh;
 }
+ /* General container styling */
+/* .Container {
+    padding: 20px;
+    box-sizing: border-box;
+} */
+
+/* For screens smaller than 768px (tablets and below) */
+@media (max-width: 768px) {
+    .Form {
+        width: 80%;  /* Make form width flexible */
+    }
+
+    .Label {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        width: 90%; /* Make button take up more space */
+    }
+}
+
+/* For screens smaller than 576px (large mobile and below) */
+@media (max-width: 576px) {
+    .Form {
+        width: 100%;  /* Full-width form on mobile */
+    }
+
+    .Label {
+        font-size: 1rem;
+    }
+
+    .app-title {
+        flex-direction: column;
+    }
+
+    .app-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .form-input {
+        padding: 8px;
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+    }
+}
 
 .app-title {
     display: flex;

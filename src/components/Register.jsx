@@ -11,8 +11,6 @@ function Register() {
             <h1>Movie App</h1>
         </div>
         <form className='Form'>
-            <label className='Label'>Username</label>
-            <input className='form-input' type='text' placeholder='Enter Username'/>
             <label className='Label'>Email</label>
             <input className='form-input' type='email' placeholder='Enter Email'/>
             <label className='Label'>Password</label>
