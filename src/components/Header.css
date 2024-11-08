@@ -1,0 +1,132 @@
+@media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px;
+    }
+  
+    nav > ul {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .search {
+      width: 100%; /* Full width search bar */
+    }
+  
+    .profile {
+      gap: 5px;
+    }
+  
+    .notifIcon, .userIcon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+@media (max-width: 768px) {
+    .input-container input {
+      width: 100%; /* Full width */
+      padding: 8px 8px 8px 30px; /* Adjust padding */
+    }
+  
+    .searchIcon {
+      left: 8px;
+    }
+  }
+  
+  
+.header {
+    display: flex;
+    flex-direction: row;
+    flex: 0.8;
+    height: 5%;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+
+    color: #fff;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav > ul {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 20%;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.searchIcon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    pointer-events: none;
+}
+
+.search > .input-container > input {
+    width: 100%;
+    padding: 10px 10px 10px 35px; /* Adjust padding to make space for the icon */
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #545454;
+}
+
+.search > .input-container > input:focus {
+    outline: none;
+}
+
+.search > .input-container > input::placeholder {
+    color: #fff;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile > .notifIcon {
+    width: 30px;
+    height: 30px;
+}
+
+.profile > .userIcon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.profile > span {
+    font-weight: 500;
+}
+

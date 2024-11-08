@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+# packages
+/dist
+/packages/*/dist
+/packages/*/tsconfig.tsbuildinfo
+
 # testing
 /coverage
 
@@ -21,3 +26,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# dotenv environment variables file
+.env

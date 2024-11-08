@@ -19,7 +19,7 @@ function Register() {
             <input className='form-input' type='password' placeholder='Confirm Password' />
             <button className='btn' type='submit' >Register</button>
             <p>Already have account? 
-                <Link to={"/"}>Sign in</Link>
+                <Link to={"/login"}>Sign in</Link>
             </p>
         </form>
 

@@ -1,0 +1,13 @@
+@media (max-width: 768px) {
+    .home {
+      flex-direction: column;
+    }
+  }
+  
+.home {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    height: 100vh;  /*100% of the viewport height */
+    background-color: #21201E;
+}

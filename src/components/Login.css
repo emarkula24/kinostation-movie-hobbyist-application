@@ -9,11 +9,6 @@
     width: 100%;
     height: 100vh;
 }
- /* General container styling */
-/* .Container {
-    padding: 20px;
-    box-sizing: border-box;
-} */
 
 /* For screens smaller than 768px (tablets and below) */
 @media (max-width: 768px) {

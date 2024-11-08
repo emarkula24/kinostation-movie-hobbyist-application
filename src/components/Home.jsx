@@ -1,10 +1,13 @@
 import React from 'react'
 import "./Home.css"
+import Sidebar from './Sidebar'
+import Header from './Header'
 
 function Home() {
   return (
-    <div>
-        <h1>HOME PAGE!!!</h1>
+    <div className='home'>
+        <Sidebar />
+        <Header />
     </div>
   )
 }
