@@ -17,7 +17,10 @@ function Sidebar() {
   return (
     <div className='sidebar'>
 
-        <div className='logo'>
+        <div className='logo' onClick={ (e) => {
+            e.preventDefault();
+            window.location.href = '/';
+        }}>
             <BiSolidCoffee className='logoIcon'/>
             <h1>Movie App</h1>
         </div>
