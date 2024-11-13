@@ -3,12 +3,49 @@ import"./Login.css"
 import { BiSolidCoffee } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 
 
 function Login() {
 
+    const [user, setUser] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const refreshToken = async () => {
+        console.log('react refresh token function');
+        try {
+          const res = await axios.post("http://localhost:3001/user/refresh", { token: user.refreshToken });
+          console.log('response data from refresh token: ', res.data);
+          setUser({
+            ...user,
+            accessToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken,
+          });
+          return res.data;
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      const axiosJWT = axios.create()
+    
+      axiosJWT.interceptors.request.use(
+        async (config) => {
+          let currentDate = new Date();
+          const decodedToken = jwtDecode(user.accessToken);
+          if (decodedToken.exp * 1000 < currentDate.getTime()) {
+            const data = await refreshToken();
+            console.log('data from axiosJWT: ', data);
+            config.headers["authorization"] = "Bearer " + data.accessToken;
+          }
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
+    
 
     const loginUser = async (e) => {
         e.preventDefault();
@@ -28,8 +65,42 @@ function Login() {
                 }
             });
             console.log('response data from login: ', response.data);
+            setUser(response.data);
         }catch(error){
             console.log('error while login: ', error);
+        }
+    }
+
+    {/* testing remove user account: I will delete this code later */}
+    const removeAccount = async () => {
+        try{
+            const response = await axiosJWT.delete('http://localhost:3001/user/removeAccount/' + user.users_id,
+            {
+                headers: {
+                    Authorization: `Bearer ${user.accessToken}`
+                }
+            });
+            console.log('response data from delete: ', response.data);
+        }catch(error){
+            console.log('error while delete: ', error);
+        }
+    }
+
+    const logout = async () => {
+        try{
+            const response = await axios.post('http://localhost:3001/user/logout',
+            {
+                token: user.refreshToken
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${user.accessToken}`
+                }
+            });
+            console.log('response data from logout: ', response.data);
+            setUser(null);
+        }catch(error){
+            console.log('error while logout: ', error);
         }
     }
 
@@ -52,6 +123,10 @@ function Login() {
                 <Link to={"/register"}>Register</Link>  
             </p>
         </form>
+
+        {/* testing remove user account: delete this code later */}
+        {/* <button onClick={removeAccount}>Remove your account</button>
+        <button onClick={logout}>Logout</button> */}
 
     </div>
   )
