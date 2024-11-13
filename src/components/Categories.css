@@ -1,5 +1,3 @@
-/* Categories.css */
-
 .container {
     display: flex;
     flex-direction: column;
@@ -11,26 +9,51 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    /* text-align: center; */
     color: #fff;
 }
 
-.categories ul {
-    list-style-type: none;
-    padding: 0;
+.categories > h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px;
+
+}
+
+.category {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    gap: 25px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.categories li {
-    padding: 10px 20px;
-    background-color: #545454;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.categories li:hover {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
     background-color: #37312A;
+    color: #fff;
+}
+
+.card > img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.card > p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    /* background-color: aqua; */
+    padding: 10px;
+    width: 100%;
+    height: 15%;
+    border-radius: 10px;
+
 }
