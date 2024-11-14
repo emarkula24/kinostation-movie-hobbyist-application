@@ -23,7 +23,7 @@ function Reviews() {
         <div>
              <ul>
                 {
-                  Array.isArray(reviews) && reviews.map(review => (
+                  reviews.map(review => (
                     <li key={review.review_id}>
                         <h3>{review.movie_title}</h3>
                         <img src={review.movie_image} alt={review.movie_title} />
