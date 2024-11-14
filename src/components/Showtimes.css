@@ -9,7 +9,8 @@
 .showtimes-con > select {
     width: 50%;
     height: 35px;
-    box-shadow: #000000;
+    font-weight: bold;
+
 }
 
 .showtimes-list {
