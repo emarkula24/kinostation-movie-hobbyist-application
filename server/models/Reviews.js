@@ -16,6 +16,6 @@ const selectAllReviews = async () => {
             review
         JOIN
             movie ON review.review_movie_id = movie.movie_id;
-    `);
+    `)
 }
 export { selectAllReviews }
