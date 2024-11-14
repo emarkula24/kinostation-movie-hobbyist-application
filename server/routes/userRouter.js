@@ -80,7 +80,7 @@ router.post("/register", async (req, res, next) => {
 // Login Route
 router.post("/login", async (req, res, next) => {
     const invalid_message = "Invalid Credentials";
-
+    console.log("hello from login")
     try {
         const { users_email, users_password } = req.body;
 
