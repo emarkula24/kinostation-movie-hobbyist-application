@@ -44,7 +44,9 @@ CREATE TABLE usergroup (
     group_id INTEGER PRIMARY KEY,
     group_users_id INTEGER,
     group_name VARCHAR(255),
-    FOREIGN KEY (group_users_id) REFERENCES "users"(users_id)
+    group_owner_id INTEGER,
+    FOREIGN KEY (group_users_id) REFERENCES "users"(users_id),
+    FOREIGN KEY (group_owner_id) REFERENCES "users"(users_id)
 );
 
 CREATE TABLE groupmember (
