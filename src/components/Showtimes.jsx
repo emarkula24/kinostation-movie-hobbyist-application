@@ -66,7 +66,7 @@ function Showtimes() {
   };
 
   return (
-    <div>
+    <div className='showtimes-con'>
       <h1>Showtimes</h1>
       <label htmlFor="theater-select">Select Theater:</label>
       <select id="theater-select" onChange={handleAreaChange}>
@@ -82,11 +82,14 @@ function Showtimes() {
         {shows.length > 0 ? (
           shows.map((show) => (
             <div key={show.id} className="show-item">
-              <h3>{show.title}</h3>
-              <p>Theater: {show.theater}</p>
-              <p>Auditorium: {show.auditorium}</p>
-              <p>Start Time: {new Date(show.startTime).toLocaleString()}</p>
               <img src={show.imageUrl} alt={show.title} />
+              <div className='show-details'>
+                <h3>{show.title}</h3>
+                <p>Theater: {show.theater}</p>
+                <p>Auditorium: {show.auditorium}</p>
+                <p>Start Time: {new Date(show.startTime).toLocaleString()}</p>
+              </div>
+              
             </div>
           ))
         ) : (

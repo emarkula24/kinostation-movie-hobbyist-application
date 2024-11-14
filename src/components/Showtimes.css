@@ -1,0 +1,37 @@
+.showtimes-con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    color: #fff;
+}
+
+.showtimes-con > select {
+    width: 50%;
+    height: 35px;
+    box-shadow: #000000;
+}
+
+.showtimes-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    
+}
+
+.show-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+
+    gap: 30px;
+    border-bottom: 2px solid #000000;
+}
+
+.show-details {
+    display: flex;
+    flex-direction: column;
+}
