@@ -4,17 +4,68 @@ import './Categories.css'
 function Categories() {
   return (
     <div className='container'>
-        <div className='categories'>
-            <h2>Categories</h2>
-            <ul>
-            <li>Action</li>
-            <li>Adventure</li>
-            <li>Comedy</li>
-            <li>Drama</li>
-            <li>Horror</li>
-            <li>Sci-Fi</li>
-            </ul>
-        </div>
+
+      <div className='categories'>
+       <h1>Trending</h1>
+          <div className='category'>
+            <div className="card">
+              <img className='movie-poster'
+                   src='https://image.tmdb.org/t/p/w500/6MKr3KgOLmzOP6MSuZERO41Lpkt.jpg' alt='movie'/>
+              <p>Movie Title</p>
+            </div>
+
+            <div className="card">
+              <img className='movie-poster'
+                   src='https://image.tmdb.org/t/p/w500/6MKr3KgOLmzOP6MSuZERO41Lpkt.jpg' alt='movie'/>
+              <p>Movie Title</p>
+            </div>
+
+            <div className="card">
+              <img className='movie-poster'
+                   src='https://image.tmdb.org/t/p/w500/6MKr3KgOLmzOP6MSuZERO41Lpkt.jpg' alt='movie'/>
+              <p>Movie Title</p>
+            </div>
+
+            {/* <div className="card">
+              <img className='movie-poster'
+                   src='https://image.tmdb.org/t/p/w500/6MKr3KgOLmzOP6MSuZERO41Lpkt.jpg' alt='movie'/>
+              <p>Movie Title</p>
+            </div> */}
+
+          </div>
+      </div>
+
+      
+      <div className='categories'>
+        <h1>Trending</h1>
+          <div className='category'>
+            <div className="card">
+              <img className='movie-poster'
+                   src='https://image.tmdb.org/t/p/w500/6MKr3KgOLmzOP6MSuZERO41Lpkt.jpg' alt='movie'/>
+              <p>Movie Title</p>
+            </div>
+
+            <div className="card">
+              <img className='movie-poster'
+                   src='https://image.tmdb.org/t/p/w500/6MKr3KgOLmzOP6MSuZERO41Lpkt.jpg' alt='movie'/>
+              <p>Movie Title</p>
+            </div>
+
+            <div className="card">
+              <img className='movie-poster'
+                   src='https://image.tmdb.org/t/p/w500/6MKr3KgOLmzOP6MSuZERO41Lpkt.jpg' alt='movie'/>
+              <p>Movie Title</p>
+            </div>
+
+            {/* <div className="card">
+              <img className='movie-poster'
+                   src='https://image.tmdb.org/t/p/w500/6MKr3KgOLmzOP6MSuZERO41Lpkt.jpg' alt='movie'/>
+              <p>Movie Title</p>
+            </div> */}
+
+          </div>
+      </div>
+
     </div>
   )
 }
