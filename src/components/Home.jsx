@@ -1,7 +1,8 @@
 import React from 'react'
 import "./Home.css"
 import Header from './Header'
-import Categories from './Categories'
+// import Categories from './Categories'
+import MoviePage from './MoviePage'
 
 function Home() {
   return (
@@ -9,7 +10,11 @@ function Home() {
         
         <Header />
 
-        <Categories />
+        {/* <Categories /> */}
+        <div className='MoviePage'>
+        <MoviePage />
+        </div>
+        
     </div>
   )
 }
