@@ -22,6 +22,11 @@ function Login() {
             accessToken: res.data.accessToken,
             refreshToken: res.data.refreshToken,
           });
+            sessionStorage.setItem('user', JSON.stringify({
+                ...user,
+                accessToken: res.data.accessToken,
+                refreshToken: res.data.refreshToken,
+            }));
           return res.data;
         } catch (err) {
           console.log(err);
@@ -66,12 +71,14 @@ function Login() {
             });
             console.log('response data from login: ', response.data);
             setUser(response.data);
+            // set session storage
+            sessionStorage.setItem('user', JSON.stringify(response.data));
         }catch(error){
             console.log('error while login: ', error);
         }
     }
 
-    {/* testing remove user account: I will delete this code later */}
+    {/* #testing @bibek will delete this code later */}
     const removeAccount = async () => {
         try{
             const response = await axiosJWT.delete('http://localhost:3001/user/removeAccount/' + user.users_id,
@@ -99,9 +106,14 @@ function Login() {
             });
             console.log('response data from logout: ', response.data);
             setUser(null);
+            sessionStorage.removeItem('user');
         }catch(error){
             console.log('error while logout: ', error);
         }
+    }
+
+    const whatOnSession = () => {
+        console.log('session data: ', sessionStorage.getItem('user'));
     }
 
   return (
@@ -124,9 +136,10 @@ function Login() {
             </p>
         </form>
 
-        {/* testing remove user account: delete this code later */}
+        {/* #testing @bibek will delete this code later */}
         {/* <button onClick={removeAccount}>Remove your account</button>
-        <button onClick={logout}>Logout</button> */}
+        <button onClick={logout}>Logout</button>
+        <button onClick={whatOnSession}>session data</button> */}
 
     </div>
   )

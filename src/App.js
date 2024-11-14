@@ -7,6 +7,7 @@ import ResetPassword from './components/ResetPassword';
 import Reviews from './components/Reviews';
 import Groups from './components/Groups';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Showtimes from './components/Showtimes';
 
 function App() {
   return (
