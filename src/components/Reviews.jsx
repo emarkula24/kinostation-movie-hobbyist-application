@@ -23,13 +23,16 @@ function Reviews() {
         <div>
              <ul>
                 {
-                reviews.map(review => (
+                  Array.isArray(reviews) && reviews.map(review => (
                     <li key={review.review_id}>
+                        <h3>{review.movie_title}</h3>
+                        <img src={review.movie_image} alt={review.movie_title} />
                         <p><strong>Rating:</strong> {review.review_rating} / 5</p>
                         <p><strong>Review:</strong> {review.review_text}</p>
                         <p><strong>Created At:</strong> {new Date(review.review_created_at).toLocaleString()}</p>
+                        <p><strong>Description:</strong> {review.movie_description}</p>
                     </li>
-                ))
+                  ))
                 }
             </ul>
         </div>
