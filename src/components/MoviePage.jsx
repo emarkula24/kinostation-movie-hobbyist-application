@@ -64,36 +64,6 @@ function MoviePage({ movie }) {
         <MdFavoriteBorder className="favorite-btn" />
       </div>
 
-      {/* Conditionally render the Showtimes and Reviews sections */}
-      {/* {activeTab === "showtimes" && (
-        <div className='showtimes'>
-          <h1>Showtimes</h1>
-          <div className='dates-btns'>
-            <button>Monday</button>
-            <button>Tuesday</button>
-            <button>Wednesday</button>
-            <button>Thursday</button>
-            <button>Friday</button>
-            <button>Saturday</button>
-            <button>Sunday</button>
-          </div>
-          <p>Date: 13th November 2024, Wednesday</p>
-          <div className='theatres'>
-            <h2>Available Theatres:</h2>
-            <div className='theatre'>
-              <h3>Oulu Plaza</h3>
-              <p>Location: 1234 Street, City, State, 12345</p>
-              <div className='times'>
-                <p>10:00 AM</p>
-                <p>1:00 PM</p>
-                <p>4:00 PM</p>
-                <p>7:00 PM</p>
-              </div>
-              <button>Tickets</button>
-            </div>
-          </div>
-        </div>
-      )} */}
       {activeTab === 'showtimes' && (
         <div className="showtimes">
           <h1>Showtimes</h1>
