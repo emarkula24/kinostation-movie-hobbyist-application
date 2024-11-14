@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import userRouter from './routes/userRouter.js';
-import reviewRouter from "./routes/reviewRouter.js"
+import reviewRouter from "./routes/reviewRouter.js";
+import groupRouter from "./routes/groupRouter.js";
 const port = 3001;
 
 const app = express();
@@ -11,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/user', userRouter);
 app.use("/reviews", reviewRouter);
-
+app.use("/groups", groupRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
