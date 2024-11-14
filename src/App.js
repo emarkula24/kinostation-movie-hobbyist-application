@@ -8,6 +8,7 @@ import Reviews from './components/Reviews';
 import Groups from './components/Groups';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Showtimes from './components/Showtimes';
+import CreateGroup from './components/Creategroup';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/groups" element={<Groups />} />
+        <Route path="/groups/create" element={<CreateGroup />} />
+        <Route path="/showtimes" element={<Showtimes />} />
       </Routes>
     </Router>
     </div>

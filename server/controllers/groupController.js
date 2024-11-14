@@ -1,4 +1,4 @@
-import { selectAllGroups } from "../models/Groups.js";
+import { selectAllGroups, createGroup } from "../models/Groups.js";
 import { emptyOrRows } from "../helpers/emptyOrRows.js";
 
 const getGroups = async (req, res, next) => {
@@ -9,5 +9,7 @@ const getGroups = async (req, res, next) => {
         return next(error)
     }
 }
+
+const postGroups = async (req, res, next)
 
 export { getGroups }
