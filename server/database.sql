@@ -14,14 +14,14 @@ CREATE TABLE users (
 
 
 CREATE TABLE movie (
-    movie_id INTEGER PRIMARY KEY,
+    movie_id SERIAL PRIMARY KEY,
     movie_image VARCHAR(255),
     movie_title VARCHAR(255),
     movie_description TEXT
 );
 
 CREATE TABLE favorite (
-    favorite_id INTEGER PRIMARY KEY,
+    favorite_id SERIAL PRIMARY KEY,
     favorite_users_id INTEGER,
     favorite_movie_id INTEGER,
     favorite_added_at TIMESTAMP,
@@ -30,7 +30,7 @@ CREATE TABLE favorite (
 );
 
 CREATE TABLE review (
-    review_id INTEGER PRIMARY KEY,
+    review_id SERIAL PRIMARY KEY,
     review_users_id INTEGER,
     review_movie_id INTEGER,
     review_text TEXT,
@@ -41,7 +41,7 @@ CREATE TABLE review (
 );
 
 CREATE TABLE usergroup (
-    group_id INTEGER PRIMARY KEY,
+    group_id  SERIAL PRIMARY KEY,
     group_users_id INTEGER,
     group_name VARCHAR(255),
     group_owner_id INTEGER,
@@ -50,7 +50,7 @@ CREATE TABLE usergroup (
 );
 
 CREATE TABLE groupmember (
-    groupmember_id INTEGER PRIMARY KEY,
+    groupmember_id SERIAL PRIMARY KEY,
     groupmember_group_id INTEGER,
     groupmember_users_id INTEGER,
     groupmember_status VARCHAR(50) CHECK (groupmember_status IN ('active', 'inactive', 'pending')),
@@ -59,9 +59,10 @@ CREATE TABLE groupmember (
 );
 
 CREATE TABLE groupmovie (
-    groupmovie_id INTEGER PRIMARY KEY,
+    groupmovie_id SERIAL PRIMARY KEY,
     groupmovie_group_id INTEGER,
     groupmovie_movie_id INTEGER,
     FOREIGN KEY (groupmovie_group_id) REFERENCES usergroup(group_id),
     FOREIGN KEY (groupmovie_movie_id) REFERENCES movie(movie_id)
 );
+
