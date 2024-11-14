@@ -1,11 +1,20 @@
-.container {
+@media (max-width: 600px) {
+    .reviews {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+}
+
+.movie-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px 0px;
     width: 100%;
-    height: 95%;
+    /* height: 90%; */
+    height: fit-content;
+    /* background-color: aqua; */
+    background-color: #21201E;
 }
 
 .movie-info {
@@ -47,10 +56,6 @@ h1 {
     font-weight: 500;
 }
 
-.paragraph-1 {
-    font-weight: bold;
-}
-
 .btns {
     display: flex;
     flex-direction: row;
@@ -63,6 +68,10 @@ h1 {
     padding: 5px;
     cursor: pointer;
     font-size: 0.9rem;
+}
+
+.btns > button.active {
+    background-color: rgb(113, 255, 255);
 }
 
 .favorite-btn {
@@ -78,7 +87,7 @@ h1 {
     gap: 20px;
     padding: 20px 0px;
     width: 70%;
-    height: 100vh;
+
     color: #fff;
     /* background-color: rgb(115, 170, 170); */
 }
@@ -165,4 +174,38 @@ h1 {
 
 .theatre > button:hover {
     background-color: #acacac;
+}
+
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0px;
+    width: 70%;
+    color: #fff;
+}
+
+.review-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviews {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 20px;
+    padding: 20px 0;
+    width: 100%;
+    color: #fff;
+    margin: 0 auto; /* Center the container */
+}
+
+.review {
+    background-color: rgb(200, 199, 199);
+    border-radius: 20px;
+    color: #353131;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }

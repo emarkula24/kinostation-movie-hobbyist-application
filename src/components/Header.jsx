@@ -6,8 +6,11 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import axios from "axios";
 import { BiSolidCoffee } from 'react-icons/bi';
 import XMLParser from 'react-xml-parser';
+import { useNavigate } from 'react-router-dom';
 
-function Header() {
+function Header( { setSelectedMovie }) {
+
+    const navigate = useNavigate();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [showtimes, setShowtimes] = useState(new Set());
@@ -15,6 +18,12 @@ function Header() {
 
     const TMDB_URL = process.env.REACT_APP_TMDB_API_MOVIES_URL;
     const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+
+    const handleMovieClick = (movie) => {
+        setSelectedMovie(movie); // Set the selected movie in the parent state
+        navigate('/MoviePage');  // Navigate to the MoviePage route
+        setQuery('');
+    };
 
     // Function to fetch and parse showtimes from Finnkino
     const fetchShowtimes = async () => {
@@ -103,7 +112,11 @@ function Header() {
             <div className='search-results'>
                 {isTyping && query && <p>Searching...</p>}
                 {results.map((movie) => (
-                    <div key={movie.id} className='movie-item'>
+                    <div 
+                    key={movie.id} 
+                    className='movie-item'
+                    onClick={() => handleMovieClick(movie)}
+                    >
                         <p>
                             {movie.title} {showtimes.has(movie.title) && <span className='showtime'>(Showtime)</span>}
                         </p>
