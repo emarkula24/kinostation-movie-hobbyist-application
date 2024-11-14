@@ -10,6 +10,5 @@ const getGroups = async (req, res, next) => {
     }
 }
 
-const postGroups = async (req, res, next)
 
 export { getGroups }
