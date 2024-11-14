@@ -1,17 +1,15 @@
-import React from 'react'
-import "./Home.css"
-import Header from './Header'
-import Categories from './Categories'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Header from './Header';
+import Categories from './Categories';
+import './Home.css';
 
-function Home() {
+function Home({ setSelectedMovie }) {
   return (
-    <div className='home'>
-        
-        <Header />
-
-        <Categories />
+    <div className="home">
+      <Categories setSelectedMovie={setSelectedMovie} />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

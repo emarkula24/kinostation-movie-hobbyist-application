@@ -1,30 +1,34 @@
-
 import './App.css';
 import Login from './components/Login';
 import Register from './components/Register';
-import Home from './components/Home'; //Will import home page if we edit it
+import Home from './components/Home';
 import ResetPassword from './components/ResetPassword';
 import Reviews from './components/Reviews';
 import Groups from './components/Groups';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Showtimes from './components/Showtimes';
-import CreateGroup from './components/Creategroup';
+import MoviePage from './components/MoviePage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
+import Header from './components/Header';
 
 function App() {
+  const [selectedMovie, setSelectedMovie] = useState(null);
+
   return (
     <div className="App">
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} /> {/* Will import home page if we edit it */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/ResetPassword" element={<ResetPassword />} />
-        <Route path="/reviews" element={<Reviews />} />
-        <Route path="/groups" element={<Groups />} />
-        <Route path="/groups/create" element={<CreateGroup />} />
-        <Route path="/showtimes" element={<Showtimes />} />
-      </Routes>
-    </Router>
+      <Router>
+      <Header setSelectedMovie={setSelectedMovie} />
+        <Routes>
+          <Route path="/" element={<Home setSelectedMovie={setSelectedMovie} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/groups" element={<Groups />} />
+          <Route path="/MoviePage" element={<MoviePage movie={selectedMovie} />} />
+          <Route path="/showtimes" element={<Showtimes />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

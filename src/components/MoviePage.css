@@ -1,0 +1,211 @@
+@media (max-width: 600px) {
+    .reviews {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+}
+
+.movie-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0px;
+    width: 100%;
+    /* height: 90%; */
+    height: fit-content;
+    /* background-color: aqua; */
+    background-color: #21201E;
+}
+
+.movie-info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    /* background-color: rgb(235, 177, 105); */
+    padding-top: 10px;
+    width: 70%;
+    /* height: 100%; */
+    gap: 100px;
+    color: #fff;
+    height: fit-content;
+}
+
+.movie-info > img {
+    width: 35%;
+    height: 450px;
+}
+
+.movie-details {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    height: fit-content;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.movie-details > p {
+    font-family: monospace;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.btns {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.btns > button {
+    width: 30%;
+    height: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btns > button.active {
+    background-color: rgb(113, 255, 255);
+}
+
+.favorite-btn {
+    width: 10%;
+    height: 10%;
+    cursor: pointer;
+    color: #fbfbfb;
+}
+
+.showtimes {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0px;
+    width: 70%;
+
+    color: #fff;
+    /* background-color: rgb(115, 170, 170); */
+}
+
+.dates-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    width: 50%;
+    border-radius: 20px;
+    /* padding-left: 20px; */
+    
+}
+
+.dates-btns > button {
+    width: 100%;
+    height: 25px;
+    cursor: pointer;
+    color: #353131;
+    background-color: transparent;
+    border: none;
+    background-color: rgb(182, 182, 182);
+}
+
+.dates-btns > button:first-child {
+    border-radius: 20px 0 0 20px;
+}
+
+.dates-btns > button:last-child {
+    border-radius: 0 20px 20px 0;
+}
+
+.dates-btns > button:hover {
+    background-color: azure;
+}
+
+.dates-btns > button:active {
+    background-color: azure;
+}
+
+.showtimes > p {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.theatres {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.theatre {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    background-color: rgb(200, 199, 199);
+    border-radius: 20px;
+    color: #353131;
+    padding: 10px;
+}
+
+.theatre > h3 {
+    padding-left: 10px;
+}
+
+.theatre > .times {
+    display: flex;
+    flex-direction: row;
+}
+
+.times {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.theatre > button {
+    width: 10%;
+    height: 30px;
+    cursor: pointer;
+    color: #4f4f4f;
+    
+}
+
+.theatre > button:hover {
+    background-color: #acacac;
+}
+
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0px;
+    width: 70%;
+    color: #fff;
+}
+
+.review-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviews {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 20px;
+    padding: 20px 0;
+    width: 100%;
+    color: #fff;
+    margin: 0 auto; /* Center the container */
+}
+
+.review {
+    background-color: rgb(200, 199, 199);
+    border-radius: 20px;
+    color: #353131;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
