@@ -9,6 +9,7 @@ function Reviews() {
 
     const [reviews, setReviews] = useState([]);
 
+    // fetch review and movie data from database
     useEffect(() => {
         axios.get(url + "/reviews")
           .then(response => {
