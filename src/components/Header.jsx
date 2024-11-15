@@ -7,6 +7,8 @@ import axios from "axios";
 import { BiSolidCoffee } from 'react-icons/bi';
 import XMLParser from 'react-xml-parser';
 import { useNavigate } from 'react-router-dom';
+import { FaBars } from "react-icons/fa";
+
 
 function Header( { setSelectedMovie }) {
 
@@ -15,6 +17,17 @@ function Header( { setSelectedMovie }) {
     const [results, setResults] = useState([]);
     const [showtimes, setShowtimes] = useState(new Set());
     const [isTyping, setIsTyping] = useState(false);
+
+    const [burgerMenuIsOpen, setBurgerMenuIsOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const toggleBurgerMenu = () => {
+        setBurgerMenuIsOpen(!burgerMenuIsOpen);
+    };
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
     const TMDB_URL = process.env.REACT_APP_TMDB_API_MOVIES_URL;
     const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
@@ -134,6 +147,28 @@ function Header( { setSelectedMovie }) {
                 <FaUserLarge className='userIcon'/>
                 <span>Profile</span>
             </div>
+            <div className="burger-Icon" onClick={toggleBurgerMenu}>
+                <FaBars className='barIcon'/>
+            </div>
+
+            {burgerMenuIsOpen && (
+                <div className="burger-menu">
+                    <div className='burger-items'>
+                        <ul>
+                            <li>Favorites</li>
+                            <li>Community</li>
+                            <li>Trending</li>
+                            <li onClick={
+                                (e) => {
+                                    e.preventDefault();
+                                    window.location.href = '/Showtimes';
+                                }
+                            }>Showtimes</li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            )}
         </div>
     );
 }
