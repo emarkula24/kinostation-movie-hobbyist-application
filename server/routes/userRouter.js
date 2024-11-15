@@ -220,7 +220,7 @@ async function sendEmail({id, email}){
         from: 'bebibbadnat@gmail.com',
         to: email,
         subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
+        text: 'Your OTP is: ' + otp
     };
 
     transporter.sendMail(mailOptions, async function (error, info) {
@@ -238,6 +238,48 @@ async function sendEmail({id, email}){
         }
     });
 }
+
+router.post("/verifyOtp", async (req, res) => {
+    let otp = req.body.otp;
+    let email = req.body.email;
+
+    if (!otp || !email) {
+        return res.status(400).json({ error: "Email and OTP is required." });
+    }
+
+    const result = await pool.query(
+        "SELECT * FROM users WHERE users_email = $1",
+        [email]
+    );
+
+    if (result.rowCount === 0) {
+        return res.status(401).json({ error: 'Email not found' });
+    }
+
+    let user = result.rows[0];
+
+    let otp_result = await pool.query("SELECT * FROM otp WHERE otp_users_id = $1 AND otp_code = $2", [user.users_id, otp]);
+
+    if (otp_result.rowCount === 0) {
+        return res.status(401).json({ error: 'Invalid OTP' });
+    }
+
+    let otp_data = otp_result.rows[0];
+
+    let currentDate = new Date();
+
+    let otp_created_at = new Date(otp_data.otp_created_at);
+
+    let diff = currentDate - otp_created_at;
+
+    let diffInMinutes = diff / 60000;
+
+    if (diffInMinutes > 5) {
+        return res.status(401).json({ error: 'OTP expired' });
+    }
+
+    res.status(200).json({message: 'OTP verified successfully'});
+})
 
 
 
