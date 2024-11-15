@@ -96,6 +96,10 @@ nav > ul {
     font-weight: 500;
 }
 
+nav > ul > li {
+  cursor: pointer;
+}
+
 .search {
     display: flex;
     flex-direction: row;

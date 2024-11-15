@@ -1,38 +1,53 @@
+
+
 .showtimes-con {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-self: center;
     color: #fff;
+    gap: 20px;
 }
 
 .showtimes-con > select {
-    width: 50%;
+    width: 30%;
     height: 35px;
     font-weight: bold;
-
 }
 
 .showtimes-list {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    width: 70%;
     gap: 20px;
+   
     
 }
 
 .show-item {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
     padding: 10px;
-
     gap: 30px;
-    border-bottom: 2px solid #000000;
+    border: 2px solid #a7a7a7;
+    background-color: #37312A;
+    border-radius: 10px;
+}
+
+.show-item > img {
+    object-fit: fill;
 }
 
 .show-details {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-self: flex-start;
+    gap: 5px;
+}
+
+.show-details > h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
 }

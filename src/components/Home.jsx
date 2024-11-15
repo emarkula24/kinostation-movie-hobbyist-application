@@ -1,6 +1,4 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Header from './Header';
 import Categories from './Categories';
 import './Home.css';
 
