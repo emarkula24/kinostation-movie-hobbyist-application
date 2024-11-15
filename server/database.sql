@@ -66,3 +66,12 @@ CREATE TABLE groupmovie (
     FOREIGN KEY (groupmovie_movie_id) REFERENCES movie(movie_id)
 );
 
+CREATE TABLE otp(
+    otp_id SERIAL PRIMARY KEY,
+    otp_users_id INTEGER,
+    otp_code VARCHAR(6),
+    otp_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    otp_validated BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (otp_users_id) REFERENCES "users"(users_id)
+)
+
