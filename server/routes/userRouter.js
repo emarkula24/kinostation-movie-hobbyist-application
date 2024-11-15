@@ -278,9 +278,64 @@ router.post("/verifyOtp", async (req, res) => {
         return res.status(401).json({ error: 'OTP expired' });
     }
 
-    res.status(200).json({message: 'OTP verified successfully'});
+    // change otp_validated to true
+    let updatedOtp = await pool.query("UPDATE otp SET otp_validated = $1 WHERE otp_id = $2 RETURNING *", [true, otp_data.otp_id]);
+    console.log('updatedOtp: ', updatedOtp.rows[0]);
+
+    let userData = {
+        users_id: user.users_id,
+        users_email: user.users_email
+    }
+
+    res.status(200).json({message: 'OTP verified successfully', userData});
 })
 
+router.post("/resetPassword", async (req, res) => {
+    let password = req.body.password;
+    let email = req.body.email;
+
+    if (!password || !email) {
+        return res.status(400).json({ error: "Email and password is required." });
+    }
+
+    const result = await pool.query(
+        "SELECT * FROM users WHERE users_email = $1",
+        [email]
+    );
+
+    if (result.rowCount === 0) {
+        return res.status(401).json({ error: 'Email not found' });
+    }
+
+    // check if otp is validated and time should not be more than 15 minutes from otp created time
+    let checkOtp = await pool.query("SELECT * FROM otp WHERE otp_users_id = $1 AND otp_validated = $2", [result.rows[0].users_id, true]);
+
+    if (checkOtp.rowCount === 0) {
+        return res.status(401).json({ error: 'OTP not validated' });
+    }
+
+    let otp_data = checkOtp.rows[0];
+
+    let currentDate = new Date();
+
+    let otp_created_at = new Date(otp_data.otp_created_at);
+
+    let diff = currentDate - otp_created_at;
+
+    let diffInMinutes = diff / 60000;
+
+    if (diffInMinutes > 15) {
+        return res.status(401).json({ error: 'OTP expired. Not able to change password.' });
+    }
+
+    let user = result.rows[0];
+
+    const hashedPassword = await hash(password, 10);
+
+    let updatedUser = await pool.query("UPDATE users SET users_password = $1 WHERE users_id = $2 RETURNING *", [hashedPassword, user.users_id]);
+
+    res.status(200).json({message: 'Password updated successfully'});
+});
 
 
 export default router;
