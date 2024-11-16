@@ -17,6 +17,7 @@ function Header( { setSelectedMovie }) {
     const [results, setResults] = useState([]);
     const [showtimes, setShowtimes] = useState(new Set());
     const [isTyping, setIsTyping] = useState(false);
+    const [showResults, setShowResults] = useState(false);  // Controls the visibility of search results
 
     const [burgerMenuIsOpen, setBurgerMenuIsOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -58,6 +59,7 @@ function Header( { setSelectedMovie }) {
         if (query.length === 0) {
             setResults([]);
             setIsTyping(false); 
+            setShowResults(false);  // Hide results when query is empty
             return;
         }
 
@@ -73,6 +75,7 @@ function Header( { setSelectedMovie }) {
                             },
                         });
                         setResults(response.data.results);
+                        setShowResults(true);  // Show search results
                     } catch (error) {
                         console.error('Error fetching movies:', error);
                     }
@@ -89,7 +92,22 @@ function Header( { setSelectedMovie }) {
         setQuery(event.target.value);
         setIsTyping(true);
     };
+    // Handle pressing Enter to navigate to search page with query
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && query.length > 0) {
+            navigate(`/search?query=${query}`);
+        }
+    };
 
+    // Hide search results when mouse leaves the result area
+    const handleMouseLeave = () => {
+        setShowResults(false);
+    };
+
+    // Show search results when mouse enters the result area
+    const handleMouseEnter = () => {
+        setShowResults(true);
+    };
     return (
         <div className='header'>
             <div className='left-header'>
@@ -123,13 +141,17 @@ function Header( { setSelectedMovie }) {
                         placeholder='Search for a movie, tv show, person...'
                         value={query}
                         onChange={handleInputChange}
+                        onKeyDown={handleKeyDown} 
                     />
                 </div>
             </div>
 
-            <div className='search-results'>
+            <div className='search-results' 
+                onMouseEnter={handleMouseEnter} 
+                onMouseLeave={handleMouseLeave}  
+            >
                 {isTyping && query && <p>Searching...</p>}
-                {results.map((movie) => (
+                {showResults&&results.map((movie) => (
                     <div 
                     key={movie.id} 
                     className='movie-item'

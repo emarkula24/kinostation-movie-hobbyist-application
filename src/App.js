@@ -10,6 +10,7 @@ import MoviePage from './components/MoviePage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import Header from './components/Header';
+import SearchPage from './components/SearchPage';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -27,6 +28,7 @@ function App() {
           <Route path="/groups" element={<Groups />} />
           <Route path="/MoviePage" element={<MoviePage movie={selectedMovie} />} />
           <Route path="/showtimes" element={<Showtimes />} />
+          <Route path="/search" element={<SearchPage setSelectedMovie={setSelectedMovie} />} />
         </Routes>
       </Router>
     </div>
