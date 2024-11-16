@@ -1,0 +1,160 @@
+@import "./styles/variables.scss";
+@import "./styles/mixins.scss";
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+.category-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 95%;
+  background-color: $dark-bg;
+  padding: 20px;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $text-light;
+
+  > h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px;
+  }
+
+  .scroll-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 100%;
+    overflow: hidden; /* Hide overflowing items when scrolling */
+  }
+
+  .category {
+    display: flex;
+    gap: 25px;  
+    padding: 10px;
+    border-radius: 10px;
+    scroll-behavior: smooth;
+    justify-content: center; 
+  }
+////
+  /* Default to showing 5 cards */
+  .category {
+    width: calc(17rem * 5 + 25px * 4); /* Space for 5 cards + gaps */
+  }
+
+  /* Media query for small screens */
+  @media (max-width: 768px) {
+    .category {
+      width: calc(17rem * 3 + 25px * 2); /* Space for 3 cards + gaps */
+    }
+  }
+////
+  .scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: $primary-color;
+    color: $text-light;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 2;
+    font-size: 1.5rem;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+
+    &.back {
+      left: -10px;
+    }
+
+    &.next {
+      right: -10px;
+    }
+  }
+}
+
+.MovieCard {
+  background-color: $secondary-color;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  width: 17rem;  /* Default width for 5 cards */
+  height: 30rem;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  .MovieCard_logo {
+    height: 27rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background-color: black;
+      @include bgConfig;
+    }
+
+    .MovieCard_favoriteBtn,
+    .MovieCard_sendtogroupBtn {
+      position: absolute;
+      border-radius: 50%;
+      padding: 0.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      cursor: pointer;
+    }
+
+    .MovieCard_favoriteBtn {
+      background-color: #ff6347;
+      bottom: 1rem;
+      right: 0.5rem;
+      &:hover {
+        background-color: darken(#ff6347, 10%);
+      }
+    }
+
+    .MovieCard_sendtogroupBtn {
+      background-color: #f4c430;
+      bottom: 4rem;
+      right: 0.5rem;
+      &:hover {
+        background-color: darken(#f4c430, 10%);
+      }
+    }
+  }
+
+  .MovieCard_title {
+    padding: 0.5rem;
+
+    h3 {
+      background-color: $dark-bg;
+      @include font-settings($text-light, 1.5rem, bold);
+    }
+
+    p {
+      padding: 0.2rem;
+      text-align: center;
+      @include font-settings($text-light, 1.1rem);
+    }
+  }
+}
