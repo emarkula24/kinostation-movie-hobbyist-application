@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function Categories({ setSelectedMovie }) {
   const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-  const BASE_URL = "https://api.themoviedb.org/3";
+  const BASE_URL = "http://localhost:3001/movie";
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
@@ -16,15 +16,15 @@ function Categories({ setSelectedMovie }) {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const [trendingResponse, popularResponse, topRatedResponse] = await Promise.all([
-          axios.get(`${BASE_URL}/trending/movie/week`, { params: { api_key: TMDB_API_KEY } }),
-          axios.get(`${BASE_URL}/movie/popular`, { params: { api_key: TMDB_API_KEY } }),
-          axios.get(`${BASE_URL}/movie/top_rated`, { params: { api_key: TMDB_API_KEY } })
-        ]);
 
-        setTrendingMovies(trendingResponse.data.results.slice(0, 20)); // Fetch more than needed
-        setPopularMovies(popularResponse.data.results.slice(0, 20)); 
-        setTopRatedMovies(topRatedResponse.data.results.slice(0, 20)); 
+        const trendingResponse = await axios.get(BASE_URL + "/trending")
+        const popularResponse = await axios.get(BASE_URL + "/popular")
+        const topRatedResponse = await axios.get(BASE_URL + "/toprated")
+
+        console.log('trendingResponse', trendingResponse.data)
+        setTrendingMovies(trendingResponse.data.slice(0, 20));
+        setPopularMovies(popularResponse.data.slice(0, 20)); 
+        setTopRatedMovies(topRatedResponse.data.slice(0, 20)); 
       } catch (error) {
         console.error("Error fetching movie data:", error);
       }

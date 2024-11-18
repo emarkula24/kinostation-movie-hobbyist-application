@@ -3,6 +3,7 @@ import cors from 'cors';
 import userRouter from './routes/userRouter.js';
 import reviewRouter from "./routes/reviewRouter.js";
 import groupRouter from "./routes/groupRouter.js";
+import movieRouter from './routes/movieRouter.js';
 const port = 3001;
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/user', userRouter);
+app.use('/movie', movieRouter);
 app.use("/reviews", reviewRouter);
 app.use("/groups", groupRouter)
 
