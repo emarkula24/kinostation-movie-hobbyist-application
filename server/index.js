@@ -4,6 +4,9 @@ import userRouter from './routes/userRouter.js';
 import reviewRouter from "./routes/reviewRouter.js";
 import groupRouter from "./routes/groupRouter.js";
 import movieRouter from './routes/movieRouter.js';
+import userpage from "./routes/userpageRouter.js"
+
+
 const port = 3001;
 
 const app = express();
@@ -15,6 +18,7 @@ app.use('/user', userRouter);
 app.use('/movie', movieRouter);
 app.use("/reviews", reviewRouter);
 app.use("/groups", groupRouter)
+app.use("/userpage", userpage)
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
