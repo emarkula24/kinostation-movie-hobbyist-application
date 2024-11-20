@@ -68,6 +68,26 @@ function MoviePage({ movie }) {
     console.log(writeReview);
   }
 
+  const handleFavorite = () => {
+    // check session if user is logged in
+    let user = JSON.parse(sessionStorage.getItem('user'));
+    if(user !== null) {
+      let user_id = user.users_id;
+      let movie_id = movie.id;
+
+      let data = {
+        user_id,
+        movie_id
+      }
+
+      // call backend api to post favorite
+
+      console.log('data', data);
+    }else{
+      alert('You must be logged in to favorite a movie');
+    }
+  }
+
   if (!movie) return <div>Select a movie to view details</div>;
 
   return (
@@ -93,7 +113,7 @@ function MoviePage({ movie }) {
             >Reviews</button>
           </div>
         </div>
-        <MdFavoriteBorder className="favorite-btn" />
+        <MdFavoriteBorder onClick={handleFavorite} className="favorite-btn" />
       </div>
 
       {activeTab === 'showtimes' && (
