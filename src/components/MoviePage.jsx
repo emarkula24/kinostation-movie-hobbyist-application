@@ -21,6 +21,7 @@ function MoviePage({ movie }) {
 
         // Search for showtimes of the current movie by comparing titles
         const movieShowtimes = xml.getElementsByTagName('Show').filter(showtime => {
+          console.log('showtime', showtime);
           const showtimeTitle = showtime.getElementsByTagName('Title')[0].value.toLowerCase();
           return showtimeTitle === movie.title.toLowerCase(); // Compare titles exactly
         });

@@ -30,9 +30,6 @@ function Header( { setSelectedMovie }) {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const TMDB_URL = process.env.REACT_APP_TMDB_API_MOVIES_URL;
-    const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-
     const handleMovieClick = (movie) => {
         setSelectedMovie(movie); // Set the selected movie in the parent state
         navigate('/MoviePage');  // Navigate to the MoviePage route
@@ -68,13 +65,12 @@ function Header( { setSelectedMovie }) {
                 // Fetch movies from TMDB
                 const fetchMovies = async () => {
                     try {
-                        const response = await axios.get(TMDB_URL, {
+                        const response = await axios.get("http://localhost:3001/movie/search/", {
                             params: {
-                                api_key: TMDB_API_KEY,
-                                query,
+                                query
                             },
                         });
-                        setResults(response.data.results);
+                        setResults(response.data);
                         setShowResults(true);  // Show search results
                     } catch (error) {
                         console.error('Error fetching movies:', error);
@@ -86,7 +82,7 @@ function Header( { setSelectedMovie }) {
         }, 500);
 
         return () => clearTimeout(delayDebounceFn);
-    }, [query, TMDB_URL, TMDB_API_KEY]);
+    }, [query]);
 
     const handleInputChange = (event) => {
         setQuery(event.target.value);

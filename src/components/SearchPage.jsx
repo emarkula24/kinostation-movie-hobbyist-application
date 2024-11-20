@@ -10,24 +10,24 @@ const SearchPage = ({ setSelectedMovie }) => {
   const [releaseDateOrder, setReleaseDateOrder] = useState(null);
 
   const TMDB_URL = process.env.REACT_APP_TMDB_API_MOVIES_URL;
+  // const TMDB_URL = 'https://api.themoviedb.org/3/search/movie';
   const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('query');
-
+  
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     if (query && query.length > 0) {
       const fetchMovies = async () => {
         try {
-          const response = await axios.get(TMDB_URL, {
+          const response = await axios.get("http://localhost:3001/movie/search/", {
             params: {
-              api_key: TMDB_API_KEY,
               query,
             },
           });
-          setResults(response.data.results);
+          setResults(response.data);
         } catch (error) {
           console.error('Error fetching movies:', error);
         }
