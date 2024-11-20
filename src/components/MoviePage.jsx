@@ -8,6 +8,7 @@ function MoviePage({ movie }) {
   const [activeTab, setActiveTab] = useState("showtimes"); // Initial tab
   const [showtimes, setShowtimes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [writeReview, setWriteReview] = useState('');
 
   useEffect(() => {
     if (!movie) return;
@@ -21,7 +22,7 @@ function MoviePage({ movie }) {
 
         // Search for showtimes of the current movie by comparing titles
         const movieShowtimes = xml.getElementsByTagName('Show').filter(showtime => {
-          console.log('showtime', showtime);
+          // console.log('showtime', showtime);
           const showtimeTitle = showtime.getElementsByTagName('Title')[0].value.toLowerCase();
           return showtimeTitle === movie.title.toLowerCase(); // Compare titles exactly
         });
@@ -36,6 +37,36 @@ function MoviePage({ movie }) {
 
     fetchShowtimes();
   }, [movie]);
+
+  const handleInputReview = (e) => {
+    e.preventDefault();
+    setWriteReview(e.target.value);
+  }
+
+  const writeReviewHandle = (e) => {
+    e.preventDefault();
+    // check session if user is logged in
+    let user = JSON.parse(sessionStorage.getItem('user'));
+    if(user !== null) {
+      let user_id = user.users_id;
+      let movie_id = movie.id;
+      let review = writeReview;
+
+      let data = {
+        user_id,
+        movie_id,
+        review
+      }
+
+      // call backend api to post review
+
+      console.log('data', data);
+    }else{
+      alert('You must be logged in to write a review');
+    }
+    console.log('logged in user', user);
+    console.log(writeReview);
+  }
 
   if (!movie) return <div>Select a movie to view details</div>;
 
@@ -91,6 +122,10 @@ function MoviePage({ movie }) {
         <div className='reviews-container'>
           <div className='review-title'>
             <h1>Reviews</h1>
+            <div>
+            <input onChange={handleInputReview} type="text" placeholder='write a review' />
+            <button onClick={writeReviewHandle}>Submit Review</button>
+            </div>
             <h3>Latest reviews</h3>
           </div>
           <div className='reviews'>
