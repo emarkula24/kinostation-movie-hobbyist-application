@@ -20,15 +20,11 @@ function Header( { setSelectedMovie }) {
     const [showResults, setShowResults] = useState(false);  // Controls the visibility of search results
 
     const [burgerMenuIsOpen, setBurgerMenuIsOpen] = useState(false);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleBurgerMenu = () => {
         setBurgerMenuIsOpen(!burgerMenuIsOpen);
     };
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
 
     const handleMovieClick = (movie) => {
         setSelectedMovie(movie); // Set the selected movie in the parent state

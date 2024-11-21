@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import './MoviePage.css';
 import { MdFavoriteBorder } from 'react-icons/md';
 import XMLParser from 'react-xml-parser';
+import { IoMdAdd } from "react-icons/io";
+import { MdGroups } from "react-icons/md";
+import { FaPencil } from "react-icons/fa6";
+import { PiPencilSimpleLineBold } from "react-icons/pi";
+import axios from 'axios';
+
+
+
 
 function MoviePage({ movie }) {
 
@@ -9,6 +17,9 @@ function MoviePage({ movie }) {
   const [showtimes, setShowtimes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [writeReview, setWriteReview] = useState('');
+  // const [reviews, setReviews] = useState([]);
+  const [showGroups, setShowGroups] = useState(false);
+  const [showWriteReview, setShowWriteReview] = useState(false);
 
   useEffect(() => {
     if (!movie) return;
@@ -66,6 +77,7 @@ function MoviePage({ movie }) {
     }
     console.log('logged in user', user);
     console.log(writeReview);
+    setShowWriteReview(true)
   }
 
   const handleFavorite = () => {
@@ -82,10 +94,23 @@ function MoviePage({ movie }) {
 
       // call backend api to post favorite
 
+      // axios.post('http://localhost:3001/favorite', data)
+      // .then((response) => {
+      //   console.log('response', response);
+      // })
+
       console.log('data', data);
     }else{
       alert('You must be logged in to favorite a movie');
     }
+  }
+
+  const handleAddGroup = () => {
+    setShowGroups(!showGroups);
+  }
+
+  const showWriteReviewHandle = () => {
+    setShowWriteReview(!showWriteReview);
   }
 
   if (!movie) return <div>Select a movie to view details</div>;
@@ -112,6 +137,42 @@ function MoviePage({ movie }) {
             onClick={() => setActiveTab("reviews")}
             >Reviews</button>
           </div>
+
+          <div className='add-group'>
+
+            <div className='add-group-title' onClick={handleAddGroup}>
+              <IoMdAdd className='addIcon' />
+              <p>Add this movie to a group</p>
+            </div>
+
+            {showGroups && 
+            <div className='groups-options'>
+              <div className='groups-item'>
+                <MdGroups className='groupIcon'/>
+                <p>Group 1</p>
+              </div>
+              <div className='groups-item'>
+                <MdGroups className='groupIcon'/>
+                <p>Group 2</p>
+              </div>
+              <div className='groups-item'>
+                <MdGroups className='groupIcon'/>
+                <p>Group 3</p>
+              </div>
+              <div className='groups-item'>
+                <MdGroups className='groupIcon'/>
+                <p>Group 4</p>
+              </div>
+              <div className='groups-item'>
+                <MdGroups className='groupIcon'/>
+                <p>Group 5</p>
+              </div>
+            </div>}
+
+          </div>
+
+         
+
         </div>
         <MdFavoriteBorder onClick={handleFavorite} className="favorite-btn" />
       </div>
@@ -140,14 +201,28 @@ function MoviePage({ movie }) {
 
       {activeTab === "reviews" && (
         <div className='reviews-container'>
-          <div className='review-title'>
-            <h1>Reviews</h1>
-            <div>
-            <input onChange={handleInputReview} type="text" placeholder='write a review' />
-            <button onClick={writeReviewHandle}>Submit Review</button>
+
+          <div className='reviews-head'>
+            <div className='review-title'>
+              <h1>Reviews</h1>
+              <h3>Latest reviews</h3>
             </div>
-            <h3>Latest reviews</h3>
+
+            { showWriteReview ? 
+              <div className='create-review-title' onClick={showWriteReviewHandle}>
+                  <PiPencilSimpleLineBold className='reviewIcon'/>
+                  <h3>Write a review</h3>
+            </div> 
+            : 
+            <div className='create-review'>
+                <input onChange={handleInputReview} type="text" placeholder='write a review' />
+                <button onClick={writeReviewHandle}>
+                  <FaPencil className='reviewIcon'/>
+                </button>
+            </div>
+            }
           </div>
+          
           <div className='reviews'>
             <div className='review'>
               <h2>Gladiator 2</h2>
