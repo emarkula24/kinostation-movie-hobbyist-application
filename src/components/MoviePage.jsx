@@ -17,7 +17,7 @@ function MoviePage({ movie }) {
   const [showtimes, setShowtimes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [writeReview, setWriteReview] = useState('');
-  // const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [showGroups, setShowGroups] = useState(false);
   const [showWriteReview, setShowWriteReview] = useState(false);
 
@@ -79,6 +79,21 @@ function MoviePage({ movie }) {
     console.log(writeReview);
     setShowWriteReview(true)
   }
+
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/reviews');
+      setReviews(response.data);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+    console.log('reviews', reviews);
+  }
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
 
   const handleFavorite = () => {
     // check session if user is logged in
@@ -223,32 +238,30 @@ function MoviePage({ movie }) {
             }
           </div>
           
-          <div className='reviews'>
-            <div className='review'>
-              <h2>Gladiator 2</h2>
-              <p>Rating: 5/5</p>
-              <p>Description: This movie was amazing!</p>
-              <p>Created at: 11/11/2024, 10:10AM</p>
+          {reviews.length > 0 ? (
+            reviews.filter((review) => review.movie_title === movie.title).length > 0 ? (
+              <div className="reviews">
+                {reviews
+                  .filter((review) => review.movie_title === movie.title)
+                  .map((review, index) => (
+                    <div className="review" key={index}>
+                      <h2>{review.movie_title}</h2>
+                      <p>Rating: {review.review_rating}</p>
+                      <p>Description: {review.review_text}</p>
+                      <p>Created at: {new Date(review.review_created_at).toLocaleString()}</p>
+                    </div>
+                  ))}
+              </div>
+            ) : (
+              <div className="no-reviews">
+                <p>No reviews available for this movie</p>
+              </div>
+            )
+          ) : (
+            <div className="no-reviews">
+              <p>No reviews available for this movie</p>
             </div>
-            <div className='review'>
-              <h2>Gladiator 2</h2>
-              <p>Rating: 5/5</p>
-              <p>Description: This movie was amazing!</p>
-              <p>Created at: 11/11/2024, 10:10AM</p>
-            </div>
-            <div className='review'>
-              <h2>Gladiator 2</h2>
-              <p>Rating: 5/5</p>
-              <p>Description: This movie was amazing!</p>
-              <p>Created at: 11/11/2024, 10:10AM</p>
-            </div>
-            <div className='review'>
-              <h2>Gladiator 2</h2>
-              <p>Rating: 5/5</p>
-              <p>Description: This movie was amazing!</p>
-              <p>Created at: 11/11/2024, 10:10AM</p>
-            </div>
-          </div>
+)}
         </div>
       )}
     </div>
