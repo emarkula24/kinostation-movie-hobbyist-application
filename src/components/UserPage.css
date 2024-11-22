@@ -12,18 +12,26 @@
   justify-content: flex-start;
 }
 
-.user-page h1 {
-  margin-top: 30px;
-  color: white;
-  display: inline-block;
+.user-icon {
+  font-size: 28px;
+  color: #ffffff; 
+  margin-right: 10px; 
 }
 
-.user-page h2 {
-  font-size: 1.6rem;
-  margin-top: 50px;
+.user-avatar {
+  margin-top: 40px;
   margin-bottom: 10px;
-  color: white;
+  display: flex;               
+  align-items: center;         /* Vertically center content */
 }
+
+
+.user-page h1 {
+  color: white;
+  font-size: 2.2rem;
+
+}
+
 
 .user-page p {
   color: white;
@@ -39,7 +47,7 @@
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
-  margin-left: 705px;
+  margin-left: 662px;
 }
 
 .logout-button:hover {
@@ -47,7 +55,8 @@
 }
 
 .remove-button {
-  margin-top: 40px;
+  margin-top: 35px;
+  margin-bottom: 35px;
   background-color: transparent;
   color: rgb(202, 199, 199);
   border: none;
@@ -60,10 +69,16 @@
   color: #FF6347;
 }
 
+.user-page h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: white;
+}
+
 .favorite-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   width: 100%;
 }
 
@@ -74,17 +89,25 @@
   border-radius: 10px;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   padding: 10px;
   gap: 30px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  justify-content: flex-start; 
 }
 
 .favorite-card:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
 }
+
+.favorite-icon {
+  color: rgba(177, 177, 177, 0.73); 
+  font-size: 25px; 
+  margin-left: 20px;
+}
+
 
 .favorite-card img {
   width: 120px;
@@ -99,10 +122,11 @@
   align-items: flex-start;
   gap: 8px;
   text-align: left;
+  flex-grow: 1; /* Make content take up the remaining space */
 }
 
 .favorite-card-content h3 {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
   margin-bottom: 70px;
@@ -111,4 +135,87 @@
 .favorite-card-content p {
   font-size: 0.9rem;
   color: #ccc;
+}
+
+.share-button {
+  cursor: pointer; 
+  font-size: 1.5rem; 
+  color: #ffffff; 
+  margin-right: 15px;;
+}
+
+.share-button:hover {
+  font-size: 2rem;
+}
+
+
+
+@media screen and (max-width: 1370px) {
+  /* .user-page {
+    padding: 30px;
+  } */
+  .logout-button {
+    margin-left: 500px;
+  }
+  .favorite-list {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .favorite-card {
+    gap: 15px;
+  }
+
+  .favorite-card img {
+    width: 100px;
+  }
+
+  .favorite-card-content h3 {
+    font-size: 1.4rem;
+  }
+
+  .favorite-card-content p {
+    font-size: 0.8rem;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .logout-button {
+    margin-left: 80px;
+    font-size: 0.8rem;
+  }
+  .user-icon {
+    font-size: 25px;
+  }
+  .user-avatar {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+  .user-display p {
+    font-size: 0.8rem;
+  }
+ .user-page h1 {
+    font-size: 1.2rem;
+  }
+  .user-page h2 {
+    font-size: 1.2rem;
+  }
+  .favorite-card img {
+    width: 80px;
+  }
+  .favorite-card-content h3 {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  .favorite-card-content p {
+    font-size: 0.6rem;
+  }
+  .favorite-icon {
+    font-size: 15px;
+    margin-left: 10px;
+  }
+  .share-button {
+    font-size: 15px;
+  }
 }
