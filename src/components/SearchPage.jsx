@@ -9,10 +9,6 @@ const SearchPage = ({ setSelectedMovie }) => {
   const [ratingOrder, setRatingOrder] = useState(null);
   const [releaseDateOrder, setReleaseDateOrder] = useState(null);
 
-  const TMDB_URL = process.env.REACT_APP_TMDB_API_MOVIES_URL;
-  // const TMDB_URL = 'https://api.themoviedb.org/3/search/movie';
-  const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('query');
   

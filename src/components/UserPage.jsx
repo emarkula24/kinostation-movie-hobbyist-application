@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './UserPage.css';
 
-function UserPage() {
+function UserPage({setSelectedMovie}) {
     const [user, setUser] = useState(null);
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -55,6 +55,12 @@ function UserPage() {
             console.error('Error fetching favorites:', error);
         }
     };
+
+    const handleMovieClick = (favorite) => {
+        console.log(favorite); // 查看是否传递正确的电影数据
+        setSelectedMovie(favorite);
+        navigate('/MoviePage');
+      };
     
 
     return (
@@ -75,7 +81,7 @@ function UserPage() {
                     ) : favorites.length > 0 ? (
                         <div className="favorite-list">
                             {favorites.map((favorite, index) => (
-                                <div key={index} className="favorite-card">
+                                <div key={index} className="favorite-card" onClick={() => handleMovieClick(favorite)}>
                                     {favorite.poster_path && (
                                         <img
                                             src={`https://image.tmdb.org/t/p/w500${favorite.poster_path}`}
