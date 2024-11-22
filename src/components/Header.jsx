@@ -156,7 +156,14 @@ function Header( { setSelectedMovie }) {
                 ))}
             </div>
 
-            <div className='profile'>
+            <div className='profile' onClick={() => {
+                const user = sessionStorage.getItem('user'); 
+                if (user) {
+                    navigate('/user'); 
+                } else {
+                    navigate('/login'); 
+                }
+            }}>
                 <IoMdNotificationsOutline className='notifIcon'/>
                 <FaUserLarge className='userIcon'/>
                 <span>Profile</span>

@@ -1,0 +1,49 @@
+/* 设置整体页面样式 */
+body {
+    background-color: #121212; /* 深色背景 */
+    color: white;            /* 字体白色 */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 用户页面样式 */
+.user-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 标题样式 */
+.user-page h1, .user-page h2 {
+    color: white;
+}
+.user-page h2 {
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+/* 收藏列表样式 */
+.favorite-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 卡片样式 */
+.favorite-card {
+    background-color: #1e1e1e; /* 深色卡片背景 */
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.favorite-card h3 {
+    color: #ffcc00; /* 电影标题金黄色 */
+    margin: 0;
+}
+
+.favorite-card p {
+    margin: 10px 0 0;
+    color: #cccccc; /* 描述灰白色 */
+}

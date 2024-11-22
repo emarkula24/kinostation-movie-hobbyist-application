@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import Header from './components/Header';
 import SearchPage from './components/SearchPage';
+import UserPage from './components/UserPage';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -29,6 +30,7 @@ function App() {
           <Route path="/MoviePage" element={<MoviePage movie={selectedMovie} />} />
           <Route path="/showtimes" element={<Showtimes />} />
           <Route path="/search" element={<SearchPage setSelectedMovie={setSelectedMovie} />} />
+          <Route path="/user" element={<UserPage setSelectedMovie={setSelectedMovie} />} />
         </Routes>
       </Router>
     </div>

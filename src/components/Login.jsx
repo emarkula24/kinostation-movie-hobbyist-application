@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import"./Login.css"
 import { BiSolidCoffee } from "react-icons/bi";
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
@@ -11,6 +11,7 @@ function Login() {
     const [user, setUser] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const refreshToken = async () => {
         console.log('react refresh token function');
@@ -73,6 +74,8 @@ function Login() {
             setUser(response.data);
             // set session storage
             sessionStorage.setItem('user', JSON.stringify(response.data));
+            // Navigate to the home spage
+            navigate('/');
         }catch(error){
             console.log('error while login: ', error);
         }
