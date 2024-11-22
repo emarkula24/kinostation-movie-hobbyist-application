@@ -1,116 +1,114 @@
-/* 设置整体页面样式 */
-body {
-    background-color: #121212; /* 深色背景 */
-    color: white;             /* 字体白色 */
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-/* 用户页面样式 */
 .user-page {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-/* 标题样式 */
-.user-page h1, .user-page h2 {
-    color: white;
+.user-display {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.user-page h1 {
+  margin-top: 30px;
+  color: white;
+  display: inline-block;
 }
 
 .user-page h2 {
-    margin-top: 50px;
-    margin-bottom: 10px;
+  font-size: 1.6rem;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  color: white;
 }
 
-/* 收藏列表样式 */
+.user-page p {
+  color: white;
+  font-size: 0.9rem;
+}
+
+.logout-button {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-left: 705px;
+}
+
+.logout-button:hover {
+  background-color: #555;
+}
+
+.remove-button {
+  margin-top: 40px;
+  background-color: transparent;
+  color: rgb(202, 199, 199);
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.remove-button:hover {
+  color: #FF6347;
+}
+
 .favorite-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
 }
 
 /* Favorite card container */
 .favorite-card {
-    background-color: #37312A; /* 深色背景 */
-    border: 2px solid #a7a7a7; /* 边框样式 */
-    border-radius: 10px; /* 圆角 */
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start; /* 图片和文字顶部对齐 */
-    padding: 10px; /* 内边距 */
-    gap: 30px; /* 图片和文字间距 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 动画效果 */
-    cursor: pointer; /* 鼠标悬停时显示手形 */
-  }
-  
-  .favorite-card:hover {
-    transform: scale(1.05); /* 悬停时放大 */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* 添加阴影 */
-  }
-  
-  /* 图片样式 */
-  .favorite-card img {
-    width: 120px; /* 固定宽度 */
-    height: auto; /* 保持比例 */
-    object-fit: cover; /* 确保内容填满图片区域 */
-    border-radius: 5px; /* 圆角 */
-  }
-  
-  /* 卡片内容样式 */
-  .favorite-card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* 内容顶部对齐 */
-    gap: 8px; /* 间距 */
-    text-align: left; /* 左对齐 */
-  }
-  
-  .favorite-card-content h3 {
-    font-size: 1.6rem; /* 标题大小 */
-    font-weight: bold; /* 加粗标题 */
-    color: #fff; /* 白色标题 */
-    margin-bottom: 10px; /* 下边距 */
-  }
-  
-  .favorite-card-content p {
-    font-size: 0.9rem; /* 描述文字大小 */
-    color: #ccc; /* 描述文字颜色 */
-  }
-  
-  /* 响应式调整 */
-  @media screen and (max-width: 1024px) {
-    .favorite-card {
-      gap: 15px; /* 减小间距 */
-    }
-  
-    .favorite-card img {
-      width: 100px; /* 调整图片大小 */
-    }
-  
-    .favorite-card-content h3 {
-      font-size: 1.2rem; /* 调整标题大小 */
-    }
-  
-    .favorite-card-content p {
-      font-size: 0.85rem; /* 调整描述大小 */
-    }
-  }
-  
-  @media screen and (max-width: 768px) {
-    .favorite-card {
-      flex-direction: column; /* 改为竖向布局 */
-      align-items: center; /* 居中对齐 */
-      text-align: center; /* 文本居中 */
-    }
-  
-    .favorite-card img {
-      width: 100px; /* 图片大小缩小 */
-    }
-  
-    .favorite-card-content {
-      align-items: center; /* 内容居中对齐 */
-    }
-  }
-  
+  background-color: #37312A;
+  border: 2px solid #a7a7a7;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 10px;
+  gap: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.favorite-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+.favorite-card img {
+  width: 120px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.favorite-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+}
+
+.favorite-card-content h3 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 70px;
+}
+
+.favorite-card-content p {
+  font-size: 0.9rem;
+  color: #ccc;
+}

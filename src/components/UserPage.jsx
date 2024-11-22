@@ -57,7 +57,6 @@ function UserPage({setSelectedMovie}) {
     };
 
     const handleMovieClick = (favorite) => {
-        console.log(favorite); // 查看是否传递正确的电影数据
         setSelectedMovie(favorite);
         navigate('/MoviePage');
       };
@@ -66,12 +65,14 @@ function UserPage({setSelectedMovie}) {
     return (
         <div className="user-page">
             {user ? (
-                <div>
+                <div className='user-display'>
+                    <div className='user-avatar'>
                     <h1>User Profile</h1>
-                    <p><strong>Email:</strong> {user.users_email}</p>
-                    <p><strong>User ID:</strong> {user.users_id}</p>
-                    <button>Logout</button>
-                    <button>Remove your account</button>
+                    <button className='logout-button'>Logout</button>
+                    </div>
+                    <p>Email: {user.users_email}</p>
+                    <p>User ID: {user.users_id.toString().padStart(6, '0')}</p>
+                    <button className='remove-button'>Delete account</button>
 
                     <h2>Favorite List</h2>
                     {loading ? (
@@ -91,7 +92,7 @@ function UserPage({setSelectedMovie}) {
                                     )}
                                     <div className="favorite-card-content">
                                         <h3>{favorite.title}</h3>
-                                        <p>{favorite.overview}</p>
+                                        {/* <p>{favorite.overview}</p> */}
                                         <p>Rating: {favorite.vote_average ? favorite.vote_average.toFixed(1) : "N/A"}</p>
                                         <p>Release Date: {favorite.release_date || "Unknown"}</p>
                                     </div>
