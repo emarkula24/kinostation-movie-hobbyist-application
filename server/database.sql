@@ -32,6 +32,7 @@ CREATE TABLE favorite (
 CREATE TABLE review (
     review_id SERIAL PRIMARY KEY,
     review_users_id INTEGER,
+    review_users_email TEXT,
     review_movie_id INTEGER,
     review_text TEXT,
     review_rating INTEGER,
