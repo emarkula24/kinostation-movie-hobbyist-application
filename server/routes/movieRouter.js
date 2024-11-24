@@ -40,7 +40,7 @@ movieRouter.get("/findbyid", async (req, res) => {
             }
         });
 
-        const data = await response.data.results || response.data
+        const data = await response.data
         res.send(data)
     } catch (err) {
         console.log(err)
