@@ -18,4 +18,15 @@ const selectAllReviews = async () => {
             movie ON review.review_movie_id = movie.movie_id;
     `)
 }
-export { selectAllReviews }
+
+//insert review stuff: user_id, movie_id, review, review_rating
+
+const insertReview = async (user_id, movie_id, review, review_rating) => {
+    return await pool.query(`
+        INSERT INTO review (review_users_id, review_movie_id, review_text, review_rating, review_created_at)
+        VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
+        RETURNING *;
+        `, [user_id, movie_id, review, review_rating])
+}
+
+export { selectAllReviews, insertReview }

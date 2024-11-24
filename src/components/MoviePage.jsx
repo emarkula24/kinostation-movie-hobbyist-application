@@ -17,6 +17,7 @@ function MoviePage({ movie }) {
   const [showtimes, setShowtimes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [writeReview, setWriteReview] = useState('');
+  const [starReview, setStarReview] = useState('')
   const [reviews, setReviews] = useState([]);
   const [showGroups, setShowGroups] = useState(false);
   const [showWriteReview, setShowWriteReview] = useState(false);
@@ -54,7 +55,12 @@ function MoviePage({ movie }) {
     setWriteReview(e.target.value);
   }
 
-  const writeReviewHandle = (e) => {
+  const handleStarReview = (e) => {
+    e.preventDefault();
+    setStarReview(e.target.value);
+  }
+
+  const writeReviewHandle = async (e) => {
     e.preventDefault();
     // check session if user is logged in
     let user = JSON.parse(sessionStorage.getItem('user'));
@@ -62,16 +68,23 @@ function MoviePage({ movie }) {
       let user_id = user.users_id;
       let movie_id = movie.id;
       let review = writeReview;
+      let review_rating = starReview;
 
       let data = {
         user_id,
         movie_id,
-        review
+        review,
+        review_rating
       }
 
-      // call backend api to post review
+      try {
+        const response = await axios.post("http://localhost:3001/reviews/create", data)
 
-      console.log('data', data);
+        console.log("Review submitted succesfully", response.data)
+      } catch(error) {
+        console.log("Error creating review", error.response || error.message)
+      }
+
     }else{
       alert('You must be logged in to write a review');
     }
@@ -230,6 +243,7 @@ function MoviePage({ movie }) {
             </div> 
             : 
             <div className='create-review'>
+                <input onChange={ handleStarReview } type="text" placeholder="how would you rate this from 1-5?" />
                 <input onChange={handleInputReview} type="text" placeholder='write a review' />
                 <button onClick={writeReviewHandle}>
                   <FaPencil className='reviewIcon'/>
