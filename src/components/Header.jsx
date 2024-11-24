@@ -114,13 +114,20 @@ function Header( { setSelectedMovie }) {
                     <ul>
                         <li>Favorites</li>
                         <li>Community</li>
-                        <li>Trending</li>
+                        <li onClick={
+                            (e) => {
+                                e.preventDefault();
+                                window.location.href = '/Reviews';
+                            }}>
+                            Reviews
+                        </li>
                         <li onClick={
                             (e) => {
                                 e.preventDefault();
                                 window.location.href = '/Showtimes';
-                            }
-                        }>Showtimes</li>
+                            }}>
+                            Showtimes
+                        </li>
                     </ul>
                 </nav>
             </div>

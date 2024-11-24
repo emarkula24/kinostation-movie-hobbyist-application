@@ -47,15 +47,17 @@ function Reviews() {
   };
 
   return (
-    <div>
+    <div className="reviews-main">
       <ul>
         {reviews.map((review) => (
+          
           <li key={review.review_id}>
             <h3>{review.movie_title}</h3>
             <img src={review.movie_image} alt={review.movie_title} />
             <p><strong>Rating:</strong> {review.review_rating} / 5</p>
             <p><strong>Review:</strong> {review.review_text}</p>
             <p><strong>Created At:</strong> {new Date(review.review_created_at).toLocaleString()}</p>
+            <p><strong>Created By:</strong> {review.review_users_email}</p>
   
             {/* Movie Details Section */}
             {reviewedMovies.length > 0 &&
@@ -64,15 +66,14 @@ function Reviews() {
                 if (movie) {
                   return (
                     <div>
-                      <h4>Movie Details:</h4>
-                      <p><strong>Title:</strong> {movie.title}</p>
-                      <p><strong>Release Date:</strong> {movie.release_date ? new Date(movie.release_date).toLocaleDateString() : 'N/A'}</p>
-                      <p><strong>Overview:</strong> {movie.overview}</p>
                       <img
                         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                         alt={movie.title || 'Movie Poster'}
                         style={{ width: '150px', height: 'auto' }}
                       />
+                      <h4>Movie Details:</h4>
+                      <p><strong>Title:</strong> {movie.title}</p>
+                      <p><strong>Release Date:</strong> {movie.release_date ? new Date(movie.release_date).toLocaleDateString() : 'N/A'}</p>
                     </div>
                   );
                 }

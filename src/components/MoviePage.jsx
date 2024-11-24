@@ -20,7 +20,7 @@ function MoviePage({ movie }) {
   const [starReview, setStarReview] = useState('')
   const [reviews, setReviews] = useState([]);
   const [showGroups, setShowGroups] = useState(false);
-  const [showWriteReview, setShowWriteReview] = useState(false);
+  const [showWriteReview, setShowWriteReview] = useState(true);
 
   useEffect(() => {
     if (!movie) return;
@@ -62,50 +62,59 @@ function MoviePage({ movie }) {
 
   const writeReviewHandle = async (e) => {
     e.preventDefault();
-    // check session if user is logged in
+    // Check session if user is logged in
     let user = JSON.parse(sessionStorage.getItem('user'));
-    if(user !== null) {
+    if (user !== null) {
       let user_id = user.users_id;
       let user_email = user.users_email;
       let movie_id = movie.id;
       let review = writeReview;
       let review_rating = starReview;
-
+  
       let data = {
         user_id,
         user_email,
         movie_id,
         review,
         review_rating
-      }
-
-      let token = user.accessToken
-
+      };
+  
+      let token = user.accessToken;
+  
       try {
         const response = await axios.post("http://localhost:3001/reviews/create", data, {
           headers: {
             Authorization: `Bearer ${token}`
           }
-        })
-
-        console.log("Review submitted succesfully")
-      } catch(error) {
-        console.log("Error creating review", error.response || error)
+        });
+  
+        console.log("Review submitted successfully");
+  
+        // Fetch updated reviews list
+        fetchReviews();
+  
+        // reset the review input fields
+        setWriteReview('');
+        setStarReview('');
+  
+        // Close the review form
+        setShowWriteReview(true);
+      } catch (error) {
+        console.log("Error creating review", error.response || error);
       }
-
-    }else{
+    } else {
       alert('You must be logged in to write a review');
     }
-
-    setShowWriteReview(true)
-  }
+  };
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/reviews/review', {
+      const response = await axios.get('http://localhost:3001/reviews/review' , {
         params: { movie_id: movie.id }
       });
+      console.log('response', response);
       setReviews(response.data);
+      console.log('reviews', reviews);
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
@@ -253,39 +262,33 @@ function MoviePage({ movie }) {
             </div> 
             : 
             <div className='create-review'>
-                <input onChange={ handleStarReview } type="text" placeholder="how would you rate this from 1-5?" />
-                <input onChange={handleInputReview} type="text" placeholder='write a review' />
+              <div className='review-input'>
+                 <input className='rateTxt-input' onChange={handleInputReview} type="text" placeholder='write a review' />
+                 <input className='rateNbr-input' onChange={ handleStarReview } type="number" min={0} max={5} placeholder="rate 1-5?" />
+              </div>
+
                 <button onClick={writeReviewHandle}>
                   <FaPencil className='reviewIcon'/>
                 </button>
             </div>
             }
           </div>
-          
-          {reviews.length > 0 ? (
-            reviews.filter((review) => review.movie_title === movie.title).length > 0 ? (
-              <div className="reviews">
-                {reviews
-                  .filter((review) => review.movie_title === movie.title)
-                  .map((review, index) => (
-                    <div className="review" key={index}>
-                      <h2>{review.movie_title}</h2>
-                      <p>Rating: {review.review_rating}</p>
-                      <p>Description: {review.review_text}</p>
-                      <p>Created at: {new Date(review.review_created_at).toLocaleString()}</p>
-                    </div>
-                  ))}
-              </div>
-            ) : (
-              <div className="no-reviews">
-                <p>No reviews available for this movie</p>
-              </div>
-            )
-          ) : (
-            <div className="no-reviews">
-              <p>No reviews available for this movie</p>
+          { reviews.length > 0 ?
+            <div className='reviews'>
+              {reviews.map((review, index) => (
+                <div className='review' key={index}>
+                  <h3>{movie.title}</h3>
+                  <p>{review.review_text}</p>
+                  <p>Rating: {review.review_rating}</p>
+                  <p>Created At: {review.review_created_at}</p>
+                  <p>Created By: {review.review_users_email}</p>
+                </div>
+              ))}
             </div>
-)}
+          :
+          <p>No reviews available</p>
+          }
+
         </div>
       )}
     </div>
