@@ -36,8 +36,7 @@ CREATE TABLE review (
     review_text TEXT,
     review_rating INTEGER,
     review_created_at TIMESTAMP,
-    FOREIGN KEY (review_users_id) REFERENCES "users"(users_id),
-    FOREIGN KEY (review_movie_id) REFERENCES movie(movie_id)
+    FOREIGN KEY (review_users_id) REFERENCES "users"(users_id)
 );
 
 CREATE TABLE usergroup (
