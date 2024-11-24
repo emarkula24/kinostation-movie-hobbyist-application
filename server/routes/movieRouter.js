@@ -27,6 +27,27 @@ movieRouter.get('/search', async (req, res) => {
     }
 })
 
+movieRouter.get("/findbyid", async (req, res) => {
+    try {
+        const { movie_id } = req.query
+        if (!movie_id) {
+            return res.status(400).send("review not found");
+        }
+
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${movie_id}`, { 
+            params: {
+                api_key: API_KEY,
+            }
+        });
+
+        const data = await response.data.results || response.data
+        res.send(data)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err.message)
+    }
+})
+
 movieRouter.get('/trending', async(req, res) => {
     try{
         const response = await axios.get(BASE_URL + '/trending/movie/week', { params: { api_key: API_KEY } });
