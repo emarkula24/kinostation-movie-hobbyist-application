@@ -1,4 +1,4 @@
-import { insertUser, selectUserByEmail } from "../models/User";
+import { insertUser, selectUserByEmail, selectUserById } from "../models/User";
 import { ApiError } from "../helper/ApiError.js";
 
 const postRegisteration = async (req, res, next) => {

@@ -19,6 +19,7 @@ function MoviePage({ movie }) {
   const [writeReview, setWriteReview] = useState('');
   const [starReview, setStarReview] = useState('')
   const [reviews, setReviews] = useState([]);
+  const [reviewMovies, setReviewMovies] = useState([]);
   const [showGroups, setShowGroups] = useState(false);
   const [showWriteReview, setShowWriteReview] = useState(false);
 
@@ -66,23 +67,31 @@ function MoviePage({ movie }) {
     let user = JSON.parse(sessionStorage.getItem('user'));
     if(user !== null) {
       let user_id = user.users_id;
+      let user_email = user.users_email;
       let movie_id = movie.id;
       let review = writeReview;
       let review_rating = starReview;
 
       let data = {
         user_id,
+        user_email,
         movie_id,
         review,
         review_rating
       }
 
-      try {
-        const response = await axios.post("http://localhost:3001/reviews/create", data)
+      let token = user.accessToken
 
-        console.log("Review submitted succesfully", response.data)
+      try {
+        const response = await axios.post("http://localhost:3001/reviews/create", data, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+
+        console.log("Review submitted succesfully")
       } catch(error) {
-        console.log("Error creating review", error.response || error.message)
+        console.log("Error creating review", error.response || error)
       }
 
     }else{
@@ -100,14 +109,14 @@ function MoviePage({ movie }) {
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
-    console.log('reviews', reviews);
   }
 
   useEffect(() => {
     fetchReviews();
   }, []);
 
-
+  console.log('reviews', reviews);
+  console.log("reviewed movies", reviewMovies)
   const handleFavorite = () => {
     // check session if user is logged in
     let user = JSON.parse(sessionStorage.getItem('user'));

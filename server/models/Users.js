@@ -14,4 +14,6 @@ const selectUserByEmail = async (email) => {
     );
 }
 
+
+
 export { insertUser, selectUserByEmail };

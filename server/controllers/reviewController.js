@@ -1,6 +1,6 @@
 import { selectAllReviews, insertReview } from "../models/Reviews.js"
 import { emptyOrRows} from "../helpers/emptyOrRows.js"
-
+ 
 const getReviews = async (req, res, next) => {
     try {
         const result = await selectAllReviews()
@@ -12,9 +12,15 @@ const getReviews = async (req, res, next) => {
 
 const createReview = async (req, res, next) => {
     try {
-        const { user_id, movie_id, review, review_rating } = req.body;
-        const result = await insertReview(user_id, movie_id, review, review_rating)
-        return res.status(200).json({id: result.rows[0].review_id})
+
+        const { user_id, user_email, movie_id, review, review_rating } = req.body;
+
+        if (req.user.users_id !== user_id) {
+            return res.status(403).json({ message: "User ID does not match the token" });
+        }
+
+        const result = await insertReview(user_id, user_email, movie_id, review, review_rating)
+        return res.status(200).json().send()
     } catch (error) {
         return next(error)
     }
