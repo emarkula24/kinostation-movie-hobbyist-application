@@ -12,6 +12,20 @@ const selectAllReviews = async () => {
     `)
 }
 
+const selectReviewByMovieId = async (id) => {
+    return await pool.query (`
+        SELECT 
+            review_users_email,
+            review_movie_id,
+            review_text,
+            review_rating,
+            review_created_at
+        FROM 
+            review
+        WHERE
+            review_movie_id = $1;
+        `, [id]);
+}
 const insertReview = async (user_id, user_email, movie_id, review, review_rating) => {
     return await pool.query(`
         INSERT INTO review (review_users_id, review_users_email, review_movie_id, review_text, review_rating, review_created_at)
@@ -20,4 +34,4 @@ const insertReview = async (user_id, user_email, movie_id, review, review_rating
         `, [user_id, user_email, movie_id, review, review_rating])
 }
 
-export { selectAllReviews, insertReview }
+export { selectAllReviews, insertReview, selectReviewByMovieId }

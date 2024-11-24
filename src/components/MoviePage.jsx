@@ -19,7 +19,6 @@ function MoviePage({ movie }) {
   const [writeReview, setWriteReview] = useState('');
   const [starReview, setStarReview] = useState('')
   const [reviews, setReviews] = useState([]);
-  const [reviewMovies, setReviewMovies] = useState([]);
   const [showGroups, setShowGroups] = useState(false);
   const [showWriteReview, setShowWriteReview] = useState(false);
 
@@ -98,13 +97,15 @@ function MoviePage({ movie }) {
       alert('You must be logged in to write a review');
     }
     console.log('logged in user', user);
-    console.log(writeReview);
+
     setShowWriteReview(true)
   }
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/reviews');
+      const response = await axios.get('http://localhost:3001/reviews/review', {
+        params: { movie_id: movie.id }
+      });
       setReviews(response.data);
     } catch (error) {
       console.error('Error fetching reviews:', error);
@@ -115,8 +116,9 @@ function MoviePage({ movie }) {
     fetchReviews();
   }, []);
 
-  console.log('reviews', reviews);
-  console.log("reviewed movies", reviewMovies)
+
+  
+
   const handleFavorite = () => {
     // check session if user is logged in
     let user = JSON.parse(sessionStorage.getItem('user'));

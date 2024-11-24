@@ -1,4 +1,4 @@
-import { selectAllReviews, insertReview } from "../models/Reviews.js"
+import { selectAllReviews, insertReview, selectReviewByMovieId } from "../models/Reviews.js"
 import { emptyOrRows} from "../helpers/emptyOrRows.js"
  
 const getReviews = async (req, res, next) => {
@@ -10,7 +10,7 @@ const getReviews = async (req, res, next) => {
     }
 }
 
-const createReview = async (req, res, next) => {
+const postReview = async (req, res, next) => {
     try {
 
         const { user_id, user_email, movie_id, review, review_rating } = req.body;
@@ -26,4 +26,14 @@ const createReview = async (req, res, next) => {
     }
 }
 
-export { getReviews, createReview }
+const getReview = async (req, res, next) => {
+    try {
+        const {movie_id} = req.query
+        const result = await selectReviewByMovieId(movie_id)
+        return res.status(200).json(emptyOrRows(result))
+    } catch (error) {
+        return next(error)
+    }
+}
+
+export { getReviews, postReview, getReview }
