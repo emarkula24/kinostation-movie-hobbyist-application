@@ -96,7 +96,6 @@ function MoviePage({ movie }) {
     }else{
       alert('You must be logged in to write a review');
     }
-    console.log('logged in user', user);
 
     setShowWriteReview(true)
   }

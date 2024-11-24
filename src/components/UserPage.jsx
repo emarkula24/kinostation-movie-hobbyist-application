@@ -76,8 +76,13 @@ function UserPage({ setSelectedMovie }) {
               Authorization: `Bearer ${accessToken}`
           }
       });
+      sessionStorage.clear()
+      window.location.href = '/';
     } catch (error) {
       console.log("Error logging out", error.response || error)
+
+      sessionStorage.clear()
+      window.location.href = '/';
     }
   }
 
