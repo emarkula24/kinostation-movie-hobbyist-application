@@ -109,7 +109,7 @@ router.post("/login", async (req, res, next) => {
         const refreshToken = generateRefreshToken(user);
 
         refreshTokens.push(refreshToken);
-
+        console.log(refreshTokens)
         res.status(200).json({
             users_id: user.users_id,
             users_email: user.users_email,
@@ -150,7 +150,6 @@ const verify = (req, res, next) => {
 
 router.post("/logout", verify, (req, res) => {
     const refreshToken = req.body.token;
-
     if (!refreshToken || !refreshTokens.includes(refreshToken)) {
         return res.status(403).json("Refresh token is not valid or already logged out.");
     }

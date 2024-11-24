@@ -63,6 +63,24 @@ function UserPage({ setSelectedMovie }) {
     navigate('/MoviePage');
   };
 
+  const handleLogout = async () => {
+    let user = JSON.parse(sessionStorage.getItem('user'));
+    let refreshToken = user?.refreshToken
+    let accessToken = user?.accessToken
+
+    try {
+      const response = await axios.post("http://localhost:3001/user/logout", {
+          token: refreshToken 
+      }, {
+          headers: {
+              Authorization: `Bearer ${accessToken}`
+          }
+      });
+    } catch (error) {
+      console.log("Error logging out", error.response || error)
+    }
+  }
+
   const handleShare = (favorite) => {
     const shareUrl = `http://yourapp.com/movie/${favorite.movie_id}`;
     
@@ -88,8 +106,8 @@ function UserPage({ setSelectedMovie }) {
                 <div className="user-avatar">
                 <FaUser className='user-icon' />
                 <h1>User Profile</h1>
-                <button className="logout-button">
-                    <FaSignOutAlt style={{ marginRight: '8px' }} /> Logout
+                <button className="logout-button" onClick={ handleLogout }>
+                    <FaSignOutAlt style={{ marginRight: '8px' }}/> Logout
                 </button>
                 </div>
                 <p>User_Eamil :{user.users_email}</p>
