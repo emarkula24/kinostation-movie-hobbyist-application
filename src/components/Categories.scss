@@ -18,10 +18,9 @@
   color: $text-light;
 
   > h1 {
-    font-size: 2rem;
-    font-weight: bold;
     padding: 5px;
     margin: 5px;
+    @include font-settings($text-light, 2rem, bold);
   }
 
   .scroll-container {
@@ -147,7 +146,7 @@
     padding: 0.5rem;
 
     h3 {
-      background-color: #a08c6d;
+      background-color: $title-bg;
       @include font-settings($text-light, 1.5rem, bold);
     }
 

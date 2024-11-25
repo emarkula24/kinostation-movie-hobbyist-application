@@ -1,0 +1,57 @@
+@import "./styles/variables.scss";
+@import "./styles/mixins.scss";
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+.group-list-item {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 95%;
+    background-color: $dark-bg;
+    padding: 10px;
+    align-items: center;
+
+    .title {
+        @include font-settings($color: $text-light, $size: 2rem, $weight: bold);
+        text-align: left;
+        width: 87%;
+    }
+
+    /* Grid container for the cards */
+    .group-list-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+        gap: 20px;
+        align-items: start;
+    }
+
+    .groupList-card {
+        background-color: $secondary-color;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        transition: transform 0.2s ease-in-out;
+        width: 30rem;
+        height: 10rem;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        .groupList-card-title {
+            padding: 30px;
+            height: 30%;
+            @include font-settings($color: $text-light, $size: 1.5rem, $weight: bold);
+        }
+
+        .subcription {
+            text-align: left;
+            background-color: $title-bg;
+            padding: 10px;
+            height: 20%;
+            @include font-settings($color: $text-light, $size: 1rem, $weight: bold);
+        }
+    }
+}
