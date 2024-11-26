@@ -14,34 +14,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 
-const initializeTestDb = async () => {
+const initializeTestDb = () => {
     const sql = fs.readFileSync(path.resolve(__dirname, "../test.sql"), "utf8");
-    try {
-        await pool.query(sql)
-        
-    }catch (error) {
-        console.error("test db failed to initialize", error)
-        throw error
-    }
-    
+    pool.query(sql)
 }
 
 const insertTestUser = async (email, password) => {
-    try {     
-        const hashedPassword = await new Promise((resolve, reject) => {
-        hash(password, 10, (error, hashedPassword) => {
-            if (error) reject(error);
-            resolve(hashedPassword);
-        });
-    });
-        await pool.query("insert into users (users_email, users_password) values ($1, $2)", [email, hashedPassword])   
-        
-    } catch (error) {
-        console.error("Error inserting user")
-        throw error;
+    
+    const hashedPassword = await hash(password, 10);
+        await pool.query("insert into users (users_email, users_password) values ($1, $2)",
+            [email, hashedPassword])
     }
-}
-
 
 const getToken = (email) => {
     return sign({user: email}, process.env.JWT_SECRET_KEY)

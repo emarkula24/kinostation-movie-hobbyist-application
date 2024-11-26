@@ -87,7 +87,7 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     const invalid_message = "Invalid Credentials";
     console.log("hello from login")
-    try {  
+    try {
         const { users_email, users_password } = req.body;
 
         if (!users_email || !users_password) {
@@ -109,7 +109,7 @@ router.post("/login", async (req, res, next) => {
 
         if (!await compare(users_password, user.users_password)) {
             return (next(new ApiError(invalid_message, 401)))
-        }
+        
             
         // Generate tokens
         const accessToken = generateToken(user);
