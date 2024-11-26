@@ -27,8 +27,8 @@ function Header( { setSelectedMovie }) {
 
 
     const handleMovieClick = (movie) => {
-        setSelectedMovie(movie); // Set the selected movie in the parent state
-        navigate('/MoviePage');  // Navigate to the MoviePage route
+        setSelectedMovie(movie);  // Set the selected movie
+        navigate(`/MoviePage/${movie.id}`);  // Navigate to the MoviePage with movieId in the URL
         setQuery('');
     };
 

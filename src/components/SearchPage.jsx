@@ -50,10 +50,14 @@ const SearchPage = ({ setSelectedMovie }) => {
     });
   };
 
+  // const handleMovieClick = (movie) => {
+  //   setSelectedMovie(movie);
+  //   navigate('/MoviePage');
+  // };
   const handleMovieClick = (movie) => {
-    setSelectedMovie(movie);
-    navigate('/MoviePage');
-  };
+    setSelectedMovie(movie);  // Set the selected movie
+    navigate(`/MoviePage/${movie.id}`);  // Navigate to the MoviePage with movieId in the URL
+};
 
   return (
     <div className="search-page-container">

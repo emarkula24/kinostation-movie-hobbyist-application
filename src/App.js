@@ -15,6 +15,7 @@ import UserPage from './components/UserPage';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
+  
 
   return (
     <div className="App">
@@ -27,7 +28,9 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/groups" element={<Groups />} />
-          <Route path="/MoviePage" element={<MoviePage movie={selectedMovie} />} />
+          <Route path="/MoviePage/:movieId" element={<MoviePage />} />
+
+          {/* <Route path="/MoviePage" element={<MoviePage movie={selectedMovie} />} /> */}
           <Route path="/showtimes" element={<Showtimes />} />
           <Route path="/search" element={<SearchPage setSelectedMovie={setSelectedMovie} />} />
           <Route path="/user" element={<UserPage setSelectedMovie={setSelectedMovie} />} />

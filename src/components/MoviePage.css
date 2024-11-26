@@ -357,3 +357,16 @@ h1 {
     }
   }
   
+  @media (max-width: 600px) {
+    .movie-info,
+    .showtimes {
+      width: 90%;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .movie-info > img {
+      width: 100%;
+      height: auto;
+    }
+  }

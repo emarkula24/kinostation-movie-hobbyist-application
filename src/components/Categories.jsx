@@ -34,10 +34,14 @@ function Categories({ setSelectedMovie }) {
   }, [TMDB_API_KEY]);
 
   // Handle movie card click
+  // const handleMovieClick = (movie) => {
+  //   setSelectedMovie(movie);
+  //   navigate("/MoviePage");
+  // };
   const handleMovieClick = (movie) => {
-    setSelectedMovie(movie);
-    navigate("/MoviePage");
+    navigate(`/MoviePage/${movie.id}`);
   };
+  
 
   // Scroll functionality for moving horizontally
   const scrollRow = (direction, category) => {

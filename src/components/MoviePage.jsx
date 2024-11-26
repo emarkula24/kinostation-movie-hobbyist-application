@@ -1,48 +1,71 @@
-import React, { useEffect, useState } from 'react';
-import './MoviePage.css';
-import { MdFavoriteBorder } from 'react-icons/md';
-import XMLParser from 'react-xml-parser';
+
+import React, { useEffect, useState } from "react";
+import "./MoviePage.css";
+import { MdFavoriteBorder } from "react-icons/md";
+import XMLParser from "react-xml-parser";
 import { IoMdAdd } from "react-icons/io";
 import { MdGroups } from "react-icons/md";
 import { FaPencil } from "react-icons/fa6";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
-import axios from 'axios';
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-
-
-
-function MoviePage({ movie }) {
-
-  const [activeTab, setActiveTab] = useState("showtimes"); // Initial tab
+function MoviePage() {
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
+  const BASE_URL = "http://localhost:3001/movie";
+  const [activeTab, setActiveTab] = useState("showtimes");
   const [showtimes, setShowtimes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [writeReview, setWriteReview] = useState('');
-  const [starReview, setStarReview] = useState('')
+  const [writeReview, setWriteReview] = useState("");
+  const [starReview, setStarReview] = useState("");
   const [reviews, setReviews] = useState([]);
   const [showGroups, setShowGroups] = useState(false);
   const [showWriteReview, setShowWriteReview] = useState(true);
+  const [groups, setGroups] = useState(["Group 1", "Group 2", "Group 3"]);
 
+  const addGroup = (groupName) => {
+    setGroups([...groups, groupName]);
+  };
+
+  // Fetch movie details
   useEffect(() => {
-    if (!movie) return;
-
-    const fetchShowtimes = async () => {
+    const fetchMovie = async () => {
       try {
-        const response = await fetch('https://www.finnkino.fi/xml/Schedule/');
-        const xmlText = await response.text();
+        const response = await axios.get(`${BASE_URL}/findbyid`, {
+          params: { movie_id: movieId },
+        });
+        setMovie(response.data);
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+      }
+    };
 
+    fetchMovie();
+  }, [movieId]);
+
+  // Fetch showtimes
+  useEffect(() => {
+    const fetchShowtimes = async () => {
+      if (!movie) return; // Early return if movie is not set
+      try {
+        const response = await fetch("https://www.finnkino.fi/xml/Schedule/");
+        const xmlText = await response.text();
         const xml = new XMLParser().parseFromString(xmlText);
 
-        // Search for showtimes of the current movie by comparing titles
-        const movieShowtimes = xml.getElementsByTagName('Show').filter(showtime => {
-          // console.log('showtime', showtime);
-          const showtimeTitle = showtime.getElementsByTagName('Title')[0].value.toLowerCase();
-          return showtimeTitle === movie.title.toLowerCase(); // Compare titles exactly
-        });
+        const movieShowtimes = xml
+          .getElementsByTagName("Show")
+          .filter((showtime) => {
+            const showtimeTitle = showtime
+              .getElementsByTagName("Title")[0]
+              .value.toLowerCase();
+            return showtimeTitle === movie.title.toLowerCase();
+          });
 
         setShowtimes(movieShowtimes);
-        setLoading(false);
       } catch (error) {
-        console.error('Error fetching showtimes:', error);
+        console.error("Error fetching showtimes:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -50,7 +73,49 @@ function MoviePage({ movie }) {
     fetchShowtimes();
   }, [movie]);
 
-  const handleInputReview = (e) => {
+  // Fetch reviews
+    const fetchReviews = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/reviews/review' , {
+        params: { movie_id: movie.id }
+      });
+      console.log('response', response);
+      setReviews(response.data);
+      console.log('reviews', reviews);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  }
+  useEffect(() => {
+    const fetchReviews = async () => {
+      if (!movie) return; // Early return if movie is not set
+      try {
+        const response = await axios.get("http://localhost:3001/reviews/review", {
+          params: { movie_id: movie.id },
+        });
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchReviews();
+  }, [movie]);
+
+  const handleFavorite = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    if (user) {
+      const { users_id: user_id } = user;
+      const movie_id = movie.id;
+
+      const data = { user_id, movie_id };
+      console.log("data", data);
+    } else {
+      alert("You must be logged in to favorite a movie");
+    }
+  };
+
+    const handleInputReview = (e) => {
     e.preventDefault();
     setWriteReview(e.target.value);
   }
@@ -59,8 +124,15 @@ function MoviePage({ movie }) {
     e.preventDefault();
     setStarReview(e.target.value);
   }
+  const handleAddGroup = () => {
+    setShowGroups(!showGroups);
+  };
 
-  const writeReviewHandle = async (e) => {
+  const showWriteReviewHandle = () => {
+    setShowWriteReview(!showWriteReview);
+  };
+
+    const writeReviewHandle = async (e) => {
     e.preventDefault();
     // Check session if user is logged in
     let user = JSON.parse(sessionStorage.getItem('user'));
@@ -107,59 +179,6 @@ function MoviePage({ movie }) {
     }
   };
 
-  const fetchReviews = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/reviews/review' , {
-        params: { movie_id: movie.id }
-      });
-      console.log('response', response);
-      setReviews(response.data);
-      console.log('reviews', reviews);
-    } catch (error) {
-      console.error('Error fetching reviews:', error);
-    }
-  }
-
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
-
-  
-
-  const handleFavorite = () => {
-    // check session if user is logged in
-    let user = JSON.parse(sessionStorage.getItem('user'));
-    if(user !== null) {
-      let user_id = user.users_id;
-      let movie_id = movie.id;
-
-      let data = {
-        user_id,
-        movie_id
-      }
-
-      // call backend api to post favorite
-
-      // axios.post('http://localhost:3001/favorite', data)
-      // .then((response) => {
-      //   console.log('response', response);
-      // })
-
-      console.log('data', data);
-    }else{
-      alert('You must be logged in to favorite a movie');
-    }
-  }
-
-  const handleAddGroup = () => {
-    setShowGroups(!showGroups);
-  }
-
-  const showWriteReviewHandle = () => {
-    setShowWriteReview(!showWriteReview);
-  }
-
   if (!movie) return <div>Select a movie to view details</div>;
 
   return (
@@ -194,26 +213,12 @@ function MoviePage({ movie }) {
 
             {showGroups && 
             <div className='groups-options'>
-              <div className='groups-item'>
-                <MdGroups className='groupIcon'/>
-                <p>Group 1</p>
-              </div>
-              <div className='groups-item'>
-                <MdGroups className='groupIcon'/>
-                <p>Group 2</p>
-              </div>
-              <div className='groups-item'>
-                <MdGroups className='groupIcon'/>
-                <p>Group 3</p>
-              </div>
-              <div className='groups-item'>
-                <MdGroups className='groupIcon'/>
-                <p>Group 4</p>
-              </div>
-              <div className='groups-item'>
-                <MdGroups className='groupIcon'/>
-                <p>Group 5</p>
-              </div>
+              {groups.map((group, index) => (
+                <div className="groups-item" key={index}>
+                  <MdGroups className="groupIcon" />
+                  <p>{group}</p>
+                </div>
+              ))}
             </div>}
 
           </div>
