@@ -7,7 +7,6 @@ console.log(`Connecting to database: ${process.env.NODE_ENV === "development" ? 
 console.log(`Database Host: ${process.env.DB_HOST}`);
 console.log(`Database Port: ${process.env.NODE_ENV === "development" ? process.env.DB_PORT : process.env.TEST_DB_PORT}`);
 
-
 const { Pool } = pkg;
 
 const openDb = () => {
