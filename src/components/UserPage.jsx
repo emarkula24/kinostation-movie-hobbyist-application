@@ -5,7 +5,7 @@ import './UserPage.css';
 import { FaShareAlt,FaSignOutAlt,FaUser,FaHeart} from 'react-icons/fa';
 
 
-function UserPage({ setSelectedMovie }) {
+function UserPage() {
   const [user, setUser] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,8 +59,7 @@ function UserPage({ setSelectedMovie }) {
   };
 
   const handleMovieClick = (favorite) => {
-    setSelectedMovie(favorite);
-    navigate('/MoviePage');
+    navigate(`/moviePage/${favorite.movie_id}`);
   };
 
   const handleLogout = async () => {
