@@ -75,3 +75,11 @@ CREATE TABLE otp(
     FOREIGN KEY (otp_users_id) REFERENCES "users"(users_id)
 )
 
+CREATE TABLE sharedfavorite (
+  shared_favorite_id SERIAL PRIMARY KEY,
+  shared_favorite_movie_id INTEGER,
+  favorite_users_id INTEGER,
+  FOREIGN KEY (favorite_users_id) REFERENCES "users"(users_id),
+  FOREIGN KEY (shared_favorite_id) REFERENCES "favorite"(favorite_id)
+);
+

@@ -159,14 +159,11 @@ const verify = (req, res, next) => {
 router.post("/logout", verify, (req, res) => {
     const refreshToken = req.body.token;
     if (!refreshToken || !refreshTokens.includes(refreshToken)) {
-        return res.status(403).json("Refresh token is not valid or already logged out.");
+        return res.status(403).json({error:"Refresh token is not valid or already logged out."});
     }
-    
-    console.log("before logout", refreshTokens)
     // Remove the refresh token from the list
     refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-    console.log("after logout", refreshTokens)
-    res.status(200).json("You logged out successfully!");
+    res.status(200).json({message:"You logged out successfully!"});
 });
 
 // delete user account

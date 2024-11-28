@@ -1,7 +1,9 @@
 DROP TABLE IF EXISTS review CASCADE;
-DROP TABLE IF EXISTS otp CASCADE; 
+DROP TABLE IF EXISTS favorite CASCADE;
+DROP TABLE IF EXISTS usergroup CASCADE;
+DROP TABLE IF EXISTS groupmember CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
-
+DROP TABLE IF EXISTS sharedfavorite CASCADE;
 
 CREATE TABLE users (
   users_id SERIAL PRIMARY KEY,
@@ -20,12 +22,37 @@ CREATE TABLE review (
     FOREIGN KEY (review_users_id) REFERENCES "users"(users_id)
 );
 
-CREATE TABLE otp(
-    otp_id SERIAL PRIMARY KEY,
-    otp_users_id INTEGER,
-    otp_code VARCHAR(6),
-    otp_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    otp_validated BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (otp_users_id) REFERENCES "users"(users_id)
-)
+CREATE TABLE usergroup (
+    group_id  SERIAL PRIMARY KEY,
+    group_users_id INTEGER,
+    group_name VARCHAR(255),
+    group_owner_id INTEGER,
+    FOREIGN KEY (group_users_id) REFERENCES "users"(users_id),
+    FOREIGN KEY (group_owner_id) REFERENCES "users"(users_id)
+);
+
+CREATE TABLE groupmember (
+    groupmember_id SERIAL PRIMARY KEY,
+    groupmember_group_id INTEGER,
+    groupmember_users_id INTEGER,
+    groupmember_status VARCHAR(50) CHECK (groupmember_status IN ('active', 'inactive', 'pending')),
+    FOREIGN KEY (groupmember_group_id) REFERENCES usergroup(group_id),
+    FOREIGN KEY (groupmember_users_id) REFERENCES "users"(users_id)
+);
+
+CREATE TABLE favorite (
+    favorite_id SERIAL PRIMARY KEY,
+    favorite_users_id INTEGER,
+    favorite_movie_id INTEGER,
+    favorite_added_at TIMESTAMP,
+    FOREIGN KEY (favorite_users_id) REFERENCES "users"(users_id)
+);
+
+CREATE TABLE sharedfavorite (
+  shared_favorite_id SERIAL PRIMARY KEY,
+  shared_favorite_movie_id INTEGER,
+  favorite_users_id INTEGER,
+  FOREIGN KEY (favorite_users_id) REFERENCES "users"(users_id),
+  FOREIGN KEY (shared_favorite_id) REFERENCES "favorite"(favorite_id)
+);
 

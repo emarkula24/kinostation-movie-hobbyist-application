@@ -122,7 +122,14 @@ function MoviePage() {
 
   const handleStarReview = (e) => {
     e.preventDefault();
-    setStarReview(e.target.value);
+    const value = Number(e.target.value)
+    if (value <= 5 && value >= 0) {
+      setStarReview(e.target.value);
+    } else {
+      alert("The rating must be 1-5")
+      e.target.value = ""
+    }
+    
   }
   const handleAddGroup = () => {
     setShowGroups(!showGroups);
