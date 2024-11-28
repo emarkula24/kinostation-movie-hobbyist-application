@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - "${DB_PORT}:5432"
+      - ${DB_PORT}:${DB_CONTAINER_OUT_PORT}
     volumes:
       - movie_db_data:/var/lib/postgresql/data
 
@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD} 
       POSTGRES_DB: ${TEST_DB_NAME}
     ports:
-      - ${TEST_DB_PORT}:5432
+      - ${TEST_DB_PORT}:${DB_CONTAINER_OUT_PORT}
     volumes:
       - test_db_data:/var/lib/postgresql/data
 volumes:
