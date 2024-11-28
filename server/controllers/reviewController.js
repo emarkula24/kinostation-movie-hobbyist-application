@@ -18,7 +18,6 @@ const postReview = async (req, res, next) => {
         if (req.user.users_id !== user_id) {
             return res.status(403).json({ message: "User ID does not match the token" });
         }
-
         const result = await insertReview(user_id, user_email, movie_id, review, review_rating)
         return res.status(200).json().send()
     } catch (error) {

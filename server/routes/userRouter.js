@@ -3,6 +3,7 @@ import { Router } from "express";
 import { compare, hash } from 'bcrypt';
 import jwt from "jsonwebtoken";
 import nodemailer from 'nodemailer';
+import { ApiError } from "../helpers/ApiError.js"
 
 const router = Router();
 
@@ -62,6 +63,10 @@ router.post("/register", async (req, res, next) => {
             return res.status(400).json({ error: "Invalid email or password." });
         }
 
+        const uppercaseRegex = /[A-Z]/;
+        if (!uppercaseRegex.test(users_password)) {
+            return res.status(400).json({ error: "Password must contain at least one uppercase letter." });
+        }
         const hashedPassword = await hash(users_password, 10);
 
         const result = await pool.query(
@@ -102,14 +107,16 @@ router.post("/login", async (req, res, next) => {
         
         const user = result.rows[0];
 
-        if (!await compare(users_password, user.users_password)) return next(new ApiError(invalid_message, 401))
-
+        if (!await compare(users_password, user.users_password)) {
+            return (next(new ApiError(invalid_message, 401)))
+        
+        }
         // Generate tokens
         const accessToken = generateToken(user);
         const refreshToken = generateRefreshToken(user);
 
         refreshTokens.push(refreshToken);
-        console.log(refreshTokens)
+        
         res.status(200).json({
             users_id: user.users_id,
             users_email: user.users_email,
@@ -117,6 +124,7 @@ router.post("/login", async (req, res, next) => {
             refreshToken
         });
     } catch (error) {
+        console.log(error)
         return next(error);
     }
 });
@@ -151,13 +159,11 @@ const verify = (req, res, next) => {
 router.post("/logout", verify, (req, res) => {
     const refreshToken = req.body.token;
     if (!refreshToken || !refreshTokens.includes(refreshToken)) {
-        return res.status(403).json("Refresh token is not valid or already logged out.");
+        return res.status(403).json({error:"Refresh token is not valid or already logged out."});
     }
-
     // Remove the refresh token from the list
     refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-
-    res.status(200).json("You logged out successfully!");
+    res.status(200).json({message:"You logged out successfully!"});
 });
 
 // delete user account
@@ -335,6 +341,5 @@ router.post("/resetPassword", async (req, res) => {
 
     res.status(200).json({message: 'Password updated successfully'});
 });
-
 
 export default router;
