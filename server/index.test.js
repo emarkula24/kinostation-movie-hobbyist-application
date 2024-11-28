@@ -9,16 +9,16 @@ describe("POST login" , () => {
         initializeTestDb()
     })
      it ("should login with valid credentials", async() => {
-        const email = "cremelog@gmail.com"
+        const email = "validlog@gmail.com"
         const password = "A1234567"
 
         await insertTestUser(email, password);
-        const token = getToken(email);
+        
         const response = await fetch (base_url + "/user/login", {
             method: "post",
             headers: {
                 "Content-Type":"application/json",
-                "Authorization": `Bearer ${token}`
+                
             },
             body: JSON.stringify({"users_email": email, "users_password": password})
         })
@@ -31,14 +31,16 @@ describe("POST login" , () => {
     
 
     it ("should not login with invalid credentials", async () => {
-        const email = "invalidlog@gmail.com"
+        const email = "wrongpasslog@gmail.com"
         const password = "A1234567"
         const wrongPassword = "notthepassword"
         await insertTestUser(email, password)
+        
         const response = await fetch (base_url + "/user/login", {
             method: "post",
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type":"application/json",
+                
             },
             body: JSON.stringify({"users_email": email, "users_password": wrongPassword})
         })
@@ -53,7 +55,7 @@ describe("POST login" , () => {
 describe("POST register", () => {
 
     it ("should register with valid email and password", async() => {
-        const email = "caramelreg@gmail.com"
+        const email = "validreg@gmail.com"
         const password = "A1234567"
         const response = await fetch(base_url + "/user/register", {
             method: "post",
@@ -69,8 +71,8 @@ describe("POST register", () => {
     })
 
     it ("should not register with less than 8 character password", async () => {
-        const email = "vanillareg@gmail.com"
-        const password = "Shorts"
+        const email = "lengthreg@gmail.com"
+        const password = "Short"
         const response = await fetch(base_url + "/user/register", {
             method: "post",
             headers: {
@@ -86,7 +88,7 @@ describe("POST register", () => {
     })
 
     it ("should not register with a otherwise valid password that does not contain a capitalized letter", async () => {
-        const email = "cinnamonreg@gmail.com"
+        const email = "capitalletterreg@gmail.com"
         const password ="a1234567"
         const response = await fetch(base_url + "/user/register", {
             method: "post",
@@ -99,5 +101,76 @@ describe("POST register", () => {
         expect(response.status).to.equal(400, data.error)
         expect(data).to.be.an("object")
         expect(data).to.include.all.keys("error")
+    })
+})
+
+describe ("POST logout", () => {
+
+    it("should succesfully logout user", async () => {
+        const email = "logout@gmail.com"
+        const password = "A1234567"
+        await insertTestUser(email, password)
+
+        const loginResponse = await fetch (base_url + "/user/login", {
+            method: "post",
+            headers: {
+                "Content-Type":"application/json",
+                
+            },
+            body: JSON.stringify({"users_email": email, "users_password": password})
+        })
+
+        expect(loginResponse.status).to.equal(200)
+
+        const loginData = await loginResponse.json()
+        const { refreshToken, accessToken } = loginData
+
+        expect(refreshToken).to.exist
+        expect(accessToken).to.exist
+
+        const logoutResponse = await fetch (base_url + "/user/logout", {
+            method: "post",
+            headers: {
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({ token: refreshToken })
+        })
+        const data = await logoutResponse.json();
+        expect(logoutResponse.status).to.equal(200, data.error)
+    })
+
+    it("should not logout user", async () => {
+        const email = "wronglogout@gmail.com"
+        const password = "A1234567"
+        const wrongRefreshToken = ""
+        await insertTestUser(email, password)
+
+        const loginResponse = await fetch (base_url + "/user/login", {
+            method: "post",
+            headers: {
+                "Content-Type":"application/json",
+                
+            },
+            body: JSON.stringify({"users_email": email, "users_password": password})
+        })
+
+        expect(loginResponse.status).to.equal(200)
+
+        const loginData = await loginResponse.json()
+        const { accessToken } = loginData
+
+        expect(accessToken).to.exist
+
+        const logoutResponse = await fetch (base_url + "/user/logout", {
+            method: "post",
+            headers: {
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({ token: wrongRefreshToken })
+        })
+        const data = await logoutResponse.json();
+        expect(logoutResponse.status).to.equal(403, data.error)
     })
 })

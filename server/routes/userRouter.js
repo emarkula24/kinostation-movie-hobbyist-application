@@ -110,13 +110,13 @@ router.post("/login", async (req, res, next) => {
         if (!await compare(users_password, user.users_password)) {
             return (next(new ApiError(invalid_message, 401)))
         
-            
+        }
         // Generate tokens
         const accessToken = generateToken(user);
         const refreshToken = generateRefreshToken(user);
 
         refreshTokens.push(refreshToken);
-        console.log(refreshTokens)
+        
         res.status(200).json({
             users_id: user.users_id,
             users_email: user.users_email,
@@ -161,10 +161,11 @@ router.post("/logout", verify, (req, res) => {
     if (!refreshToken || !refreshTokens.includes(refreshToken)) {
         return res.status(403).json("Refresh token is not valid or already logged out.");
     }
-
+    
+    console.log("before logout", refreshTokens)
     // Remove the refresh token from the list
     refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-
+    console.log("after logout", refreshTokens)
     res.status(200).json("You logged out successfully!");
 });
 
@@ -343,6 +344,5 @@ router.post("/resetPassword", async (req, res) => {
 
     res.status(200).json({message: 'Password updated successfully'});
 });
-
 
 export default router;
