@@ -163,16 +163,23 @@ function Header( { setSelectedMovie }) {
                 ))}
             </div>
 
-            <div className='profile' onClick={() => {
+            <div className='profile' >
+                <IoMdNotificationsOutline className='notifIcon' onClick={() => {
+                const user = sessionStorage.getItem('user'); 
+                if (user) {
+                    navigate('/notifications'); 
+                } else {
+                    navigate('/login'); 
+                }
+            }}/ >
+                <FaUserLarge className='userIcon' onClick={() => {
                 const user = sessionStorage.getItem('user'); 
                 if (user) {
                     navigate('/user'); 
                 } else {
                     navigate('/login'); 
                 }
-            }}>
-                <IoMdNotificationsOutline className='notifIcon'/>
-                <FaUserLarge className='userIcon'/>
+            }}/>
                 <span>Profile</span>
             </div>
             <div className="burger-Icon" onClick={toggleBurgerMenu}>
