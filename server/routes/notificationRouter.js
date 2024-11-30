@@ -46,7 +46,7 @@ router.post('/group', async (req, res) => {
 });
 
 // Request to join a group 
-router.post('/group/:group_id/join', async (req, res) => {
+router.post('/group_id/:group_id/join', async (req, res) => {
     const { group_id } = req.params;  
     const { users_id } = req.body;  
 
@@ -98,29 +98,87 @@ router.post('/group/:group_id/join', async (req, res) => {
     }
 });
 
+// Dealing with request (Accept or Reject)
+router.put('/group_id/:group_id/requests/:groupmember_id', async (req, res) => {
+    const { group_id, groupmember_id } = req.params;  // Extract group_id and groupmember_id from URL
+    const { groupmember_status, users_id } = req.body;  // Extract status and user_id (who is performing the action)
 
+    // Validate input
+    if (!groupmember_status || !users_id) {
+        return res.status(400).json({ error: 'groupmember_status and users_id are required.' });
+    }
 
-//dealing with request
-router.put('/group/:groupId/requests/:requestId', async (req, res) => {
-    const { requestId } = req.params;
-    const { status } = req.body; // 'accepted' or 'rejected'
     try {
-        const updatedRequest = await pool.query(
-            'UPDATE group_members SET status = $1 WHERE id = $2 RETURNING *',
-            [status, requestId]
+        // Check if the group exists
+        const groupCheck = await pool.query('SELECT * FROM usergroup WHERE group_id = $1', [group_id]);
+        if (groupCheck.rowCount === 0) {
+            return res.status(404).json({ error: 'Group not found.' });
+        }
+
+        const group = groupCheck.rows[0];
+
+        // Check if the user performing the action is the group owner
+        if (group.group_owner_id !== parseInt(users_id)) {
+            return res.status(403).json({ error: 'Only the group owner can accept or reject requests.' });
+        }
+
+        // Check if the join request exists
+        const requestCheck = await pool.query(
+            'SELECT * FROM groupmember WHERE groupmember_group_id = $1 AND groupmember_id = $2',
+            [group_id, groupmember_id] // Use group_id and groupmember_id in the query
         );
-        res.status(200).json(updatedRequest.rows[0]);
+        if (requestCheck.rowCount === 0) {
+            return res.status(404).json({ error: 'Join request not found.' });
+        }
+
+        // Check if the status is valid (active, inactive, pending)
+        if (!['active', 'inactive'].includes(groupmember_status)) {
+            return res.status(400).json({ error: 'Invalid status. Must be "active" (accepted) or "inactive" (rejected).' });
+        }
+
+        // Determine the notification type based on the action
+        let notificationType;
+        if (groupmember_status === 'active') {
+            notificationType = 'status_change';  // Accepted -> 'status_change'
+        } else if (groupmember_status === 'inactive') {
+            notificationType = 'status_change'; // Rejected -> 'status_change'
+        } else {
+            return res.status(400).json({ error: 'Invalid groupmember_status.' });
+        }
+
+        // Update the request status
+        const updatedRequest = await pool.query(
+            'UPDATE groupmember SET groupmember_status = $1 WHERE groupmember_group_id = $2 AND groupmember_id = $3 RETURNING *',
+            [groupmember_status, group_id, groupmember_id] // Corrected groupmember_group_id and groupmember_id
+        );
+
+        // Notify the user who requested to join the group
+        await pool.query(
+            'INSERT INTO notification (notification_users_id, notification_message, notification_type, created_at) VALUES ($1, $2, $3, NOW())',
+            [
+                requestCheck.rows[0].groupmember_users_id,  // The user ID who made the request
+                `Your request to join the group "${group.group_name}" has been ${groupmember_status}.`,
+                notificationType,  // Use the appropriate notification type
+            ]
+        );
+
+        // Send success response
+        res.status(200).json({
+            message: `Request ${groupmember_status} successfully.`,
+            request: updatedRequest.rows[0]
+        });
     } catch (err) {
-        res.status(500).json({ error: 'Failed to update request' });
+        console.error('Error updating join request:', err.message); // Log the error message for debugging
+        res.status(500).json({ error: 'Failed to update request', details: err.message });
     }
 });
 
 //get notification
-router.get('/users/:userId/notifications', async (req, res) => {
+router.get('/users/:userId/notification', async (req, res) => {
     const { userId } = req.params;
     try {
         const notifications = await pool.query(
-            'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC',
+            'SELECT * FROM notification WHERE user_id = $1 ORDER BY created_at DESC',
             [userId]
         );
         res.status(200).json(notifications.rows);

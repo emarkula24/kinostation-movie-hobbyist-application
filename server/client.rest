@@ -84,15 +84,35 @@ POST http://localhost:3001/notification/group
 Content-Type: application/json
 
 {
-    "group_name": "Moviegrouptest",
+    "group_name": "addmembertest",
     "group_users_id": 1, 
     "group_owner_id": 1
 }
 
-### Test 1: Successful request to join a group
-POST http://localhost:3001/notification/group/1/join
+### Test : Successful request to join a group
+POST http://localhost:3001/notification/group_id/8/join
 Content-Type: application/json
 
 {
-  "users_id": 1
+  "users_id": 3
 }
+
+### Accept a join request (change status to 'active')
+PUT http://localhost:3001/notification/group_id/8/requests/10
+Content-Type: application/json
+
+{
+    "groupmember_status": "active",  
+    "users_id": 1 
+}
+
+
+### Accept a join request (change status to 'active')
+PUT http://localhost:3001/notification/group_id/8/requests/10
+Content-Type: application/json
+
+{
+    "groupmember_status": "inactive",  
+    "users_id": 1 
+}
+
