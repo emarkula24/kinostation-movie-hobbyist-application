@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS review;
 DROP TABLE IF EXISTS favorite;
 DROP TABLE IF EXISTS movie;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS notification;
 
 CREATE TABLE users (
   users_id SERIAL PRIMARY KEY,
@@ -83,3 +84,14 @@ CREATE TABLE sharedfavorite (
   FOREIGN KEY (shared_favorite_id) REFERENCES "favorite"(favorite_id)
 );
 
+CREATE TABLE notification (
+    notification_id SERIAL PRIMARY KEY,
+    notification_users_id INTEGER NOT NULL, 
+    notification_group_id INTEGER, 
+    notification_message TEXT NOT NULL, 
+    notification_type VARCHAR(50) CHECK (notification_type IN ('invitation', 'status_change', 'other')) NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    FOREIGN KEY (notification_users_id) REFERENCES "users"(users_id),
+    FOREIGN KEY (notification_group_id) REFERENCES usergroup(group_id)
+);
