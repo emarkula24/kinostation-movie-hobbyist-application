@@ -116,3 +116,7 @@ Content-Type: application/json
     "users_id": 1 
 }
 
+
+### Fetch notifications for a specific user
+GET http://localhost:3001/notification/users/3
+Accept: application/json

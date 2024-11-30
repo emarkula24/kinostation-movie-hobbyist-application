@@ -173,19 +173,21 @@ router.put('/group_id/:group_id/requests/:groupmember_id', async (req, res) => {
     }
 });
 
-//get notification
-router.get('/users/:userId/notification', async (req, res) => {
-    const { userId } = req.params;
+// Get notifications for a specific user
+router.get('/users/:users_id', async (req, res) => {
+    const { users_id } = req.params;  // Extract userId from URL parameter
     try {
+        // Fetch notifications for the given user, ordered by creation date
         const notifications = await pool.query(
-            'SELECT * FROM notification WHERE user_id = $1 ORDER BY created_at DESC',
-            [userId]
+            'SELECT * FROM notification WHERE notification_users_id = $1 ORDER BY created_at DESC',
+            [users_id]  // Use notification_users_id to filter notifications for the specific user
         );
-        res.status(200).json(notifications.rows);
+        res.status(200).json(notifications.rows);  // Return notifications in the response
     } catch (err) {
+        // Handle any errors and send a 500 status with error details
+        console.error(err);
         res.status(500).json({ error: 'Failed to fetch notifications' });
     }
 });
-
 
 export default router;
