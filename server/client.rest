@@ -84,7 +84,15 @@ POST http://localhost:3001/notification/group
 Content-Type: application/json
 
 {
-    "group_name": "Movie Enthusiasts",
-    "group_users_id": null,
+    "group_name": "Moviegrouptest",
+    "group_users_id": 1, 
     "group_owner_id": 1
+}
+
+### Test 1: Successful request to join a group
+POST http://localhost:3001/notification/group/1/join
+Content-Type: application/json
+
+{
+  "users_id": 1
 }
