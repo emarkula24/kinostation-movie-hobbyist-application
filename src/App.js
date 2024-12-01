@@ -12,6 +12,7 @@ import { useState } from 'react';
 import Header from './components/Header';
 import SearchPage from './components/SearchPage';
 import UserPage from './components/UserPage';
+import GroupPage from './components/GroupPage';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -29,8 +30,10 @@ function App() {
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/MoviePage/:movieId" element={<MoviePage />} />
+          {/* <Route path="/GroupPage" element={<GroupPage />} /> */}
 
-          {/* <Route path="/MoviePage" element={<MoviePage movie={selectedMovie} />} /> */}
+          <Route path="/group/:groupId" element={<GroupPage />} />
+
           <Route path="/showtimes" element={<Showtimes />} />
           <Route path="/search" element={<SearchPage setSelectedMovie={setSelectedMovie} />} />
           <Route path="/user" element={<UserPage setSelectedMovie={setSelectedMovie} />} />

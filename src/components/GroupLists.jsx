@@ -1,11 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./GroupLists.scss";
 
 function GroupLists() {
+    const navigate = useNavigate();
     const groups = [
-        { title: "DC Fans Group", message: "BatmanFan sent a message..." },
-        { title: "Marvel Fans Group", message: "IronManRules sent a message..." },
-        { title: "Star Wars Fans Group", message: "JediMasterYoda sent a message..." },
+        { id: "1", title: "DC Fans Group", message: "BatmanFan sent a message..." },
+        { id: "2", title: "Marvel Fans Group", message: "IronManRules sent a message..." },
+        { id: "3", title: "Star Wars Fans Group", message: "JediMasterYoda sent a message..." },
     ];
 
     return (
@@ -14,8 +16,12 @@ function GroupLists() {
                 <h1>Groups</h1>
             </div>
             <div className="group-list-grid">
-                {groups.map((group, index) => (
-                    <div key={index} className="groupList-card">
+                {groups.map((group) => (
+                    <div
+                        key={group.id}
+                        className="groupList-card"
+                        onClick={() => navigate(`/group/${group.id}`)} // Navigate to the specific group page
+                    >
                         <div className="groupList-card-title">
                             <h3>{group.title}</h3>
                         </div>
