@@ -21,8 +21,8 @@ POST http://localhost:3001/user/register
 Content-Type: application/json
 
 {
-  "users_email": "user1@example.com",
-  "users_password": "password"
+  "users_email": "user33@example.com",
+  "users_password": "Password123"
 }
 
 ### Review listing
@@ -84,18 +84,18 @@ POST http://localhost:3001/notification/group
 Content-Type: application/json
 
 {
-    "group_name": "addmembertest",
+    "group_name": "notificationtest",
     "group_users_id": 1, 
     "group_owner_id": 1
 }
 
 ### Test : Successful request to join a group
-POST http://localhost:3001/notification/group_id/8/join
+POST http://localhost:3001/notification/group_id/9/join
 Content-Type: application/json
 
 {
-  "users_id": 3
-}
+  "users_id":12
+  }
 
 ### Accept a join request (change status to 'active')
 PUT http://localhost:3001/notification/group_id/8/requests/10
