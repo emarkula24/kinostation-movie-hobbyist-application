@@ -45,7 +45,7 @@ router.post('/group', async (req, res) => {
     }
 });
 
-// // Request to join a group 
+ // Request to join a group 
 
 router.post('/group_id/:group_id/join', async (req, res) => {
     const { group_id } = req.params;  
@@ -108,6 +108,15 @@ router.post('/group_id/:group_id/join', async (req, res) => {
             message: 'Join request created successfully. Notification sent to the group owner.',
             request: request.rows[0],
             notification: notification.rows[0],
+            users: {
+                email: users_email,
+                id: users_id
+            },
+            group: {
+                name: group_name,
+                id:group_id,
+                onwer_id:group_owner_id
+            }
         });
 
     } catch (err) {

@@ -21,7 +21,7 @@ POST http://localhost:3001/user/register
 Content-Type: application/json
 
 {
-  "users_email": "user33@example.com",
+  "users_email": "user37@example.com",
   "users_password": "Password123"
 }
 
@@ -94,11 +94,11 @@ POST http://localhost:3001/notification/group_id/9/join
 Content-Type: application/json
 
 {
-  "users_id":12
+  "users_id":16
   }
 
 ### Accept a join request (change status to 'active')
-PUT http://localhost:3001/notification/group_id/8/requests/10
+PUT http://localhost:3001/notification/group_id/9/requests/19
 Content-Type: application/json
 
 {
