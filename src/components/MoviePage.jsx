@@ -102,16 +102,34 @@ function MoviePage() {
     fetchReviews();
   }, [movie]);
 
-  const handleFavorite = () => {
+  //add movie to favorites
+  const handleFavorite = async () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
-    if (user) {
-      const { users_id: user_id } = user;
-      const movie_id = movie.id;
 
-      const data = { user_id, movie_id };
-      console.log("data", data);
-    } else {
-      alert("You must be logged in to favorite a movie");
+    if (!user) {
+        console.error("No user found in session storage.");
+        alert("You must be logged in to favorite a movie.");
+        return;
+    }
+
+    const { users_id } = user; 
+    const movie_id = movie.id;
+
+    const data = { users_id, movie_id };
+    console.log("Request body data:", data);
+
+    try {
+        const response = await axios.post("http://localhost:3001/movie/addFavorite/", data);
+        console.log("Added to favorites successfully:", response.data);
+        alert("Movie added to your favorites!");
+    } catch (error) {
+        if (error.response) {
+            console.error("Server responded with error:", error.response.data);
+            alert(`Error: ${error.response.data}`);
+        } else {
+            console.error("Request error:", error.message);
+            alert("An error occurred while adding to favorites.");
+        }
     }
   };
 
@@ -122,7 +140,14 @@ function MoviePage() {
 
   const handleStarReview = (e) => {
     e.preventDefault();
-    setStarReview(e.target.value);
+    const value = Number(e.target.value)
+    if (value <= 5 && value >= 0) {
+      setStarReview(e.target.value);
+    } else {
+      alert("The rating must be 1-5")
+      e.target.value = ""
+    }
+    
   }
   const handleAddGroup = () => {
     setShowGroups(!showGroups);

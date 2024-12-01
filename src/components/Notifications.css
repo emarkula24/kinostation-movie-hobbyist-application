@@ -1,0 +1,97 @@
+.notifications-page-container {
+  display: flex;
+  justify-content: center;
+}
+
+.notifications-container {
+  width: 60%;
+  padding: 20px;
+}
+
+.notifications-container h1 {
+  color: #f9f9f9;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  font-size: 2.2rem;
+}
+
+.notifications-card-container {
+  display: flex;
+  flex-direction: column; 
+  gap: 10px; 
+}
+
+.notifications-card {
+  background-color: rgba(55, 49, 42, 0.8);
+  padding:30px 50px 30px 50px;
+  border: 2px solid #a7a7a7;
+  border-radius: 10px;
+  max-width: 1000px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.notifications-user{
+  font-weight: bold;
+  color: #f9f9f9;
+}
+
+.notifications-message{
+  color: #f9f9f9;
+  opacity: 0.8;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.notifications-button-group {
+  display: flex;
+  gap: 5px;
+  align-self: flex-end;
+}
+
+.notifications-button-group button{
+  background-color: rgba(90, 85, 79, 0.8);
+  border: none;
+  border-radius: 5px;
+  padding: 8px 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: white;
+}
+
+.notifications-button-group button:hover {
+  background-color: #393838;
+}
+
+
+
+/* For phones (up to 768px) */
+@media screen and (max-width: 768px) {
+  .notifications-container {
+    width: 90%; 
+    padding: 10px;
+  }
+
+  .notifications-container h1 {
+    font-size: 1.6rem;  
+  }
+
+  .notifications-card {
+    padding: 15px 25px;  
+    height: auto;  
+  }
+
+  .notifications-button-group {
+    margin-top: 10px;
+    flex-direction: column;  
+    align-self: stretch;  
+  }
+
+  .notifications-button-group button {
+    width: 100%;  
+    padding: 10px 0;  
+  }
+}
+

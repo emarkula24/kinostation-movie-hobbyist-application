@@ -12,6 +12,7 @@ import { useState } from 'react';
 import Header from './components/Header';
 import SearchPage from './components/SearchPage';
 import UserPage from './components/UserPage';
+import Notifications from './components/Notifications';
 import GroupPage from './components/GroupPage';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/showtimes" element={<Showtimes />} />
           <Route path="/search" element={<SearchPage setSelectedMovie={setSelectedMovie} />} />
           <Route path="/user" element={<UserPage setSelectedMovie={setSelectedMovie} />} />
+          <Route path='/notifications' element={<Notifications/>} />
         </Routes>
       </Router>
     </div>

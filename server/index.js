@@ -5,7 +5,7 @@ import reviewRouter from "./routes/reviewRouter.js";
 import groupRouter from "./routes/groupRouter.js";
 import movieRouter from './routes/movieRouter.js';
 import userpage from "./routes/userpageRouter.js"
-
+import notificationRouter from'./routes/notificationRouter.js'
 
 const port = 3001;
 
@@ -19,6 +19,7 @@ app.use('/movie', movieRouter);
 app.use("/reviews", reviewRouter);
 app.use("/groups", groupRouter)
 app.use("/userpage", userpage)
+app.use('/notification',notificationRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
