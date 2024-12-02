@@ -3,8 +3,10 @@ import"./Register.css"
 import { BiSolidCoffee } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
+    const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,9 +34,15 @@ function Register() {
               }
           });
           console.log('response data from register: ', response.data);
+
+     // Show success alert
+      alert('Registration successful! Redirecting to login page.');
+           // Redirect to login on success
+      navigate('/login');
         }catch(error){
             console.log('error while register: ', error);
         }
+
   }
 
   return (

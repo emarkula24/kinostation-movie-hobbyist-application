@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS favorite;
 DROP TABLE IF EXISTS movie;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS notification;
+DROP TABLE IF EXISTS otp;
 
 CREATE TABLE users (
   users_id SERIAL PRIMARY KEY,
@@ -95,3 +96,8 @@ CREATE TABLE notification (
     FOREIGN KEY (notification_users_id) REFERENCES "users"(users_id),
     FOREIGN KEY (notification_group_id) REFERENCES usergroup(group_id)
 );
+
+
+ALTER TABLE favorite
+ADD CONSTRAINT unique_favorite_user_movie
+UNIQUE (favorite_users_id, favorite_movie_id);

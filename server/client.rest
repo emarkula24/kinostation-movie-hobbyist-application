@@ -5,8 +5,8 @@ GET http://localhost:3001
 POST http://localhost:3001/user/login
 Content-Type: application/json
 
-{ "users_email":"user1@example.com", 
-"users_password":"password" }
+{ "users_email":"user01@example.com", 
+"users_password":"Password123" }
 
 ### Login with invalid credentials 
 POST http://localhost:3001/user/login 
@@ -21,7 +21,7 @@ POST http://localhost:3001/user/register
 Content-Type: application/json
 
 {
-  "users_email": "user37@example.com",
+  "users_email": "user02@example.com",
   "users_password": "Password123"
 }
 
