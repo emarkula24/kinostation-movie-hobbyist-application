@@ -22,6 +22,18 @@ function Register() {
           alert('Password and Confirm Password do not match');
           return;
       }
+       // Check for password length
+    if (password.length < 8) {
+        alert('Password must be at least 8 characters long.');
+        return;
+      }
+      // Check for at least one uppercase letter in password
+    const uppercaseRegex = /[A-Z]/;
+    if (!uppercaseRegex.test(password)) {
+      alert('Password must contain at least one uppercase letter.');
+      return;
+    }
+
       try{
           const response = await axios.post('http://localhost:3001/user/register',
           {
