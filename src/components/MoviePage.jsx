@@ -266,7 +266,9 @@ function MoviePage() {
                   <h3>{showtime.getElementsByTagName('Theatre')[0].value}</h3>
                   <p>Location: {showtime.getElementsByTagName('TheatreAndAuditorium')[0].value}</p>
                   <p>Showtime: {showtime.getElementsByTagName('dttmShowStart')[0].value}</p>
+                  <a href="https://www.finnkino.fi/" target="_blank" rel="noopener noreferrer">
                   <button>Tickets</button>
+                 </a>
                 </div>
               ))}
             </div>

@@ -88,6 +88,9 @@ function Showtimes() {
                 <p>Theater: {show.theater}</p>
                 <p>Auditorium: {show.auditorium}</p>
                 <p>Start Time: {new Date(show.startTime).toLocaleString()}</p>
+                <a href="https://www.finnkino.fi/" target="_blank" rel="noopener noreferrer">
+                <button>Tickets</button>
+              </a>
               </div>
               
             </div>
