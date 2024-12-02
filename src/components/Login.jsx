@@ -78,6 +78,12 @@ function Login() {
             navigate('/');
         }catch(error){
             console.log('error while login: ', error);
+            // Check if error response exists and show the message
+        if (error.response && error.response.data && error.response.data.message) {
+            alert(error.response.data.message); // Display server-provided error message
+        } else {
+            alert('password is incorrect');
+        }
         }
     }
 
