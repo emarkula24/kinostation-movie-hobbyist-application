@@ -130,16 +130,16 @@ Content-Type: application/json
   }
 
 ### Accept a join request (change status to 'active')
-PUT http://localhost:3001/notification/group_id/9/requests/19
+PUT http://localhost:3001/notification/group_id/1/requests/1
 Content-Type: application/json
 
 {
     "groupmember_status": "active",  
-    "users_id": 1 
+    "users_id": 2 
 }
 
 
-### Accept a join request (change status to 'active')
+### Reject a join request (change status to 'inactive')
 PUT http://localhost:3001/notification/group_id/8/requests/10
 Content-Type: application/json
 
@@ -150,7 +150,7 @@ Content-Type: application/json
 
 
 ### Fetch notifications for a specific user
-GET http://localhost:3001/notification/users/3
+GET http://localhost:3001/notification/users/1
 Accept: application/json
 
 

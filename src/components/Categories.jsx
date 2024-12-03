@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Categories.scss";
 import { useNavigate } from "react-router-dom";
@@ -70,7 +70,7 @@ function Categories({ setSelectedMovie }) {
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
           />
-          <div
+          {/* <div
             className="MovieCard_favoriteBtn"
             onClick={(e) => {
               e.stopPropagation();
@@ -87,7 +87,7 @@ function Categories({ setSelectedMovie }) {
             }}
           >
             <i className="fa-solid fa-star"></i>
-          </div>
+          </div> */}
         </div>
         <div className="MovieCard_title">
           <h3>{movie.title}</h3>

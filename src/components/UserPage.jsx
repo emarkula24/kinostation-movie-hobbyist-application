@@ -68,7 +68,7 @@ function UserPage() {
     let accessToken = user?.accessToken
 
     try {
-      const response = await axios.post("http://localhost:3001/user/logout", {
+      await axios.post("http://localhost:3001/user/logout", {
           token: refreshToken 
       }, {
           headers: {
