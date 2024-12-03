@@ -177,7 +177,7 @@ function Header( { setSelectedMovie }) {
                 } else {
                     navigate('/login'); 
                 }
-            }}/ >
+            }} />
                 <FaUserLarge className='userIcon' onClick={() => {
                 const user = sessionStorage.getItem('user'); 
                 if (user) {
