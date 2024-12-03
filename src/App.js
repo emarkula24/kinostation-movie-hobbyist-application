@@ -39,6 +39,7 @@ function App() {
           <Route path="/search" element={<SearchPage setSelectedMovie={setSelectedMovie} />} />
           <Route path="/user" element={<UserPage setSelectedMovie={setSelectedMovie} />} />
           <Route path='/notifications' element={<Notifications/>} />
+          <Route path='/ResetPassword' element={<ResetPassword/>} />
         </Routes>
       </Router>
     </div>
