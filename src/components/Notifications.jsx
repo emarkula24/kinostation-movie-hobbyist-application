@@ -9,6 +9,7 @@ const Notifications = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(""); 
 
+  //for testing 
   // localStorage.removeItem("handledNotifications");
 
   useEffect(() => {
@@ -76,16 +77,24 @@ const Notifications = () => {
     }
   };
 
-  const extractEmail = (message) => {
-    const emailMatch = message.match(/^(.*?)\n/);
-    return emailMatch ? emailMatch[1] : "Unknown Email";
-  };
+  const ComfireMessage = (action, notificationId) => {
+    if (!user) return;
 
-  const extractMessage = (message) => {
-    const match = message.match(/has requested to join your group.*$/);
-    return match ? match[0] : message;
-  };
+    try {
+      if (action === "confirm") {
+        setNotifications((prev) =>
+          prev.filter((notif) => notif.notification_id !== notificationId)
+        );
 
+        const handledNotifications = JSON.parse(localStorage.getItem("handledNotifications")) || [];
+        handledNotifications.push(notificationId);
+        localStorage.setItem("handledNotifications", JSON.stringify(handledNotifications));
+      }
+    } catch (err) {
+      console.error(`Failed to ${action} request:`, err.message);
+    }
+  };
+  
   return (
     <div className="notifications-page-container">
       <div className="notifications-container">
@@ -99,15 +108,13 @@ const Notifications = () => {
             <p>No notifications</p>
           ) : (
             notifications.map((notif) => {
-              const userEmail = extractEmail(notif.notification_message);
-              const messageContent = extractMessage(notif.notification_message);
-
               return (
                 <div className="notifications-card" key={notif.notification_id}>
-                  <p className="notifications-user">{userEmail}</p>
-                  <p className="notifications-message">{messageContent}</p>
+                  <p className="notifications-message">{notif.notification_message}</p>
                   <div className="notifications-button-group">
-                    <button
+                    {notif.notification_type === "invitation" ? (
+                      <>
+                        <button
                       onClick={() =>
                         handleAction(notif.notification_group_id, notif.notification_groupmember_id, "accept", notif.notification_id)
                       }
@@ -121,6 +128,16 @@ const Notifications = () => {
                     >
                       Reject
                     </button>
+                      </>
+                    ) : notif.notification_type === "status_change" ? (
+                      <button
+                        onClick={() =>
+                          ComfireMessage("confirm", notif.notification_id)
+                        }
+                      >
+                        Confirm
+                      </button>
+                    ) : null}
                   </div>
                 </div>
               );

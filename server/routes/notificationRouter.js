@@ -105,7 +105,7 @@ router.post('/group_id/:group_id/join', async (req, res) => {
     }
 
     // Create a notification for the group owner
-    const notificationMessage = `${users_email} ("userid:"${users_id}) has requested to join your group "${group_name}".`;
+    const notificationMessage = `${users_email} has requested to join your group "${group_name}".`;
 
     const notification = await pool.query(
         'INSERT INTO notification (notification_users_id, notification_group_id, notification_message, notification_type, notification_req_users_id, notification_groupmember_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
