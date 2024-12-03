@@ -28,7 +28,7 @@ function UserPage() {
   const fetchFavorites = async (userId) => {
     setLoading(true);
     try {
-      response = await axios.get(`http://localhost:3001/userpage/?users_id=${userId}`);
+      const response = await axios.get(`http://localhost:3001/userpage/?users_id=${userId}`);
       const favoriteMovies = Array.isArray(response.data) ? response.data : [response.data];
 
       const movieDetailsPromises = favoriteMovies.map(favorite =>
@@ -68,7 +68,7 @@ function UserPage() {
     let accessToken = user?.accessToken
 
     try {
-      const response = await axios.post("http://localhost:3001/user/logout", {
+      await axios.post("http://localhost:3001/user/logout", {
           token: refreshToken 
       }, {
           headers: {
