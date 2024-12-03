@@ -45,8 +45,7 @@ router.post('/group', async (req, res) => {
     }
 });
 
- // Request to join a group 
-
+// Request to join a group
 router.post('/group_id/:group_id/join', async (req, res) => {
     const { group_id } = req.params;  
     const { users_id } = req.body;  
@@ -90,40 +89,51 @@ router.post('/group_id/:group_id/join', async (req, res) => {
             });
         }
 
+       // Create a join request with status "pending"
+    const request = await pool.query(
+        'INSERT INTO groupmember (groupmember_group_id, groupmember_users_id, groupmember_status) VALUES ($1, $2, $3) RETURNING *',
+        [group_id, users_id, 'pending']
+    );
 
-        // Create a join request with status "pending"
-        const request = await pool.query(
-            'INSERT INTO groupmember (groupmember_group_id, groupmember_users_id, groupmember_status) VALUES ($1, $2, $3) RETURNING *',
-            [group_id, users_id, 'pending']
-        );
+    console.log('Groupmember Inserted:', request.rows);
 
-        // Create a notification for the group owner
-        const notificationMessage = `${users_email} ("userid:"${users_id}) has requested to join your group "${group_name}".`;
-        const notification = await pool.query(
-            'INSERT INTO notification (notification_users_id, notification_group_id, notification_message, notification_type) VALUES ($1, $2, $3, $4) RETURNING *',
-            [group_owner_id, group_id, notificationMessage, 'invitation']
-        );
+    // Ensure groupmember_id is retrieved from the previous insert
+    const groupmember_id = request.rows[0]?.groupmember_id;  
 
-        res.status(201).json({
-            message: 'Join request created successfully. Notification sent to the group owner.',
-            request: request.rows[0],
-            notification: notification.rows[0],
-            users: {
-                email: users_email,
-                id: users_id
-            },
-            group: {
-                name: group_name,
-                id:group_id,
-                onwer_id:group_owner_id
-            }
-        });
+    if (!groupmember_id) {
+        return res.status(500).json({ error: 'Failed to retrieve groupmember_id from insertion.' });
+    }
+
+    // Create a notification for the group owner
+    const notificationMessage = `${users_email} ("userid:"${users_id}) has requested to join your group "${group_name}".`;
+
+    const notification = await pool.query(
+        'INSERT INTO notification (notification_users_id, notification_group_id, notification_message, notification_type, notification_req_users_id, notification_groupmember_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [group_owner_id, group_id, notificationMessage, 'invitation', users_id, groupmember_id]
+    );
+
+    res.status(201).json({
+        message: 'Join request created successfully. Notification sent to the group owner.',
+        request: request.rows[0],
+        notification: notification.rows[0],
+        users: {
+            email: users_email,
+            id: users_id
+        },
+        group: {
+            name: group_name,
+            id: group_id,
+            owner_id: group_owner_id
+        }
+    });
+
 
     } catch (err) {
         console.error('Error processing join request:', err);
         res.status(500).json({ error: 'Failed to process join request.' });
     }
 });
+
 
 // Dealing with request (Accept or Reject)
 router.put('/group_id/:group_id/requests/:groupmember_id', async (req, res) => {

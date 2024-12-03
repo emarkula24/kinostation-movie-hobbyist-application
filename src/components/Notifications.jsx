@@ -7,6 +7,9 @@ const Notifications = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(""); 
+
+  // localStorage.removeItem("handledNotifications");
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -22,7 +25,14 @@ const Notifications = () => {
     try {
       const response = await axios.get(`http://localhost:3001/notification/users/${userId}`);
       if (response.status === 200) {
-        setNotifications(response.data);
+
+        const handledNotifications = JSON.parse(localStorage.getItem("handledNotifications")) || [];
+        
+        const newNotifications = response.data.filter(
+          (notif) => !handledNotifications.includes(notif.notification_id)
+        );
+        
+        setNotifications(newNotifications);
       } else {
         setError("Failed to fetch notifications");
       }
@@ -33,16 +43,47 @@ const Notifications = () => {
     }
   };
 
+  const handleAction = async (groupId, groupmemberId, action, notificationId) => {
+    if (!user) return;
+    const groupmemberStatus = action === "accept" ? "active" : "inactive";
+
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/notification/group_id/${groupId}/requests/${groupmemberId}`,
+        {
+          groupmember_status: groupmemberStatus,
+          users_id: user.users_id, 
+        }
+      );
+
+      if (response.status === 200) {
+        setSuccessMessage(`Request ${action}ed successfully!`);
+
+        setNotifications((prev) =>
+          prev.filter((notif) => notif.notification_id !== notificationId)
+        );
+
+        const handledNotifications = JSON.parse(localStorage.getItem("handledNotifications")) || [];
+        handledNotifications.push(notificationId);
+        localStorage.setItem("handledNotifications", JSON.stringify(handledNotifications));
+
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 2000); 
+      }
+    } catch (err) {
+      console.error(`Failed to ${action} request:`, err.message);
+    }
+  };
 
   const extractEmail = (message) => {
     const emailMatch = message.match(/^(.*?)\n/);
     return emailMatch ? emailMatch[1] : "Unknown Email";
   };
 
-  
   const extractMessage = (message) => {
     const match = message.match(/has requested to join your group.*$/);
-    return match ? match[0] : message; 
+    return match ? match[0] : message;
   };
 
   return (
@@ -60,13 +101,26 @@ const Notifications = () => {
             notifications.map((notif) => {
               const userEmail = extractEmail(notif.notification_message);
               const messageContent = extractMessage(notif.notification_message);
+
               return (
                 <div className="notifications-card" key={notif.notification_id}>
                   <p className="notifications-user">{userEmail}</p>
                   <p className="notifications-message">{messageContent}</p>
                   <div className="notifications-button-group">
-                    <button>Accept</button>
-                    <button>Reject</button>
+                    <button
+                      onClick={() =>
+                        handleAction(notif.notification_group_id, notif.notification_groupmember_id, "accept", notif.notification_id)
+                      }
+                    >
+                      Accept
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleAction(notif.notification_group_id, notif.notification_groupmember_id, "reject", notif.notification_id)
+                      }
+                    >
+                      Reject
+                    </button>
                   </div>
                 </div>
               );
@@ -74,6 +128,12 @@ const Notifications = () => {
           )}
         </div>
       </div>
+
+      {successMessage && (
+        <div className="success-message">
+          <p>{successMessage}</p>
+        </div>
+      )}
     </div>
   );
 };

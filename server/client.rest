@@ -130,12 +130,12 @@ Content-Type: application/json
   }
 
 ### Accept a join request (change status to 'active')
-PUT http://localhost:3001/notification/group_id/1/requests/1
+PUT http://localhost:3001/notification/group_id/1/requests/4
 Content-Type: application/json
 
 {
     "groupmember_status": "active",  
-    "users_id": 2 
+    "users_id": 1 
 }
 
 
