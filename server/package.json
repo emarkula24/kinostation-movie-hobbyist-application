@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node index.js",
+    "start": "NODE_ENV=production --loglevel=error node index.js",
     "test": "mocha *.test.js",
     "devStart": "NODE_ENV=development node index.js",
     "testStart": "NODE_ENV=test node index.js"
