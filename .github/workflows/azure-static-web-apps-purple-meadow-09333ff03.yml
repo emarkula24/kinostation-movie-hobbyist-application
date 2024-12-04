@@ -19,8 +19,6 @@ jobs:
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v3
-        env:
-          NPM_CONFIG_LOGLEVEL: error
         with:
           submodules: true
           lfs: false
