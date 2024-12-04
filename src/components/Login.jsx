@@ -137,7 +137,7 @@ function Login() {
             <label className='Label'>Password</label>
             <input onChange={ (e) => setPassword(e.target.value) } className='form-input' type='password' placeholder='Enter Password' />
             <p id='forgot-password'>
-                <Link to="../ResetPassword">Forgot password?</Link>
+                <Link to={"/ResetPassword"}>Forgot password?</Link>
             </p>
             <button onClick={loginUser} className='btn' type='submit' >Login</button>
             <p>No Account? 

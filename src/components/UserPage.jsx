@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './UserPage.css';
-import { FaShareAlt,FaSignOutAlt,FaUser,FaHeart} from 'react-icons/fa';
-
+import { FaShareAlt, FaSignOutAlt, FaUser, FaHeart } from 'react-icons/fa';
 
 function UserPage() {
   const [user, setUser] = useState(null);
@@ -64,41 +63,31 @@ function UserPage() {
 
   const handleLogout = async () => {
     let user = JSON.parse(sessionStorage.getItem('user'));
-    let refreshToken = user?.refreshToken
-    let accessToken = user?.accessToken
+    let refreshToken = user?.refreshToken;
+    let accessToken = user?.accessToken;
 
     try {
       await axios.post("http://localhost:3001/user/logout", {
-          token: refreshToken 
+        token: refreshToken 
       }, {
-          headers: {
-              Authorization: `Bearer ${accessToken}`
-          }
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       });
-      sessionStorage.clear()
-      navigate ('/');
+      sessionStorage.clear();
+      navigate('/');
     } catch (error) {
-      console.log("Error logging out", error.response || error)
-
-      sessionStorage.clear()
-      navigate ('/');
+      console.log("Error logging out", error.response || error);
+      sessionStorage.clear();
+      navigate('/');
     }
-  }
+  };
 
-  const handleShare = (favorite) => {
-    const shareUrl = `http://yourapp.com/movie/${favorite.movie_id}`;
-    
-    if (navigator.share) {
-      // If the browser supports the Web Share API (mobile devices)
-      navigator.share({
-        title: favorite.title,
-        text: `Check out this movie: ${favorite.title}`,
-        url: shareUrl,
-      }).catch((error) => console.error('Error sharing:', error));
-    } else {
-      // Fallback for browsers that do not support Web Share API
+  const handleShareFavorites = () => {
+    if (user) {
+      const shareUrl = `localhost:3000/publicFavorites/${user.users_id}`;
       navigator.clipboard.writeText(shareUrl).then(() => {
-        alert('Movie URL copied to clipboard!');
+        alert('Favorites URL copied to clipboard!');
       }).catch((error) => console.error('Error copying URL:', error));
     }
   };
@@ -106,18 +95,25 @@ function UserPage() {
   return (
     <div className="user-page">
       {user ? (
-        <div className="user-display">        
-                <div className="user-avatar">
-                <FaUser className='user-icon' />
-                <h1>User Profile</h1>
-                <button className="logout-button" onClick={ handleLogout }>
-                    <FaSignOutAlt style={{ marginRight: '8px' }}/> Logout
-                </button>
-                </div>
-                <p>User_Eamil :{user.users_email}</p>
-                <p>User_ID:{user.users_id.toString().padStart(6, '0')}</p>
-                <button className="remove-button">Delete account</button>
-          <h2>Favorite List</h2>
+        <div className="user-display">
+          <div className="user-avatar">
+            <FaUser className='user-icon' />
+            <h1>User Profile</h1>
+            <button className="logout-button" onClick={handleLogout}>
+              <FaSignOutAlt style={{ marginRight: '8px' }} /> Logout
+            </button>
+          </div>
+          <p>User_Email :{user.users_email}</p>
+          <p>User_ID:{user.users_id.toString().padStart(6, '0')}</p>
+          <button className="remove-button">Delete account</button>
+          <div className="share-container">
+            <h2>Favorite List</h2>
+            <div className="share-button" onClick={handleShareFavorites}>
+              <FaShareAlt className="share-icon" />
+              <span className="share-text">Share your favorites!</span>
+            </div>
+          </div>
+
           {loading ? (
             <p>Loading favorites...</p>
           ) : error ? (
@@ -136,11 +132,9 @@ function UserPage() {
                   )}
                   <div className="favorite-card-content">
                     <h3>{favorite.title}</h3>
-                    {/* <p>{favorite.overview}</p> */}
                     <p>Rating: {favorite.vote_average ? favorite.vote_average.toFixed(1) : "N/A"}</p>
                     <p>Release Date: {favorite.release_date || "Unknown"}</p>
                   </div>
-                  <FaShareAlt onClick={() => handleShare(favorite)} className="share-button"/>
                 </div>
               ))}
             </div>

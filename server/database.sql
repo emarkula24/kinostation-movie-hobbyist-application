@@ -101,3 +101,9 @@ CREATE TABLE notification (
 ALTER TABLE favorite
 ADD CONSTRAINT unique_favorite_user_movie
 UNIQUE (favorite_users_id, favorite_movie_id);
+
+ALTER TABLE notification
+ADD COLUMN notification_req_users_id INTEGER,
+ADD COLUMN notification_groupmember_id INTEGER,
+ADD CONSTRAINT fk_notification_req_users FOREIGN KEY (notification_req_users_id) REFERENCES users(users_id),
+ADD CONSTRAINT fk_notification_groupmember FOREIGN KEY (notification_groupmember_id) REFERENCES groupmember(groupmember_id);

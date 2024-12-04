@@ -14,6 +14,7 @@ import SearchPage from './components/SearchPage';
 import UserPage from './components/UserPage';
 import Notifications from './components/Notifications';
 import GroupPage from './components/GroupPage';
+import PublicFavoritesPage from './components/PublicFavoritesPage';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -39,6 +40,8 @@ function App() {
           <Route path="/search" element={<SearchPage setSelectedMovie={setSelectedMovie} />} />
           <Route path="/user" element={<UserPage setSelectedMovie={setSelectedMovie} />} />
           <Route path='/notifications' element={<Notifications/>} />
+          <Route path='/ResetPassword' element={<ResetPassword/>} />
+          <Route path='/publicFavorites/:userId' element={<PublicFavoritesPage/>} />
         </Routes>
       </Router>
     </div>
