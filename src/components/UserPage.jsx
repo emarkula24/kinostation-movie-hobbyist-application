@@ -85,7 +85,7 @@ function UserPage() {
 
   const handleShareFavorites = () => {
     if (user) {
-      const shareUrl = `localhost:3000/publicFavorites/${user.users_id}`;
+      const shareUrl = url + `/publicFavorites/${user.users_id}`;
       navigator.clipboard.writeText(shareUrl).then(() => {
         alert('Favorites URL copied to clipboard!');
       }).catch((error) => console.error('Error copying URL:', error));
