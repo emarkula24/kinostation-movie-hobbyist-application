@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Categories.scss";
 import { useNavigate } from "react-router-dom";
 
+
 function Categories({ setSelectedMovie }) {
   const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
   const BASE_URL = process.env.REACT_APP_API_URL + "/movie";
@@ -17,7 +18,7 @@ function Categories({ setSelectedMovie }) {
     const fetchMovies = async () => {
       try {
 
-        const trendingResponse = await axios.get("/trending")
+        const trendingResponse = await axios.get(BASE_URL + "/trending")
         const popularResponse = await axios.get(BASE_URL + "/popular")
         const topRatedResponse = await axios.get(BASE_URL + "/toprated")
 
