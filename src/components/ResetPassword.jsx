@@ -10,7 +10,7 @@ function ResetPassword() {
     const [otp, setOtp] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-
+    const url = process.env.REACT_APP_API_URL
     const resetPassword = async (e) => {
         e.preventDefault();
         if (!email || !password || !confirmPassword || !otp) {
@@ -24,7 +24,7 @@ function ResetPassword() {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/user/resetPassword', {
+            const response = await axios.post(url + '/user/resetPassword', {
                 email,
                 password,
                 otp

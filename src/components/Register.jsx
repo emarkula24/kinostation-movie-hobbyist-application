@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const navigate = useNavigate();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+    const url = process.env.REACT_APP_API_URL    
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
   const registerUser = async (e) => {
       e.preventDefault();
@@ -35,7 +35,7 @@ function Register() {
     }
 
       try{
-          const response = await axios.post('http://localhost:3001/user/register',
+          const response = await axios.post(url + '/user/register',
           {
               users_email: email,
               users_password: password

@@ -5,7 +5,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
-
+const url = process.env.REACT_APP_API_URL
 function Login() {
 
     const [user, setUser] = useState(null);
@@ -16,7 +16,7 @@ function Login() {
     const refreshToken = async () => {
         console.log('react refresh token function');
         try {
-          const res = await axios.post("http://localhost:3001/user/refresh", { token: user.refreshToken });
+          const res = await axios.post(url + "/user/refresh", { token: user.refreshToken });
           console.log('response data from refresh token: ', res.data);
           setUser({
             ...user,
@@ -60,7 +60,7 @@ function Login() {
             return;
         }
         try{
-            const response = await axios.post('http://localhost:3001/user/login',
+            const response = await axios.post( url +'/user/login',
             {
                 users_email: email,
                 users_password: password
@@ -90,7 +90,7 @@ function Login() {
     {/* #testing @bibek will delete this code later */}
     const removeAccount = async () => {
         try{
-            const response = await axiosJWT.delete('http://localhost:3001/user/removeAccount/' + user.users_id,
+            const response = await axiosJWT.delete(url + '/user/removeAccount/' + user.users_id,
             {
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
@@ -104,7 +104,7 @@ function Login() {
 
     const logout = async () => {
         try{
-            const response = await axios.post('http://localhost:3001/user/logout',
+            const response = await axios.post(url + '/user/logout',
             {
                 token: user.refreshToken
             },

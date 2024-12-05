@@ -13,7 +13,7 @@ function PublicFavoritesPage() {
   const navigate = useNavigate();
 
   const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-
+  const url = process.env.REACT_APP_API_URL
   useEffect(() => {
     fetchPublicFavorites(userId);
   }, [userId]);
@@ -21,7 +21,7 @@ function PublicFavoritesPage() {
   const fetchPublicFavorites = async (userId) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3001/userpage/?users_id=${userId}`);
+      const response = await axios.get(url + `/userpage/?users_id=${userId}`);
       const favoriteMovies = Array.isArray(response.data) ? response.data : [response.data];
 
       const movieDetailsPromises = favoriteMovies.map(favorite =>
