@@ -6,7 +6,7 @@ import {
         insertTestSharedfavorite, 
         insertTestUsergroup, 
         insertTestGroupmember} 
-from "./server/helpers/test.js";
+from "./helpers/test.js";
 
 import { expect } from "chai";
 import { response } from "express";
