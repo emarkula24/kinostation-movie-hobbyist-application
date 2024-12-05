@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Notifications.css";
 
+
+
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(""); 
+
+
+  const url = process.env.REACT_APP_API_URL
 
   //for testing 
   // localStorage.removeItem("handledNotifications");
@@ -24,7 +29,7 @@ const Notifications = () => {
   const fetchNotifications = async (userId) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3001/notification/users/${userId}`);
+      const response = await axios.get(url + `/notification/users/${userId}`);
       if (response.status === 200) {
 
         const handledNotifications = JSON.parse(localStorage.getItem("handledNotifications")) || [];
@@ -50,7 +55,7 @@ const Notifications = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3001/notification/group_id/${groupId}/requests/${groupmemberId}`,
+        url + `/notification/group_id/${groupId}/requests/${groupmemberId}`,
         {
           groupmember_status: groupmemberStatus,
           users_id: user.users_id, 

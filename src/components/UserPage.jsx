@@ -10,7 +10,7 @@ function UserPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const url = process.env.REACT_APP_API_URL
   const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function UserPage() {
   const fetchFavorites = async (userId) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3001/userpage/?users_id=${userId}`);
+      const response = await axios.get(url + `/userpage/?users_id=${userId}`);
       const favoriteMovies = Array.isArray(response.data) ? response.data : [response.data];
 
       const movieDetailsPromises = favoriteMovies.map(favorite =>
@@ -67,7 +67,7 @@ function UserPage() {
     let accessToken = user?.accessToken;
 
     try {
-      await axios.post("http://localhost:3001/user/logout", {
+      await axios.post(url + "/user/logout", {
         token: refreshToken 
       }, {
         headers: {
@@ -85,7 +85,7 @@ function UserPage() {
 
   const handleShareFavorites = () => {
     if (user) {
-      const shareUrl = `localhost:3000/publicFavorites/${user.users_id}`;
+      const shareUrl = url + `/publicFavorites/${user.users_id}`;
       navigator.clipboard.writeText(shareUrl).then(() => {
         alert('Favorites URL copied to clipboard!');
       }).catch((error) => console.error('Error copying URL:', error));

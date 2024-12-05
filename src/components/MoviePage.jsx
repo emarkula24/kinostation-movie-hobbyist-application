@@ -13,7 +13,8 @@ import { useParams } from "react-router-dom";
 function MoviePage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
-  const BASE_URL = "http://localhost:3001/movie";
+  const BASE_URL = process.env.REACT_APP_API_URL + "/movie";
+  const url = process.env.REACT_APP_API_URL
   const [activeTab, setActiveTab] = useState("showtimes");
   const [showtimes, setShowtimes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -76,7 +77,7 @@ function MoviePage() {
   // Fetch reviews
     const fetchReviews = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/reviews/review' , {
+      const response = await axios.get(url + '/reviews/review' , {
         params: { movie_id: movie.id }
       });
       console.log('response', response);
@@ -90,7 +91,7 @@ function MoviePage() {
     const fetchReviews = async () => {
       if (!movie) return; // Early return if movie is not set
       try {
-        const response = await axios.get("http://localhost:3001/reviews/review", {
+        const response = await axios.get(url + "/reviews/review", {
           params: { movie_id: movie.id },
         });
         setReviews(response.data);
@@ -119,7 +120,7 @@ function MoviePage() {
     console.log("Request body data:", data);
 
     try {
-        const response = await axios.post("http://localhost:3001/movie/addFavorite/", data);
+        const response = await axios.post(url + "/movie/addFavorite/", data);
         console.log("Added to favorites successfully:", response.data);
         alert("Movie added to your favorites!");
     } catch (error) {
@@ -179,7 +180,7 @@ function MoviePage() {
       let token = user.accessToken;
   
       try {
-        const response = await axios.post("http://localhost:3001/reviews/create", data, {
+        const response = await axios.post(url + "/reviews/create", data, {
           headers: {
             Authorization: `Bearer ${token}`
           }

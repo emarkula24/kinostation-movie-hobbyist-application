@@ -8,7 +8,7 @@ const SearchPage = ({ setSelectedMovie }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [ratingOrder, setRatingOrder] = useState(null);
   const [releaseDateOrder, setReleaseDateOrder] = useState(null);
-
+  const url = process.env.REACT_APP_API_URL
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('query');
   
@@ -18,7 +18,7 @@ const SearchPage = ({ setSelectedMovie }) => {
     if (query && query.length > 0) {
       const fetchMovies = async () => {
         try {
-          const response = await axios.get("http://localhost:3001/movie/search/", {
+          const response = await axios.get(url + "/movie/search/", {
             params: {
               query,
             },

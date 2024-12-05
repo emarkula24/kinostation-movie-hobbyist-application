@@ -31,7 +31,7 @@ function Reviews() {
   const fetchReviewedMovies = async (movieId) => {
     console.log("Fetching movie for ID:", movieId);
     try {
-      const response = await axios.get("http://localhost:3001/movie/findbyid", {
+      const response = await axios.get(url + "/movie/findbyid", {
         params: { movie_id: movieId }
       });
       console.log("Movie Data:", response.data);
