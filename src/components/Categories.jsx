@@ -13,14 +13,14 @@ function Categories({ setSelectedMovie }) {
   const [visibleRange, setVisibleRange] = useState({ startIndex: 0, endIndex: 5 }); // Track visible range
   const navigate = useNavigate();
 
+  console.log(process.env)
+  console.log("base url", BASE_URL)
   // Fetch movie data
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-
-        console.log("BASE_URL:", BASE_URL);
         
-        const trendingResponse = await axios.get(BASE_URL + "/trending")
+        const trendingResponse = await axios.get(`${BASE_URL}/trending`)
         const popularResponse = await axios.get(BASE_URL + "/popular")
         const topRatedResponse = await axios.get(BASE_URL + "/toprated")
 
