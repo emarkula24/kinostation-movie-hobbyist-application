@@ -14,6 +14,15 @@ function GroupLists() {
         <div className="group-list-item">
             <div className="title">
                 <h1>Groups</h1>
+                <div className='creategroup-button' onClick={() => {
+                const user = sessionStorage.getItem('user'); 
+                if (user) {
+                    navigate('/CreateGroup'); 
+                } else {
+                    navigate('/login'); 
+                }
+            }} >Create a new group!<div/>
+            </div>
             </div>
             <div className="group-list-grid">
                 {groups.map((group) => (

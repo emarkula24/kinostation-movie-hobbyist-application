@@ -15,6 +15,7 @@ import UserPage from './components/UserPage';
 import Notifications from './components/Notifications';
 import GroupPage from './components/GroupPage';
 import PublicFavoritesPage from './components/PublicFavoritesPage';
+import CreateGroup from './components/CreateGroup';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -42,6 +43,7 @@ function App() {
           <Route path='/notifications' element={<Notifications/>} />
           <Route path='/ResetPassword' element={<ResetPassword/>} />
           <Route path='/publicFavorites/:userId' element={<PublicFavoritesPage/>} />
+          <Route path='/createGroup' element={<CreateGroup/>} />
         </Routes>
       </Router>
     </div>

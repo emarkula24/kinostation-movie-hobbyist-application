@@ -5,7 +5,7 @@ import { pool } from "../helpers/db.js";
 const router = Router(); 
 // Create a group and insert the owner as a member
 router.post('/group', async (req, res) => {
-    const { group_name, group_users_id, group_owner_id } = req.body;
+    const { group_name, group_users_id, group_owner_id,group_introduction} = req.body;
 
     // Validate input
     if (!group_name || !group_owner_id) {
@@ -15,8 +15,13 @@ router.post('/group', async (req, res) => {
     try {
         // 1. Insert the group into the usergroup table
         const groupResult = await pool.query(
-            'INSERT INTO usergroup (group_name, group_users_id, group_owner_id) VALUES ($1, $2, $3) RETURNING group_id, group_name, group_owner_id',
-            [group_name, group_users_id || null, group_owner_id]
+            'INSERT INTO usergroup (group_name, group_users_id, group_owner_id, group_introduction) VALUES ($1, $2, $3, $4) RETURNING group_id, group_name, group_owner_id, group_users_id, group_introduction',
+            [
+                group_name,
+                group_users_id || null, 
+                group_owner_id,
+                group_introduction || 'No introduction provided' // Default value if introduction is missing
+            ]
         );
 
         const group = groupResult.rows[0];
