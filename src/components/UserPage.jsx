@@ -92,6 +92,20 @@ function UserPage() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+      try {
+        const response = await axios.delete(`http://localhost:3001/user/deleteAccount/${user.users_id}`);
+        sessionStorage.clear();  // Clear session storage after account deletion
+        navigate('/');  // Redirect to homepage or login page
+        alert("Your account has been deleted successfully.");
+      } catch (error) {
+        console.error('Error deleting account:', error);
+        alert("Error deleting account. Please try again later.");
+      }
+    }
+  };
+
   return (
     <div className="user-page">
       {user ? (
@@ -105,7 +119,7 @@ function UserPage() {
           </div>
           <p>User_Email :{user.users_email}</p>
           <p>User_ID:{user.users_id.toString().padStart(6, '0')}</p>
-          <button className="remove-button">Delete account</button>
+          <button className="remove-button" onClick={handleDeleteAccount}>Delete account</button>
           <div className="share-container">
             <h2>Favorite List</h2>
             <div className="share-button" onClick={handleShareFavorites}>
