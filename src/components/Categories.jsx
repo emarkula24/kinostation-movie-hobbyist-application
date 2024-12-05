@@ -14,7 +14,6 @@ function Categories({ setSelectedMovie }) {
   const navigate = useNavigate();
 
   console.log(process.env)
-  console.log("base url", BASE_URL)
   // Fetch movie data
   useEffect(() => {
     const fetchMovies = async () => {
