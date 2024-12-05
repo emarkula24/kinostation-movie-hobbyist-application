@@ -166,15 +166,57 @@ router.post("/logout", verify, (req, res) => {
     res.status(200).json({message:"You logged out successfully!"});
 });
 
-// delete user account
-router.delete("/removeAccount/:id", verify, async (req, res) => {
+router.delete("/deleteAccount/:userId", async (req, res) => {
     try {
-        res.status(200).json("User was deleted!");
-        // const { users_id } = req.user;
-        // await pool.query("DELETE FROM users WHERE users_id = $1", [users_id]);
-        // res.status(200).json("User was deleted!");
+        const userId = req.params.userId;
+
+        if (!userId) {
+            return res.status(400).json({ error: "User ID is required." });
+        }
+
+        // Start a transaction
+        await pool.query("BEGIN");
+
+        // Delete related data from associated tables
+        await pool.query("DELETE FROM favorite WHERE favorite_users_id = $1", [userId]);
+        await pool.query("DELETE FROM review WHERE review_users_id = $1", [userId]);
+
+        // First, delete notifications related to the user's groups
+        await pool.query("DELETE FROM notification WHERE notification_group_id IN (SELECT group_id FROM usergroup WHERE group_owner_id = $1 OR group_users_id = $1)", [userId]);
+        await pool.query("DELETE FROM groupmember WHERE groupmember_group_id IN (SELECT group_id FROM usergroup WHERE group_owner_id = $1 OR group_users_id = $1)", [userId]);
+
+        // Now, delete the groups where the user is the member or the owner
+        await pool.query("DELETE FROM usergroup WHERE group_users_id = $1", [userId]); // User as a member of groups
+        await pool.query("DELETE FROM usergroup WHERE group_owner_id = $1", [userId]); // User as the group owner
+        
+        // Delete OTP records associated with the user
+        await pool.query("DELETE FROM otp WHERE otp_users_id = $1", [userId]);
+
+        // Delete the user record
+        const result = await pool.query("DELETE FROM users WHERE users_id = $1 RETURNING *", [userId]);
+
+        // If no rows were deleted, the user does not exist
+        if (result.rowCount === 0) {
+            await pool.query("ROLLBACK"); // Rollback the transaction
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        // Commit the transaction
+        await pool.query("COMMIT");
+
+        // Send success response
+        res.status(200).json({
+            message: "Account and related data deleted successfully.",
+            user: result.rows[0], // Return the deleted user details
+        });
     } catch (error) {
-        return next(error);
+        console.error("Error deleting account:", error);
+
+        // Rollback the transaction in case of an error
+        await pool.query("ROLLBACK");
+
+        // Send error response
+        res.status(500).json({ error: "An error occurred while deleting the account." });
     }
 });
 

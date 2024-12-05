@@ -21,38 +21,21 @@ POST http://localhost:3001/user/register
 Content-Type: application/json
 
 {
-  "users_email": "user03@example.com",
+  "users_email": "user45@example.com",
   "users_password": "Password"
 }
 
-
-# Send OTP Email
-POST http://localhost:3001/user/sendEmail
+### Delete Account with a Valid User ID
+DELETE http://localhost:3001/user/deleteAccount/2
 Content-Type: application/json
 
-{
-  "email": "testuser@example.com"
-}
 
-### 
-
-# Verify OTP
-POST http://localhost:3001/user/verifyOtp
-Content-Type: application/json
-
-{
-  "email": "testuser@example.com",
-  "otp": "1234"  # Replace with the actual OTP received
-}
-
-### 
-
-# Reset Password
+### Reset Password
 POST http://localhost:3001/user/resetPassword
 Content-Type: application/json
 
 {
-  "email": "testuser@example.com",
+  "email": "user01@example.com",
   "password": "newStrongPassword"
 }
 
