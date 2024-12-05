@@ -17,7 +17,7 @@ function Categories({ setSelectedMovie }) {
     const fetchMovies = async () => {
       try {
 
-        const trendingResponse = await axios.get(BASE_URL + "/trending")
+        const trendingResponse = await axios.get("/trending")
         const popularResponse = await axios.get(BASE_URL + "/popular")
         const topRatedResponse = await axios.get(BASE_URL + "/toprated")
 
