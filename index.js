@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import userRouter from './routes/userRouter.js';
-import reviewRouter from "./routes/reviewRouter.js";
-import groupRouter from "./routes/groupRouter.js";
-import movieRouter from './routes/movieRouter.js';
-import userpage from "./routes/userpageRouter.js"
-import notificationRouter from'./routes/notificationRouter.js'
+import userRouter from './server/routes/userRouter.js';
+import reviewRouter from "./server/routes/reviewRouter.js";
+import groupRouter from "./server/routes/groupRouter.js";
+import movieRouter from './server/routes/movieRouter.js';
+import userpage from "./server/routes/userpageRouter.js"
+import notificationRouter from'./server/routes/notificationRouter.js'
 
 const port = 3001;
 
