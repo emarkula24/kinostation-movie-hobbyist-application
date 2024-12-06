@@ -15,7 +15,7 @@ Discover movies with detailed info, and ratings. Share your thoughts, rate films
 ## 🧑‍🤝‍🧑 Team Members
 - [Mostafa Trahim]() : Scrum Master | FrontEnd Development
 - [Erik Markula]() : BackEnd Development | DevOps
-- [Xuanyu Liu]() : BackEndEnd Development
+- [Xuanyu Liu]() : BackEnd Development
 - [Jane]() : FrontEnd Development | UI/UX Design
 - [Bao Nguyen]() : FrontEnd Development
 - [Bibek ]() : BackEnd Development
