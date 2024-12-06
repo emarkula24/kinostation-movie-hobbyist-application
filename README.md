@@ -12,7 +12,6 @@ Discover movies with detailed info, and ratings. Share your thoughts, rate films
 - `CSS / SCSS`
 - `Docker`
 
-/// team members
 ## 🧑‍🤝‍🧑 Team Members
 - [Mostafa Trahim]() : Scrum Master | FrontEnd Development
 - [Erik Markula]() : BackEnd Development
