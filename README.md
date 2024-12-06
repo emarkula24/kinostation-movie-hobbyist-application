@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+## Movie Application 🎥
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## 📖 Overview
+Discover movies with detailed info, and ratings. Share your thoughts, rate films, and connect with fellow fans in interactive groups. Use filters to explore new titles, create favorite lists, and personalize your cinema experience. Perfect for every movie lover, this app brings everything you need for a seamless and fun movie journey!
 
-In the project directory, you can run:
+## ⚡ Technologies
+- `ReactJs`
+- `NodeJs`
+- `JavaScript`
+- `PostgreSQL`
+- `CSS / SCSS`
+- `Docker`
 
-### `npm start`
+/// team members
+## 🧑‍🤝‍🧑 Team Members
+- [Mostafa Trahim]() : Scrum Master | FrontEnd Development
+- [Erik Markula]() : BackEnd Development
+- [Xuanyu Liu]() : BackEndEnd Development
+- [Jane]() : FrontEnd Development | UI/UX Design
+- [Bao Nguyen]() : FrontEnd Development
+- [Bibek ]() : BackEnd Development
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🌟 Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **🔐 User Authentication**: Users can sign up and login to the application.
+- **🎬 Movies Browsing**: Users can browse and Movies with detailed information
+- **🔍 Search**: Users can search for movies.
+- **✍🏻 Reviews**: Users can rate and review movies.
+- **👥 Groups**: Users can create and join groups.
+- **❤️ Favorites**: Users can add movies to their favorites list.
+- **☰ Filters**: Users can filter movies by genre, rating, and more.
+- **🎨 Responsive Design**: The application is fully responsive and works on all devices.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- ## 💭 Process -->
 
-### `npm run build`
+## 🏗️ Application Architecture
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**⚛️ FrontEnd:** Developed using React.js, focusing on a responsive and intuitive interface. State is currently managed using React's useState and useEffect.
+**⚙️ BackEnd** Implements a RESTful API architecture using Node.js and Express, ensuring modular and maintainable code.
+**🛢 Database** The PostgreSQL schema is normalized, allowing for efficient storage and retrieval of movie-related data.
+<!-- **🐳 Deployment** The application is containerized using Docker, ensuring seamless deployment and scaling. -->
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 💭 How can it be improved?
 
-### `npm run eject`
+- **🔍 Search**: Implement a more advanced search feature, allowing users to search by actor, director, and more.
+- **🎬 Recommendations**: Implement a recommendation system based on user preferences and viewing history.
+- **🎨 Design**: Improve the UI/UX design, focusing on a more modern and visually appealing interface.
+- **🔐 Security**: Implement additional security features, such as two-factor authentication and encryption.
+- **🤝 Integration**: Integrate with other platforms, such as social media and streaming services.
+- **📝 Reviews**: Implement a more advanced review system, allowing users to rate movies based on different criteria.
+- **🌙 Dark Mode**: Implement a dark mode feature, allowing users to switch between light and dark themes.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🚦 Running the Project
+To run the project in your local environment, follow these steps:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. 🧬 Clone the repository
+    ```sh
+    git clone https://github.com/Group-12-Org/Movie-App.git
+    ```
+2. 📂 Navigate to the project directory and Install required dependencies using 
+    ```sh
+    npm install
+    ```
+    or 
+    ```sh
+    yarn
+    ```
+3. 🔑 Set up the environment variables required for API keys and database configuration.
+4. 🗄️ Initialize the PostgreSQL database.
+5. 🚀 Run the development server using 
+    ```sh
+    npm run dev
+    ```
+    or 
+    ```sh
+    yarn dev
+    ```
+6. Open `http://localhost:3000` to view the application.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🎥 Demo/Preview
