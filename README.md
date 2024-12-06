@@ -1,4 +1,4 @@
-## Movie Application 🎥
+# Movie Application 🎥
 
 
 ## 📖 Overview
