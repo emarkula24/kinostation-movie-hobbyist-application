@@ -23,48 +23,86 @@ function CreateGroup() {
   }, [navigate]);
 
   // Handle form submission
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const name = nameRef.current.value;
     const introduction = introductionRef.current.value;
 
     if (!user) {
-      setFeedback("You must be logged in to create a group.");
-      return;
+        setFeedback("You must be logged in to create a group.");
+        return;
     }
 
-    console.log("Submitting group with data:", {
-      name,
-      users_id: user.users_id, 
-      owner_id: user.users_id, 
-      introduction
-    });
 
     try {
-      const response = await axios.post(url + "/notification/group", {
-        group_name: name,           
-        group_users_id: user.users_id,
-        group_owner_id: user.users_id,
-        group_introduction: introduction
-      });
+        const response = await axios.post(`${url}/groups`, {
+            group_name: name, 
+            group_users_id: user.users_id, 
+            group_owner_id: user.users_id, 
+            group_introduction: introduction, 
+        });
 
+        console.log("Group created successfully:", response.data);
 
-      console.log("Group created successfully:", response.data);
-
-      setFeedback("Group created successfully!");
+        setFeedback("Group created successfully!");
 
         // Clear the form
-      nameRef.current.value = "";
-      introductionRef.current.value = "";
+        nameRef.current.value = "";
+        introductionRef.current.value = "";
     } catch (error) {
-      console.error("Error creating group:", error);
+        console.error("Error creating group:", error);
 
-      setFeedback(
-        error.response?.data?.error || "Failed to create group. Try again later."
-      );
+        setFeedback(
+            error.response?.data?.error || "Failed to create group. Try again later."
+        );
     }
-  };
+};
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault(); 
+
+  //   const name = nameRef.current.value;
+  //   const introduction = introductionRef.current.value;
+
+  //   if (!user) {
+  //     setFeedback("You must be logged in to create a group.");
+  //     return;
+  //   }
+
+  //   console.log("Submitting group with data:", {
+  //     name,
+  //     users_id: user.users_id, 
+  //     owner_id: user.users_id, 
+  //     introduction
+  //   });
+
+  //   try {
+  //     const response = await axios.post(url + "/notification/group", {
+  //       group_name: name,           
+  //       group_users_id: user.users_id,
+  //       group_owner_id: user.users_id,
+  //       group_introduction: introduction
+  //     });
+
+
+  //     console.log("Group created successfully:", response.data);
+
+  //     setFeedback("Group created successfully!");
+
+  //       // Clear the form
+  //     nameRef.current.value = "";
+  //     introductionRef.current.value = "";
+  //   } catch (error) {
+  //     console.error("Error creating group:", error);
+
+  //     setFeedback(
+  //       error.response?.data?.error || "Failed to create group. Try again later."
+  //     );
+  //   }
+  // };
 
   return (
     <div className="create-group-container">

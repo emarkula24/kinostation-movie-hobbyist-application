@@ -1,41 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./GroupLists.scss";
 
 function GroupLists() {
     const navigate = useNavigate();
-    const groups = [
-        { id: "1", title: "DC Fans Group", message: "BatmanFan sent a message..." },
-        { id: "2", title: "Marvel Fans Group", message: "IronManRules sent a message..." },
-        { id: "3", title: "Star Wars Fans Group", message: "JediMasterYoda sent a message..." },
-    ];
+    const [Groups, setGroups] = useState([]);
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/groups`);
+                setGroups(response.data);
+                console.log("Groups:", response.data);
+            } catch (error) {
+                console.error("Error fetching groups:", error);
+            }
+        };
+        fetchGroups();
+    }, []);
 
     return (
         <div className="group-list-item">
             <div className="title">
                 <h1>Groups</h1>
-                <div className='creategroup-button' onClick={() => {
-                const user = sessionStorage.getItem('user'); 
-                if (user) {
-                    navigate('/CreateGroup'); 
-                } else {
-                    navigate('/login'); 
-                }
-            }} >Create a new group!<div/>
-            </div>
+                <div
+                    className="creategroup-button"
+                    onClick={() => {
+                        const user = sessionStorage.getItem("user");
+                        if (user) {
+                            navigate("/CreateGroup");
+                        } else {
+                            navigate("/login");
+                        }
+                    }}
+                >
+                    Create a new group!
+                </div>
             </div>
             <div className="group-list-grid">
-                {groups.map((group) => (
+                {Groups.map((group) => (
                     <div
-                        key={group.id}
+                        key={group.group_id}
                         className="groupList-card"
-                        onClick={() => navigate(`/group/${group.id}`)} // Navigate to the specific group page
+                        onClick={() => navigate(`/group/${group.group_id}`)}
                     >
                         <div className="groupList-card-title">
-                            <h3>{group.title}</h3>
+                            <h3>{group.group_name}</h3>
                         </div>
-                        <div className="subcription">
-                            <p>{group.message}</p>
+                        <div className="subscription">
+                            <p>{group.group_introduction}</p>
                         </div>
                     </div>
                 ))}
@@ -45,3 +59,4 @@ function GroupLists() {
 }
 
 export default GroupLists;
+

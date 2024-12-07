@@ -15,6 +15,10 @@
         @include font-settings($color: $text-light, $size: 2rem, $weight: bold);
         text-align: left;
         width: 87%;
+
+        .creategroup-button {
+            cursor: pointer;
+        }
     }
 
     /* Grid container for the cards */
