@@ -4,16 +4,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function ResetPassword() {
-    const [email, setEmail] = useState('');
+    const [users_email, setUsersEmail] = useState('');
+    const [users_id, setUsersId] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [otp, setOtp] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-    const url = process.env.REACT_APP_API_URL
+    const url = process.env.REACT_APP_API_URL;
+
     const resetPassword = async (e) => {
         e.preventDefault();
-        if (!email || !password || !confirmPassword || !otp) {
+        if (!users_email || !users_id || !password || !confirmPassword) {
             alert('All fields are required');
             return;
         }
@@ -24,10 +25,10 @@ function ResetPassword() {
         }
 
         try {
-            const response = await axios.post(url + '/user/resetPassword', {
-                email,
-                password,
-                otp
+            const response = await axios.post(url + '/resetpassword', {
+                users_email,
+                users_id,
+                new_password: password
             }, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -53,21 +54,23 @@ function ResetPassword() {
         <div className="reset-password-container">
             <h1>Reset Password</h1>
             {message && <p className="message">{message}</p>}
-            <form className="reset-password-form">
-                <label>Email</label>
+            <form className="reset-password-form" onSubmit={resetPassword}>
+                <label>User Email</label>
                 <input
                     type="email"
                     placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={users_email}
+                    onChange={(e) => setUsersEmail(e.target.value)}
+                    required
                 />
 
-                <label>OTP</label>
+                <label>User ID</label>
                 <input
                     type="text"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter your user ID"
+                    value={users_id}
+                    onChange={(e) => setUsersId(e.target.value)}
+                    required
                 />
 
                 <label>New Password</label>
@@ -76,6 +79,7 @@ function ResetPassword() {
                     placeholder="Enter new password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                 />
 
                 <label>Confirm New Password</label>
@@ -84,9 +88,10 @@ function ResetPassword() {
                     placeholder="Confirm new password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
                 />
 
-                <button onClick={resetPassword} type="submit" className="btn">
+                <button type="submit" className="btn">
                     Reset Password
                 </button>
             </form>

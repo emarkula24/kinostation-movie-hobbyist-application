@@ -5,8 +5,8 @@ GET http://localhost:3001
 POST http://localhost:3001/user/login
 Content-Type: application/json
 
-{ "users_email":"user02@example.com", 
-"users_password":"Password" }
+{ "users_email":"user05@example.com", 
+"users_password":"newPassword" }
 
 ### Login with invalid credentials 
 POST http://localhost:3001/user/login 
@@ -23,6 +23,17 @@ Content-Type: application/json
 {
   "users_email": "user05@example.com",
   "users_password": "Password"
+}
+
+
+### resetpassword
+POST http://localhost:3001/user/resetpassword
+Content-Type: application/json
+
+{
+  "users_email": "user05@example.com",
+  "users_id":3,
+  "new_password": "newPassword"
 }
 
 ### Delete Account with a Valid User ID

@@ -223,168 +223,209 @@ router.delete("/deleteAccount/:userId", async (req, res) => {
     }
 });
 
-router.post("/sendEmail", async (req, res) => {
-    console.log('hello from send email route');
-    let email = req.body.email;
-    if (!email) {
-        return res.status(400).json({ error: "Email is required." });
+// router.post("/sendEmail", async (req, res) => {
+//     console.log('hello from send email route');
+//     let email = req.body.email;
+//     if (!email) {
+//         return res.status(400).json({ error: "Email is required." });
+//     }
+
+//     const result = await pool.query(
+//         "SELECT * FROM users WHERE users_email = $1",
+//         [email]
+//     );
+
+//     if (result.rowCount === 0) {
+//         return res.status(401).json({ error: 'Email not found' });
+//     }
+
+//     let user = result.rows[0];
+
+//     console.log(result.rows[0]);
+
+//     await sendEmail({id: user.users_id , email: user.users_email});
+
+//     res.status(200).json({message: 'Email sent successfully'});
+// });
+
+// async function sendEmail({id, email}){
+//     console.log('email: ', email);
+
+//     // generate 4 didit otp code
+//     const otp = Math.floor(1000 + Math.random() * 9000);
+
+//     console.log('otp: ', otp);
+//     var transporter = nodemailer.createTransport({
+//         service: 'Gmail',
+//         host: "smtp.gmail.com",
+//         port: 465,
+//         secure: true,
+//         auth: {
+//             user: process.env.YOUR_EMAIL_ID_TO_SENT_MAIL,
+//             pass: process.env.YOUR_EMAIL_PASSWORD
+//         }
+//     });
+
+//     var mailOptions = {
+//         from: 'bebibbadnat@gmail.com',
+//         to: email,
+//         subject: 'Sending Email using Node.js',
+//         text: 'Your OTP is: ' + otp
+//     };
+
+//     transporter.sendMail(mailOptions, async function (error, info) {
+//         if (error) {
+//             console.log('error from send email: ', error);
+//         } else {
+//             console.log('Email sent: ' + info.response);
+
+//             let otp_insert_data = await pool.query("INSERT INTO otp (otp_id, otp_users_id, otp_code, otp_created_at, otp_validated) VALUES (DEFAULT, $1, $2, DEFAULT, DEFAULT) RETURNING *", [id, otp]);
+
+//             let otp_table_data = otp_insert_data.rows[0];
+//             console.log('otp_table_data: ', otp_table_data);
+
+//             return true;
+//         }
+//     });
+// }
+
+// router.post("/verifyOtp", async (req, res) => {
+//     let otp = req.body.otp;
+//     let email = req.body.email;
+
+//     if (!otp || !email) {
+//         return res.status(400).json({ error: "Email and OTP is required." });
+//     }
+
+//     const result = await pool.query(
+//         "SELECT * FROM users WHERE users_email = $1",
+//         [email]
+//     );
+
+//     if (result.rowCount === 0) {
+//         return res.status(401).json({ error: 'Email not found' });
+//     }
+
+//     let user = result.rows[0];
+
+//     let otp_result = await pool.query("SELECT * FROM otp WHERE otp_users_id = $1 AND otp_code = $2", [user.users_id, otp]);
+
+//     if (otp_result.rowCount === 0) {
+//         return res.status(401).json({ error: 'Invalid OTP' });
+//     }
+
+//     let otp_data = otp_result.rows[0];
+
+//     let currentDate = new Date();
+
+//     let otp_created_at = new Date(otp_data.otp_created_at);
+
+//     let diff = currentDate - otp_created_at;
+
+//     let diffInMinutes = diff / 60000;
+
+//     if (diffInMinutes > 5) {
+//         return res.status(401).json({ error: 'OTP expired' });
+//     }
+
+//     // change otp_validated to true
+//     let updatedOtp = await pool.query("UPDATE otp SET otp_validated = $1 WHERE otp_id = $2 RETURNING *", [true, otp_data.otp_id]);
+//     console.log('updatedOtp: ', updatedOtp.rows[0]);
+
+//     let userData = {
+//         users_id: user.users_id,
+//         users_email: user.users_email
+//     }
+
+//     res.status(200).json({message: 'OTP verified successfully', userData});
+// })
+
+// router.post("/resetPassword", async (req, res) => {
+//     let password = req.body.password;
+//     let email = req.body.email;
+
+//     if (!password || !email) {
+//         return res.status(400).json({ error: "Email and password is required." });
+//     }
+
+//     const result = await pool.query(
+//         "SELECT * FROM users WHERE users_email = $1",
+//         [email]
+//     );
+
+//     if (result.rowCount === 0) {
+//         return res.status(401).json({ error: 'Email not found' });
+//     }
+
+//     // check if otp is validated and time should not be more than 15 minutes from otp created time
+//     let checkOtp = await pool.query("SELECT * FROM otp WHERE otp_users_id = $1 AND otp_validated = $2", [result.rows[0].users_id, true]);
+
+//     if (checkOtp.rowCount === 0) {
+//         return res.status(401).json({ error: 'OTP not validated' });
+//     }
+
+//     let otp_data = checkOtp.rows[0];
+
+//     let currentDate = new Date();
+
+//     let otp_created_at = new Date(otp_data.otp_created_at);
+
+//     let diff = currentDate - otp_created_at;
+
+//     let diffInMinutes = diff / 60000;
+
+//     if (diffInMinutes > 15) {
+//         return res.status(401).json({ error: 'OTP expired. Not able to change password.' });
+//     }
+
+//     let user = result.rows[0];
+
+//     const hashedPassword = await hash(password, 10);
+
+//     let updatedUser = await pool.query("UPDATE users SET users_password = $1 WHERE users_id = $2 RETURNING *", [hashedPassword, user.users_id]);
+
+//     res.status(200).json({message: 'Password updated successfully'});
+// });
+
+router.post("/resetpassword", async (req, res, next) => {
+    try {
+        const { users_email, users_id, new_password } = req.body;
+
+        // Validate inputs
+        if (!users_email || !users_id || !new_password || new_password.length < 8) {
+            return res.status(400).json({ error: "Invalid input." });
+        }
+
+        const uppercaseRegex = /[A-Z]/;
+        if (!uppercaseRegex.test(new_password)) {
+            return res.status(400).json({ error: "Password must contain at least one uppercase letter." });
+        }
+
+        // Check if the user exists with the given email and ID
+        const userResult = await pool.query(
+            "SELECT * FROM users WHERE users_email = $1 AND users_id = $2",
+            [users_email, users_id]
+        );
+
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        // Hash the new password
+        const hashedPassword = await hash(new_password, 10);
+
+        // Update the user's password
+        await pool.query(
+            "UPDATE users SET users_password = $1 WHERE users_email = $2 AND users_id = $3",
+            [hashedPassword, users_email, users_id]
+        );
+
+        res.status(200).json({ message: "Password has been reset successfully." });
+    } catch (error) {
+        return next(error);
     }
-
-    const result = await pool.query(
-        "SELECT * FROM users WHERE users_email = $1",
-        [email]
-    );
-
-    if (result.rowCount === 0) {
-        return res.status(401).json({ error: 'Email not found' });
-    }
-
-    let user = result.rows[0];
-
-    console.log(result.rows[0]);
-
-    await sendEmail({id: user.users_id , email: user.users_email});
-
-    res.status(200).json({message: 'Email sent successfully'});
 });
 
-async function sendEmail({id, email}){
-    console.log('email: ', email);
 
-    // generate 4 didit otp code
-    const otp = Math.floor(1000 + Math.random() * 9000);
-
-    console.log('otp: ', otp);
-    var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            user: process.env.YOUR_EMAIL_ID_TO_SENT_MAIL,
-            pass: process.env.YOUR_EMAIL_PASSWORD
-        }
-    });
-
-    var mailOptions = {
-        from: 'bebibbadnat@gmail.com',
-        to: email,
-        subject: 'Sending Email using Node.js',
-        text: 'Your OTP is: ' + otp
-    };
-
-    transporter.sendMail(mailOptions, async function (error, info) {
-        if (error) {
-            console.log('error from send email: ', error);
-        } else {
-            console.log('Email sent: ' + info.response);
-
-            let otp_insert_data = await pool.query("INSERT INTO otp (otp_id, otp_users_id, otp_code, otp_created_at, otp_validated) VALUES (DEFAULT, $1, $2, DEFAULT, DEFAULT) RETURNING *", [id, otp]);
-
-            let otp_table_data = otp_insert_data.rows[0];
-            console.log('otp_table_data: ', otp_table_data);
-
-            return true;
-        }
-    });
-}
-
-router.post("/verifyOtp", async (req, res) => {
-    let otp = req.body.otp;
-    let email = req.body.email;
-
-    if (!otp || !email) {
-        return res.status(400).json({ error: "Email and OTP is required." });
-    }
-
-    const result = await pool.query(
-        "SELECT * FROM users WHERE users_email = $1",
-        [email]
-    );
-
-    if (result.rowCount === 0) {
-        return res.status(401).json({ error: 'Email not found' });
-    }
-
-    let user = result.rows[0];
-
-    let otp_result = await pool.query("SELECT * FROM otp WHERE otp_users_id = $1 AND otp_code = $2", [user.users_id, otp]);
-
-    if (otp_result.rowCount === 0) {
-        return res.status(401).json({ error: 'Invalid OTP' });
-    }
-
-    let otp_data = otp_result.rows[0];
-
-    let currentDate = new Date();
-
-    let otp_created_at = new Date(otp_data.otp_created_at);
-
-    let diff = currentDate - otp_created_at;
-
-    let diffInMinutes = diff / 60000;
-
-    if (diffInMinutes > 5) {
-        return res.status(401).json({ error: 'OTP expired' });
-    }
-
-    // change otp_validated to true
-    let updatedOtp = await pool.query("UPDATE otp SET otp_validated = $1 WHERE otp_id = $2 RETURNING *", [true, otp_data.otp_id]);
-    console.log('updatedOtp: ', updatedOtp.rows[0]);
-
-    let userData = {
-        users_id: user.users_id,
-        users_email: user.users_email
-    }
-
-    res.status(200).json({message: 'OTP verified successfully', userData});
-})
-
-router.post("/resetPassword", async (req, res) => {
-    let password = req.body.password;
-    let email = req.body.email;
-
-    if (!password || !email) {
-        return res.status(400).json({ error: "Email and password is required." });
-    }
-
-    const result = await pool.query(
-        "SELECT * FROM users WHERE users_email = $1",
-        [email]
-    );
-
-    if (result.rowCount === 0) {
-        return res.status(401).json({ error: 'Email not found' });
-    }
-
-    // check if otp is validated and time should not be more than 15 minutes from otp created time
-    let checkOtp = await pool.query("SELECT * FROM otp WHERE otp_users_id = $1 AND otp_validated = $2", [result.rows[0].users_id, true]);
-
-    if (checkOtp.rowCount === 0) {
-        return res.status(401).json({ error: 'OTP not validated' });
-    }
-
-    let otp_data = checkOtp.rows[0];
-
-    let currentDate = new Date();
-
-    let otp_created_at = new Date(otp_data.otp_created_at);
-
-    let diff = currentDate - otp_created_at;
-
-    let diffInMinutes = diff / 60000;
-
-    if (diffInMinutes > 15) {
-        return res.status(401).json({ error: 'OTP expired. Not able to change password.' });
-    }
-
-    let user = result.rows[0];
-
-    const hashedPassword = await hash(password, 10);
-
-    let updatedUser = await pool.query("UPDATE users SET users_password = $1 WHERE users_id = $2 RETURNING *", [hashedPassword, user.users_id]);
-
-    res.status(200).json({message: 'Password updated successfully'});
-});
 
 export default router;
