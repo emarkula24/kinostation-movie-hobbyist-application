@@ -59,9 +59,10 @@ function Register() {
 
   return (
     <div className='Container'>
+        <div className='app-container'>
         <div className='app-title'>
-            <BiSolidCoffee className='app-logo'/>
-            <h1>Movie App</h1>
+            {/* <BiSolidCoffee className='app-logo'/> */}
+            <h1>Sign Up!</h1>
         </div>
         <form className='Form'>
             <label className='Label'>Email</label>
@@ -75,7 +76,7 @@ function Register() {
                 <Link to={"/login"}>Sign in</Link>
             </p>
         </form>
-
+        </div>
     </div>
   )
 }

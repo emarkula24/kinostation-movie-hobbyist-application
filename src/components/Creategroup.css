@@ -1,54 +1,98 @@
-/* Flexbox to center content */
 .create-group-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh; /* Full viewport height */
-    background-color: #f9f9f9; /* Light background color */
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  margin-top: 60px;
+  align-items: center;
+  height: 100vh;
+}
+
+.create-group-container h1 {
+  color: white;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.create-group-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 40px 60px ;
+  border-radius: 30px;
+  box-shadow: 0 0 50px 1px rgba(208, 208, 208, 0.1);
+  background-color: rgba(27, 18, 3, 0.7);
+  width: 400px;
+  height: fit-content;
+}
+
+.create-group-form label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.create-group-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 18px;
+  border-radius: 30px;
+  border: none;
+  font-size: 1rem;
+}
+
+
+.create-group-form .form-textarea {
+  width: 90%;
+  height: 150px;
+  padding: 10px;
+  margin-top: 18px;
+  border-radius: 30px;
+  /* color: white; */
+  font-size: 1rem;
+  resize: none;
+  overflow-y: auto;
+}
+
+.create-group-form .form-textarea::placeholder {
+  color: #a0a0a0;
+  font-size: 0.8rem;
+}
+
+.create-group-form button {
+  width: 70%;
+  padding: 10px;
+  margin: 10px auto;
+  border-radius: 30px;
+  border: none;
+  background-color: #7c6a4c;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.create-group-form button:hover {
+  background-color: #404040c7;
+}
+
+.feedback {
+  color: white;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* responsiveness */
+@media screen and (max-width: 768px) {
+  .create-group-container {
+    margin-top: 30px;
   }
   
   .create-group-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem; /* Spacing between form elements */
-    /* background-color: #ffffff; */
-    padding: 2rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 60%;
   }
-  
-  .create-group-form div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .create-group-form label {
-    font-size: 1rem;
-    font-weight: bold;
-  }
-  
-  .create-group-form input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .create-group-form button {
-    padding: 0.75rem;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #007bff; /* Primary button color */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .create-group-form button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-  }
-  
+
+}

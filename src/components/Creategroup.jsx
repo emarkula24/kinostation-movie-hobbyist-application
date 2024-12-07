@@ -113,8 +113,16 @@ function CreateGroup() {
           <input type="text" name="name" ref={nameRef} required />
         </div>
         <div>
+        <div>
           <label>Group Introduction</label>
-          <input type="text" name="introduction" ref={introductionRef} required />
+          <textarea
+            className="form-textarea"
+            name="introduction"
+            ref={introductionRef}
+            required
+            placeholder="Write something about your group..."
+          />
+        </div>
         </div>
         <button type="submit">Submit</button>
       </form>
