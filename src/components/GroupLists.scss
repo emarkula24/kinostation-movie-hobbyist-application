@@ -12,15 +12,25 @@
     align-items: center;
 
     .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        width: 86%;
+        margin: 0 auto;
         @include font-settings($color: $text-light, $size: 2rem, $weight: bold);
-        text-align: left;
-        width: 87%;
-
+    
         .creategroup-button {
             cursor: pointer;
+            background-color: $title-bg;
+            padding: 10px 30px;
+            border-radius: 8px;
+            text-align: center;
+            display: inline-block;
+            @include font-settings($color: $text-light, $size: 1.4rem, $weight: bold);
         }
     }
-
+    
+    
     /* Grid container for the cards */
     .group-list-grid {
         display: grid;

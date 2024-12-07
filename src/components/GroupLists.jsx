@@ -35,7 +35,7 @@ function GroupLists() {
                         }
                     }}
                 >
-                    Create a new group!
+                 <i class="fa-solid fa-plus"></i>   Create a new group! 
                 </div>
             </div>
             <div className="group-list-grid">
