@@ -18,7 +18,7 @@ function Header( { setSelectedMovie }) {
     const [showtimes, setShowtimes] = useState(new Set());
     const [isTyping, setIsTyping] = useState(false);
     const [showResults, setShowResults] = useState(false);  // Controls the visibility of search results
-
+    const url = process.env.REACT_APP_API_UR
     const [burgerMenuIsOpen, setBurgerMenuIsOpen] = useState(false);
 
     const toggleBurgerMenu = () => {
@@ -61,7 +61,7 @@ function Header( { setSelectedMovie }) {
                 // Fetch movies from TMDB
                 const fetchMovies = async () => {
                     try {
-                        const response = await axios.get("http://localhost:3001/movie/search/", {
+                        const response = await axios.get(url + "/movie/search/", {
                             params: {
                                 query
                             },

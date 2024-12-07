@@ -21,7 +21,7 @@ function PublicFavoritesPage() {
   const fetchPublicFavorites = async (userId) => {
     setLoading(true);
     try {
-      const response = await axios.get(url + `/userpage/?users_id=${userId}`);
+      const response = await axios.get(`/userpage/?users_id=${userId}`);
       const favoriteMovies = Array.isArray(response.data) ? response.data : [response.data];
 
       const movieDetailsPromises = favoriteMovies.map(favorite =>
