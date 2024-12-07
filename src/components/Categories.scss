@@ -147,7 +147,7 @@
     position: relative;
     padding: 10px;
     text-align: center;
-    background: linear-gradient(to top, rgba(127, 127, 127, 0.7), rgba(0, 0, 0, 0));
+    background: linear-gradient(to top, $button-color, rgba(0, 0, 0, 0));
     color: white;
 
     h3 {
