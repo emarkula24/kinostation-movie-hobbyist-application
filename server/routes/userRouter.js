@@ -183,6 +183,9 @@ router.delete("/deleteAccount/:userId", async (req, res) => {
 
         // First, delete notifications related to the user's groups
         await pool.query("DELETE FROM notification WHERE notification_group_id IN (SELECT group_id FROM usergroup WHERE group_owner_id = $1 OR group_users_id = $1)", [userId]);
+
+    // Delete notifications related to the user
+        await pool.query("DELETE FROM notification WHERE notification_users_id = $1", [userId]);
         await pool.query("DELETE FROM groupmember WHERE groupmember_group_id IN (SELECT group_id FROM usergroup WHERE group_owner_id = $1 OR group_users_id = $1)", [userId]);
 
         // Now, delete the groups where the user is the member or the owner
