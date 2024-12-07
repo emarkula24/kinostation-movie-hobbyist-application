@@ -100,6 +100,10 @@ function Header( { setSelectedMovie }) {
     const handleMouseEnter = () => {
         setShowResults(true);
     };
+
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const User = user ? user : { users_email: 'Login' };
+
     return (
         <div className='header'>
             <div className='left-header'>
@@ -178,15 +182,20 @@ function Header( { setSelectedMovie }) {
                     navigate('/login'); 
                 }
             }} />
-                <FaUserLarge className='userIcon' onClick={() => {
-                const user = sessionStorage.getItem('user'); 
-                if (user) {
-                    navigate('/user'); 
-                } else {
-                    navigate('/login'); 
-                }
-            }}/>
-                <span>Profile</span>
+            <div className='profile' onClick={() => {
+                    const user = sessionStorage.getItem('user'); 
+                    if (user) {
+                        navigate('/user'); 
+                    } else {
+                        navigate('/login'); 
+                    }
+                }}>
+                <FaUserLarge className='userIcon' />
+                    <span>
+                        {sessionStorage.getItem('user') ? user.users_email.split('@')[0]  : 'Login'}
+                    </span>
+            </div>
+               
             </div>
             <div className="burger-Icon" onClick={toggleBurgerMenu}>
                 <FaBars className='barIcon'/>
