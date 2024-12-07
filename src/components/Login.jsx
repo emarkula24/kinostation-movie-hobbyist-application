@@ -87,49 +87,12 @@ function Login() {
         }
     }
 
-    {/* #testing @bibek will delete this code later */}
-    const removeAccount = async () => {
-        try{
-            const response = await axiosJWT.delete(url + '/user/removeAccount/' + user.users_id,
-            {
-                headers: {
-                    Authorization: `Bearer ${user.accessToken}`
-                }
-            });
-            console.log('response data from delete: ', response.data);
-        }catch(error){
-            console.log('error while delete: ', error);
-        }
-    }
-
-    const logout = async () => {
-        try{
-            const response = await axios.post(url + '/user/logout',
-            {
-                token: user.refreshToken
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${user.accessToken}`
-                }
-            });
-            console.log('response data from logout: ', response.data);
-            setUser(null);
-            sessionStorage.removeItem('user');
-        }catch(error){
-            console.log('error while logout: ', error);
-        }
-    }
-
-    const whatOnSession = () => {
-        console.log('session data: ', sessionStorage.getItem('user'));
-    }
-
   return (
     <div className='Container'>
+        <div className='app-container'>
         <div className='app-title'>
-            <BiSolidCoffee className='app-logo'/>
-            <h1>Movie App</h1>
+            {/* <BiSolidCoffee className='app-logo'/> */}
+            <h1>Sign In!</h1>
         </div>
         <form className='Form'>
             <label className='Label'>Email</label>
@@ -144,12 +107,7 @@ function Login() {
                 <Link to={"/register"}>Register</Link>  
             </p>
         </form>
-
-        {/* #testing @bibek will delete this code later */}
-        {/* <button onClick={removeAccount}>Remove your account</button>
-        <button onClick={logout}>Logout</button>
-        <button onClick={whatOnSession}>session data</button> */}
-
+     </div>
     </div>
   )
 }

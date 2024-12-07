@@ -82,7 +82,7 @@
 
 .MovieCard {
   background-color: $secondary-color;
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -101,7 +101,7 @@
     width: 100%;
     position: relative;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 15px;
 
     img {
       width: 100%;
@@ -143,17 +143,22 @@
   }
 
   .MovieCard_title {
-    padding: 0.5rem;
+    // padding: 0.3rem;
+    position: relative;
+    padding: 10px;
+    text-align: center;
+    background: linear-gradient(to top, rgba(127, 127, 127, 0.7), rgba(0, 0, 0, 0));
+    color: white;
 
     h3 {
-      background-color: $title-bg;
-      @include font-settings($text-light, 1.5rem, bold);
+      // background-color: $title-bg;
+      @include font-settings($text-light, 1rem, bold);
     }
 
     p {
       padding: 0.2rem;
       text-align: center;
-      @include font-settings($text-light, 1.1rem);
+      @include font-settings($text-light, 0.8rem);
     }
   }
 }

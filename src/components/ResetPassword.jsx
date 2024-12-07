@@ -51,53 +51,63 @@ function ResetPassword() {
     };
 
     return (
-        <div className="reset-password-container">
+        <div className="Container">
+            <div className="app-container">
+            <div className="app-title">
             <h1>Reset Password</h1>
+            </div>
+
             {message && <p className="message">{message}</p>}
-            <form className="reset-password-form" onSubmit={resetPassword}>
-                <label>User Email</label>
+            <form className="Form" onSubmit={resetPassword}>
+                <label className='Label'>User Email</label>
                 <input
                     type="email"
                     placeholder="Enter your email"
                     value={users_email}
                     onChange={(e) => setUsersEmail(e.target.value)}
+                    className="form-input"
                     required
                 />
 
-                <label>User ID</label>
+                <label className='Label'>User ID</label>
                 <input
                     type="text"
                     placeholder="Enter your user ID"
                     value={users_id}
                     onChange={(e) => setUsersId(e.target.value)}
+                    className="form-input"
                     required
                 />
 
-                <label>New Password</label>
+                <label className='Label'>New Password</label>
                 <input
                     type="password"
                     placeholder="Enter new password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className='form-input'
                 />
 
-                <label>Confirm New Password</label>
+                <label className='Label'>Confirm New Password</label>
                 <input
                     type="password"
                     placeholder="Confirm new password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
+                    className='form-input'
                 />
 
                 <button type="submit" className="btn">
                     Reset Password
                 </button>
             </form>
-            <p>
-                Remember your password? <Link to="/login">Login here</Link>
-            </p>
+            <p className="remember-password">
+                    Remember your password? <Link to="/login" className="login-link">Login here</Link>
+                </p>
+
+            </div>
         </div>
     );
 }
