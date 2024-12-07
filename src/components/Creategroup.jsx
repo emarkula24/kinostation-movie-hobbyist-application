@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./CreateGroup.css";
+import "./Creategroup.css";
 import axios from "axios";
 
 function CreateGroup() {

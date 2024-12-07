@@ -15,7 +15,7 @@ import UserPage from './components/UserPage';
 import Notifications from './components/Notifications';
 import GroupPage from './components/GroupPage';
 import PublicFavoritesPage from './components/PublicFavoritesPage';
-import CreateGroup from './components/CreateGroup';
+import CreateGroup from './components/Creategroup';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
