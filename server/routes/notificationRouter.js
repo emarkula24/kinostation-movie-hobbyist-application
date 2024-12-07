@@ -3,6 +3,50 @@ import { pool } from "../helpers/db.js";
 
 
 const router = Router(); 
+// get users all owner groups
+router.get('/group/user/:users_id', async (req, res) => {
+    const { users_id } = req.params;
+
+    // Validate input
+    if (!users_id) {
+        return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    try {
+        // Log the users_id to see what is passed in the request
+        console.log('User ID:', users_id);
+
+        // Query to fetch the groups where the user is a member (either owner or in group_users_id)
+        const result = await pool.query(
+            `SELECT
+                usergroup.group_id,
+                usergroup.group_name,
+                usergroup.group_owner_id,
+                usergroup.group_users_id
+            FROM 
+                usergroup
+            WHERE 
+                 group_users_id = $1
+                AND group_owner_id = $2`,
+            [users_id,users_id]  
+        );
+
+        // Log the result to see if the query is returning what you expect
+        console.log('Query result:', result.rows);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'User is not a member of any groups.' });
+        }
+
+        // Return the groups the user is part of
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.error('Error retrieving user groups:', err);
+        res.status(500).json({ error: 'Failed to retrieve user groups.' });
+    }
+});
+
+
 // Create a group and insert the owner as a member
 router.post('/group', async (req, res) => {
     const { group_name, group_users_id, group_owner_id } = req.body;

@@ -6,7 +6,7 @@ POST http://localhost:3001/user/login
 Content-Type: application/json
 
 { "users_email":"user02@example.com", 
-"users_password":"Password123" }
+"users_password":"Password" }
 
 ### Login with invalid credentials 
 POST http://localhost:3001/user/login 
@@ -21,7 +21,7 @@ POST http://localhost:3001/user/register
 Content-Type: application/json
 
 {
-  "users_email": "user45@example.com",
+  "users_email": "user02@example.com",
   "users_password": "Password"
 }
 
@@ -94,31 +94,36 @@ Content-Type: application/json
     "movie_id": 12
 }
 
+### Test - Get Groups for a Specific User
+GET http://localhost:3001/notification/group/user/1
+Accept: application/json
+
+
 ### Create a Group
 POST http://localhost:3001/notification/group
 Content-Type: application/json
 
 {
-    "group_name": "notificationtest",
-    "group_users_id": 1, 
-    "group_owner_id": 1
+    "group_name": "getgrouptest2",
+    "group_users_id": 2, 
+    "group_owner_id": 2
 }
 
 ### Test : Successful request to join a group
-POST http://localhost:3001/notification/group_id/1/join
+POST http://localhost:3001/notification/group_id/5/join
 Content-Type: application/json
 
 {
-  "users_id":2
+  "users_id":1
   }
 
 ### Accept a join request (change status to 'active')
-PUT http://localhost:3001/notification/group_id/1/requests/4
+PUT http://localhost:3001/notification/group_id/5/requests/4
 Content-Type: application/json
 
 {
     "groupmember_status": "active",  
-    "users_id": 1 
+    "users_id": 2
 }
 
 
@@ -133,7 +138,7 @@ Content-Type: application/json
 
 
 ### Fetch notifications for a specific user
-GET http://localhost:3001/notification/users/1
+GET http://localhost:3001/notification/users/2
 Accept: application/json
 
 

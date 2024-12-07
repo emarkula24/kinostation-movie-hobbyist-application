@@ -57,8 +57,8 @@ CREATE TABLE groupmember (
     groupmember_users_id INTEGER,
     groupmember_status VARCHAR(50) CHECK (groupmember_status IN ('active', 'inactive', 'pending')),
     FOREIGN KEY (groupmember_group_id) REFERENCES usergroup(group_id),
-    FOREIGN KEY (groupmember_users_id) REFERENCES "users"(users_id)
-);
+    FOREIGN KEY (groupmember_users_id) REFERENCES "users"(users_id),
+    UNIQUE(groupmember_group_id, groupmember_users_id) )
 
 CREATE TABLE groupmovie (
     groupmovie_id SERIAL PRIMARY KEY,
