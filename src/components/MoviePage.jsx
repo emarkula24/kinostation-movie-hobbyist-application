@@ -230,7 +230,9 @@ function MoviePage() {
             >Reviews</button>
           </div>
 
-          <div className='add-group'>
+          <div className='add-group'
+          onMouseLeave={() => setShowGroups(false)}
+          >
 
             <div className='add-group-title' onClick={handleAddGroup}>
               <IoMdAdd className='addIcon' />
@@ -310,11 +312,12 @@ function MoviePage() {
             <div className='reviews'>
               {reviews.map((review, index) => (
                 <div className='review' key={index}>
-                  <h3>{movie.title}</h3>
-                  <p>{review.review_text}</p>
+                  {/* <h3>{movie.title}</h3> */}
+                  <h3>{review.review_text}</h3>
                   <p>Rating: {review.review_rating}</p>
-                  <p>Created At: {review.review_created_at}</p>
                   <p>Created By: {review.review_users_email}</p>
+                  <p>Created At: {new Date(review.review_created_at).toLocaleString()}</p>
+
                 </div>
               ))}
             </div>
