@@ -5,8 +5,8 @@
 .group-list-item {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    height: 95%;
+    gap: 15px; /* Reduced the gap between the title and the grid */
+    height: auto;
     background-color: $dark-bg;
     padding: 10px;
     align-items: center;
@@ -14,29 +14,31 @@
     .title {
         display: flex;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         width: 86%;
         margin: 0 auto;
         @include font-settings($color: $text-light, $size: 2rem, $weight: bold);
-    
+
         .creategroup-button {
             cursor: pointer;
             background-color: $button-color;
             padding: 10px 30px;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
             display: inline-block;
-            @include font-settings($color: $text-light, $size: 1.4rem, $weight: bold);
+            @include font-settings($color: $text-light, $size: 1rem, $weight: bold);
         }
     }
-    
-    
-    /* Grid container for the cards */
+
+    /* Center the grid and make it responsive */
     .group-list-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-        gap: 20px;
-        align-items: start;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); /* Dynamic grid layout */
+        gap: 5px; /* Reduced the gap between cards */
+        justify-content: center; /* Center the grid */
+        width: 100%;
+        max-width: 80rem; /* Optional: Limit grid width for large screens */
+        padding: 10px;
     }
 
     .groupList-card {
@@ -47,8 +49,9 @@
         flex-direction: column;
         text-align: center;
         transition: transform 0.2s ease-in-out;
-        width: 30rem;
-        height: 10rem;
+        width: 100%; /* Let the grid control the width */
+        height: auto; /* Adjust height dynamically */
+        max-width: 30rem; /* Optional: Limit maximum width for large screens */
         cursor: pointer;
 
         &:hover {
@@ -56,17 +59,36 @@
         }
 
         .groupList-card-title {
-            padding: 30px;
-            height: 30%;
+            padding: 20px;
             @include font-settings($color: $text-light, $size: 1.5rem, $weight: bold);
         }
 
-        .subcription {
+        .subscription {
             text-align: left;
-            background-color: $title-bg;
+            background: linear-gradient(to top, rgba(127, 127, 127, 0.7), rgba(0, 0, 0, 0));
             padding: 10px;
-            height: 20%;
             @include font-settings($color: $text-light, $size: 1rem, $weight: bold);
         }
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .group-list-grid {
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); /* Smaller grid items */
+        gap: 3px; /* Further reduced gap for tablets */
+    }
+    .groupList-card {
+        max-width: 25rem; /* Reduce card width */
+    }
+}
+
+@media (max-width: 768px) {
+    .group-list-grid {
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); /* Smaller items for phones */
+        gap: 2px; /* Tightest gap for small screens */
+    }
+    .groupList-card {
+        max-width: 20rem; /* Smaller card size */
     }
 }

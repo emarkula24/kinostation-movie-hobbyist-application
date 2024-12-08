@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 95%;
+  height: auto;
   background-color: $dark-bg;
   padding: 20px;
 }
@@ -26,33 +26,45 @@
   .scroll-container {
     position: relative;
     display: flex;
-    align-items: center;
-    justify-content: center; 
+    justify-content: center; /* Center the category horizontally */
+    align-items: center; /* Align the content vertically */
     width: 100%;
-    overflow: hidden; /* Hide overflowing items when scrolling */
+    overflow: hidden; /* Hide overflowing content */
   }
 
   .category {
     display: flex;
-    gap: 25px;  
+    gap: 25px;
     padding: 10px;
+    justify-content: center; /* Center movie cards within the container */
     border-radius: 10px;
     scroll-behavior: smooth;
-    justify-content: center; 
-  }
-////
-  /* Default to showing 5 cards */
-  .category {
-    width: calc(17rem * 5 + 25px * 4); /* Space for 5 cards + gaps */
+
+    // Remove fixed width for dynamic centering
+    width: auto;
   }
 
-  /* Media query for small screens */
-  @media (max-width: 768px) {
+  // Default width for larger screens (desktop)
+  .category {
+    max-width: calc(17rem * 5 + 25px * 4); /* Space for 5 cards + gaps */
+  }
+
+  // Media query for tablets (e.g., iPads)
+  @media (max-width: 1024px) {
     .category {
-      width: calc(17rem * 3 + 25px * 2); /* Space for 3 cards + gaps */
+      max-width: calc(17rem * 3 + 25px * 2); /* Space for 3 cards + gaps */
     }
   }
-////
+
+  // Media query for small screens (e.g., phones)
+  @media (max-width: 768px) {
+    .category {
+      max-width: calc(17rem * 2 + 25px); /* Space for 2 cards + gaps */
+      gap: 15px; /* Reduce gap for better spacing */
+    }
+  }
+
+  // Scroll buttons
   .scroll-btn {
     position: absolute;
     top: 50%;
@@ -89,7 +101,7 @@
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  width: 17rem;  /* Default width for 5 cards */
+  width: 17rem; /* Default width for a movie card */
   height: 30rem;
 
   &:hover {
@@ -110,48 +122,15 @@
       background-color: black;
       @include bgConfig;
     }
-
-    .MovieCard_favoriteBtn,
-    .MovieCard_sendtogroupBtn {
-      position: absolute;
-      border-radius: 50%;
-      padding: 0.8rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      cursor: pointer;
-    }
-
-    .MovieCard_favoriteBtn {
-      background-color: #ff6347;
-      bottom: 1rem;
-      right: 0.5rem;
-      &:hover {
-        background-color: darken(#ff6347, 10%);
-      }
-    }
-
-    .MovieCard_sendtogroupBtn {
-      background-color: #f4c430;
-      bottom: 4rem;
-      right: 0.5rem;
-      &:hover {
-        background-color: darken(#f4c430, 10%);
-      }
-    }
   }
 
   .MovieCard_title {
-    // padding: 0.3rem;
-    position: relative;
     padding: 10px;
     text-align: center;
     background: linear-gradient(to top, rgba(127, 127, 127, 0.7), rgba(0, 0, 0, 0));
     color: white;
 
     h3 {
-      // background-color: $title-bg;
       @include font-settings($text-light, 1rem, bold);
     }
 
@@ -159,6 +138,18 @@
       padding: 0.2rem;
       text-align: center;
       @include font-settings($text-light, 0.8rem);
+    }
+  }
+}
+
+// Adjust MovieCard size for smaller screens
+@media (max-width: 768px) {
+  .MovieCard {
+    width: 14rem; /* Smaller width */
+    height: 25rem; /* Smaller height */
+
+    .MovieCard_logo {
+      height: 22rem;
     }
   }
 }
