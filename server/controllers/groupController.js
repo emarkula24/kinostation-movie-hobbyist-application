@@ -1,4 +1,4 @@
-import { selectAllGroups, createGroup, selectGroupById } from "../models/Groups.js";
+import { selectAllGroups, createGroup, selectGroupById, selectGroupMovies } from "../models/Groups.js";
 import { emptyOrRows } from "../helpers/emptyOrRows.js";
 
 const getGroups = async (req, res, next) => {
@@ -39,5 +39,17 @@ const getGroupById = async (req, res, next) => {
     }
 };
 
+const getGroupMovies = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const result = await selectGroupMovies(id);
+        return res.status(200).json(emptyOrRows(result));
+    }
+    catch (error) {
+        console.error("Error fetching group movies:", error.message);
+        return next(error);
+    }
+}
 
-export { getGroups, addGroup, getGroupById };
+
+export { getGroups, addGroup, getGroupById, getGroupMovies }

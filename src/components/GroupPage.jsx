@@ -1,154 +1,3 @@
-// import React from 'react'
-// import './GroupPage.css'
-// import { FiPlus } from "react-icons/fi";
-// import { FaUserNinja } from "react-icons/fa";
-// import { useParams } from "react-router-dom";
-
-
-// function GroupPage() {
-
-//     const { groupId } = useParams(); // Get the groupId from the route params
-
-//     // Mock group data for now, fetch from the backend later
-//     const groups = [
-//         {
-//             id: "1",
-//             title: "DC Fans Group",
-//             description: "A group for all DC comics and movies fans!",
-//             createdBy: "BatmanFan",
-//         },
-//         {
-//             id: "2",
-//             title: "Marvel Fans Group",
-//             description: "For those who love the Marvel Universe.",
-//             createdBy: "IronManRules",
-//         },
-//         {
-//             id: "3",
-//             title: "Star Wars Fans Group",
-//             description: "May the force be with you, always!",
-//             createdBy: "JediMasterYoda",
-//         },
-//     ];
-
-//     const group = groups.find((group) => group.id === groupId);
-
-//     if (!group) {
-//         return <h1>Group not found</h1>;
-//     }
-
-//   return (
-//     <div className='group-container'>
-
-//         <div className='group-card'>
-//             <div className='group-info'>
-//                 <h1>{group.title}</h1>
-//                 <p>{group.description}</p>
-//             </div>
-
-//                 <div className='group-details'>
-//                     <p>Created by: <span>{group.createdBy}</span></p>
-//                     <button>join</button>
-//                 </div> 
-            
-            
-//         </div>
-        
-
-//         <div className='group-content'>
-//             <div className='group-movies'>
-
-//                     <div className='group-movie'>
-//                         <img 
-//                         src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/m5x8D0bZ3eKqIVWZ5y7TnZ2oTVg.jpg" 
-//                         alt="movie poster" />
-//                         <div className='movie-title'>
-//                             <h2>Movie Title</h2>
-//                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero architecto, iste quisquam non cumque iure alias nemo voluptas culpa eum delectus quibusdam dolor dicta esse quod nulla totam provident impedit.</p>
-//                             <div className='group-reviews'>
-//                                 <div className='review-item'>
-//                                     <FiPlus className='addIcon'/>
-//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
-//                                 </div>
-//                                 <div className='review-item'>
-//                                     <FiPlus className='addIcon'/>
-//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     <div className='group-movie'>
-//                         <img 
-//                         src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/m5x8D0bZ3eKqIVWZ5y7TnZ2oTVg.jpg" 
-//                         alt="movie poster" />
-//                         <div className='movie-title'>
-//                             <h2>Movie Title</h2>
-//                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero architecto, iste quisquam non cumque iure alias nemo voluptas culpa eum delectus quibusdam dolor dicta esse quod nulla totam provident impedit.</p>
-//                             <div className='group-reviews'>
-//                                 <div className='review-item'>
-//                                     <FiPlus className='addIcon'/>
-//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
-//                                 </div>
-//                                 <div className='review-item'>
-//                                     <FiPlus className='addIcon'/>
-//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     <div className='group-movie'>
-//                         <img 
-//                         src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/m5x8D0bZ3eKqIVWZ5y7TnZ2oTVg.jpg" 
-//                         alt="movie poster" />
-//                         <div className='movie-title'>
-//                             <h2>Movie Title</h2>
-//                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero architecto, iste quisquam non cumque iure alias nemo voluptas culpa eum delectus quibusdam dolor dicta esse quod nulla totam provident impedit.</p>
-//                             <div className='group-reviews'>
-//                                 <div className='review-item'>
-//                                     <FiPlus className='addIcon'/>
-//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
-//                                 </div>
-//                                 <div className='review-item'>
-//                                     <FiPlus className='addIcon'/>
-//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-                
-//             </div>
-
-//             <div className='group-members'>
-//                 <h2>Members</h2>
-//                 <ul>
-//                     <li>
-//                         <FaUserNinja className='userIcon'/>
-//                         Member 1
-//                     </li>
-//                     <li>
-//                         <FaUserNinja className='userIcon'/>
-//                         Member 2
-//                     </li>
-//                     <li>
-//                         <FaUserNinja className='userIcon'/>
-//                         Member 4
-//                     </li>
-//                     <li>
-//                         <FaUserNinja className='userIcon'/>
-//                         Member 5
-//                     </li>
-//                 </ul>
-//             </div>
-//         </div>
-        
-//     </div>
-//   )
-// }
-
-// export default GroupPage
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -157,6 +6,9 @@ import "./GroupPage.css";
 function GroupPage() {
     const { groupId } = useParams();
     const [group, setGroup] = useState(null);
+    const [members, setMembers] = useState(null);
+    const [groupMovies, setGroupMovies] = useState(null);
+    const [movies , setMovies] = useState([]);
 
     useEffect(() => {
         console.log("Fetching group with ID:", groupId); // Debug log
@@ -174,6 +26,22 @@ function GroupPage() {
         };
         fetchGroup();
     }, [groupId]);
+
+    useEffect(() => {
+        const fetchMovies = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_URL}/groups/${groupId}/movies`
+                );
+                setMovies(response.data); // Assuming the response is an array
+                console.log("Fetched movies:", response.data);
+            } catch (error) {
+                console.error("Error fetching movies:", error);
+            }
+        };
+        fetchMovies();
+    }, [groupId]);
+    
 
     if (!group) {
         return <h1>Loading group details...</h1>;
@@ -196,21 +64,61 @@ function GroupPage() {
 
             <div className="group-content">
                 <div className="group-movies">
-                    {group.movies && group.movies.length > 0 ? (
-                        group.movies.map((movie) => (
-                            <div className="group-movie" key={movie.id}>
-                                <img src={movie.poster_url} alt={movie.title} />
-                                <div className="movie-title">
-                                    <h2>{movie.title}</h2>
-                                    <p>{movie.description}</p>
-                                </div>
+                {movies.length > 0 ? (
+                    movies.map((movie) => (
+                        <div className="group-movie" key={movie.movie_id}>
+                            <img src={movie.movie_image} alt={movie.movie_title} />
+                            <div className="movie-title">
+                                <h2>{movie.movie_title}</h2>
+                                <p>{movie.movie_description}</p>
                             </div>
-                        ))
-                    ) : (
-                        <p>No movies available for this group.</p>
-                    )}
+                        </div>
+                    ))
+                ) : (
+                    <p>No movies available for this group.</p>
+                )}
                 </div>
             </div>
+
+            {/* commented this to compare when it was hardcoded */}
+                        {/* <div className='group-movie'> commented this to  */ } 
+{/* //                         <div className='movie-title'> 
+//                             <h2>Movie Title</h2>
+//                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero architecto, iste quisquam non cumque iure alias nemo voluptas culpa eum delectus quibusdam dolor dicta esse quod nulla totam provident impedit.</p>
+//                             <div className='group-reviews'>
+//                                 <div className='review-item'>
+//                                     <FiPlus className='addIcon'/>
+//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
+//                                 </div>
+//                                 <div className='review-item'>
+//                                     <FiPlus className='addIcon'/>
+//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     </div> */}
+
+                    {/* <div className='group-members'>
+                                    <h2>Members</h2>
+                                    <ul>
+                                        <li>
+                                            <FaUserNinja className='userIcon'/>
+                                            Member 1
+                                        </li>
+                                        <li>
+                                            <FaUserNinja className='userIcon'/>
+                                            Member 2
+                                        </li>
+                                        <li>
+                                            <FaUserNinja className='userIcon'/>
+                                            Member 4
+                                        </li>
+                                        <li>
+                                            <FaUserNinja className='userIcon'/>
+                                            Member 5
+                                        </li>
+                                    </ul>
+                                </div> */}
         </div>
     );
 }

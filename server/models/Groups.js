@@ -19,16 +19,6 @@ const createGroup = async (group_users_id, group_name, group_owner_id,group_intr
     )
 }
 
-
-// const selectGroupById = async (groupId) => {
-//     const query = `
-//         SELECT * FROM usergroup
-//         WHERE group_id = $1;
-//     `;
-//     const values = [groupId];
-//     return pool.query(query, values);
-// }
-
 const selectGroupById = async (groupId) => {
     const query = `
         SELECT 
@@ -49,5 +39,21 @@ const selectGroupById = async (groupId) => {
     return pool.query(query, values);
 }
 
+const selectGroupMovies = async (groupId) => {
+    return pool.query(`
+        SELECT
+            movie.movie_id,
+            movie.movie_title,
+            movie.movie_description,
+            movie.movie_image
+        FROM
+            groupmovie
+        INNER JOIN
+            movie ON groupmovie.groupmovie_movie_id = movie.movie_id
+        WHERE
+            groupmovie.groupmovie_group_id = $1;
+    `, [groupId])
+}
 
-export { selectAllGroups, createGroup, selectGroupById };
+
+export { selectAllGroups, createGroup, selectGroupById, selectGroupMovies };
