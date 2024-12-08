@@ -23,10 +23,10 @@
             cursor: pointer;
             background-color: $button-color;
             padding: 10px 30px;
-            border-radius: 8px;
+            border-radius: 30px;
             text-align: center;
             display: inline-block;
-            @include font-settings($color: $text-light, $size: 1.4rem, $weight: bold);
+            @include font-settings($color: $text-light, $size: 1.2rem, $weight: bold);
         }
     }
     
@@ -37,11 +37,12 @@
         grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
         gap: 20px;
         align-items: start;
+        color: white;
     }
 
     .groupList-card {
         background-color: $secondary-color;
-        border-radius: 8px;
+        border-radius: 15px;
         overflow: hidden;
         display: flex;
         flex-direction: column;

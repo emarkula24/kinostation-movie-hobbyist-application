@@ -1,6 +1,6 @@
 @media (max-width: 600px) {
     .reviews {
-        grid-template-columns: 1fr; /* Single column on small screens */
+        grid-template-columns: 1fr;
     }
 }
 
@@ -11,9 +11,7 @@
     justify-content: center;
     padding: 20px 0px;
     width: 100%;
-    /* height: 90%; */
     height: fit-content;
-    /* background-color: aqua; */
     background-color: #21201E;
 }
 
@@ -22,10 +20,8 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    /* background-color: rgb(235, 177, 105); */
     padding-top: 10px;
     width: 70%;
-    /* height: 100%; */
     gap: 100px;
     color: #fff;
     height: fit-content;
@@ -34,6 +30,7 @@
 .movie-info > img {
     width: 35%;
     height: 450px;
+    border-radius: 20px;
 }
 
 .movie-details {
@@ -59,7 +56,7 @@ h1 {
 .btns {
     display: flex;
     flex-direction: row;
-    gap: 5px;
+    gap: 2px;
 }
 
 .btns > button {
@@ -68,16 +65,16 @@ h1 {
     padding: 5px;
     cursor: pointer;
     font-size: 0.9rem;
+    border: none;
+    border-radius: 30px;
 }
 
 .btns > button.active {
-    background-color: rgb(113, 255, 255);
+    background-color: rgb(89, 226, 226);
 }
 
 .add-group {
     display: flex;
-
-
     font-weight: bold;
     position: relative;
     cursor: pointer;
@@ -98,21 +95,20 @@ h1 {
 
 .groups-options {
     position: absolute;
-    display:flex;
+    display: flex;
     flex-direction: column;
-    top: 100%; 
+    top: 100%;
     width: 50%;
     padding: 10px;
     align-items: center;
     justify-content: center;
-    background-color: #353535;
     color: #fff;
     border-radius: 5px;
     max-height: 300px;
     overflow-y: auto;
-    z-index: 1; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
+    z-index: 1;
     gap: 10px;
+    /* background-color: transparent; */
 }
 
 .groups-item {
@@ -122,8 +118,8 @@ h1 {
     font-weight: bold;
     padding: 10px;
     background-color: #acacac;
-    border-radius: 10px;
-    width: 70%;
+    border-radius: 30px;
+    width: 90%;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -147,9 +143,7 @@ h1 {
     gap: 20px;
     padding: 20px 0px;
     width: 70%;
-
     color: #fff;
-    /* background-color: rgb(115, 170, 170); */
 }
 
 .dates-btns {
@@ -158,8 +152,6 @@ h1 {
     gap: 3px;
     width: 50%;
     border-radius: 20px;
-    /* padding-left: 20px; */
-    
 }
 
 .dates-btns > button {
@@ -200,23 +192,29 @@ h1 {
 }
 
 .theatre {
+    background-color: rgb(229, 229, 229); 
+    color: #353131;
+    border-radius: 20px;
+    padding: 15px 20px;
     display: flex;
     flex-direction: column;
     gap: 7px;
-    background-color: rgb(200, 199, 199);
-    border-radius: 20px;
-    color: #353131;
-    padding: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.2s, box-shadow 0.2s; 
 }
 
 .theatre > h3 {
-    padding-left: 10px;
+    font-size: 1.3rem; 
+    font-weight: bold; 
+    margin-bottom: 10px; 
 }
 
 .theatre > .times {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; 
+    gap: 10px; 
 }
+
 
 .times {
     display: flex;
@@ -224,16 +222,17 @@ h1 {
     gap: 10px;
 }
 
-.theatre > button {
+.theatre  button {
     width: 10%;
     height: 30px;
     cursor: pointer;
-    color: #4f4f4f;
-    
+    border-radius: 20px;
+    border: none;
+    background-color: #cfcece;
 }
 
-.theatre > button:hover {
-    background-color: #acacac;
+.theatre  button:hover {
+    background-color: #8c8c8c;
 }
 
 .reviews-container {
@@ -307,7 +306,6 @@ h1 {
     background-color: #545454;
 }
 
-
 .create-review > button {
     width: 10%;
     border: none;
@@ -324,49 +322,115 @@ h1 {
 
 .reviews {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     padding: 20px 0;
     width: 100%;
     color: #fff;
-    margin: 0 auto; /* Center the container */
+    margin: 0 auto;
 }
 
 .review {
-    background-color: rgb(200, 199, 199);
+    background-color: rgb(229, 229, 229);
     border-radius: 20px;
     color: #353131;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 7px;
 }
 
-/* WIll fix this more to make it more responsive */
-@media (max-width: 700px) {
-    .movie-info,
-    .showtimes {
-      width: 90%;
-      flex-direction: column;
-      align-items: center;
+.review > h3 {
+    font-size: 1.3rem;
+}
+
+@media (max-width: 600px) {
+    .movie-container {
+        padding: 20px;
     }
-  
+
+    .movie-info {
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+    }
+
     .movie-info > img {
-      width: 100%;
-      height: auto;
+        width: 200px;
+        height: auto;
     }
-  }
-  
-  @media (max-width: 600px) {
-    .movie-info,
+
+    .movie-details {
+        width: 90%;
+        gap: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .btns > button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .dates-btns {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .dates-btns > button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
     .showtimes {
-      width: 90%;
-      flex-direction: column;
-      align-items: center;
+        width: 100%;
     }
-  
-    .movie-info > img {
-      width: 100%;
-      height: auto;
+
+    .theatres {
+        gap: 15px;
     }
-  }
+
+    .theatre {
+        padding: 15px;
+    }
+
+    .reviews-container {
+        width: 100%;
+    }
+
+    .reviews-head {
+        width: 90%;
+    }
+
+    .review-title {
+        font-size: 0.8rem;
+    }
+
+    .reviews {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .review {
+        padding: 15px;
+        max-width: 80%;
+    }
+
+    .review > h3 {
+        font-size: 1.2rem;
+    }
+
+    .create-review {
+        gap: 10px;
+    }
+
+    .create-review > button {
+        width: 30%;
+    }
+}
+
+.groups-options {
+    background-color: #21201E !important;;
+}
