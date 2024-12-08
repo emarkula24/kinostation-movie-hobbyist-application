@@ -66,11 +66,11 @@ function GroupPage() {
                 <div className="group-movies">
                 {movies.length > 0 ? (
                     movies.map((movie) => (
-                        <div className="group-movie" key={movie.movie_id}>
+                        <div className="group-movie" key={movie.groupmovie_id}>
                             <img src={movie.movie_image} alt={movie.movie_title} />
                             <div className="movie-title">
                                 <h2>{movie.movie_title}</h2>
-                                <p>{movie.movie_description}</p>
+                                {/* <p>{movie.movie_description}</p> */}
                             </div>
                         </div>
                     ))
