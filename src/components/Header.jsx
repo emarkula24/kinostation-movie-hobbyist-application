@@ -127,14 +127,14 @@ function Header( { setSelectedMovie }) {
                         <li onClick={
                             (e) => {
                                 e.preventDefault();
-                                window.location.href = '/Reviews';
+                                navigate('/Reviews');
                             }}>
                             Reviews
                         </li>
                         <li onClick={
                             (e) => {
                                 e.preventDefault();
-                                window.location.href = '/Showtimes';
+                                navigate('/Showtimes');
                             }}>
                             Showtimes
                         </li>
@@ -211,7 +211,7 @@ function Header( { setSelectedMovie }) {
                             <li onClick={
                                 (e) => {
                                     e.preventDefault();
-                                    window.location.href = '/Showtimes';
+                                    navigate("/showtimes");
                                 }
                             }>Showtimes</li>
                         </ul>
