@@ -10,19 +10,17 @@ function CreateGroup() {
   const nameRef = useRef();
   const introductionRef = useRef();
 
-  const [feedback, setFeedback] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser)); 
+      setUser(JSON.parse(storedUser));
     } else {
-      navigate("/login"); 
+      navigate("/login");
     }
   }, [navigate]);
-
-  //Handle form submission
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,80 +29,43 @@ function CreateGroup() {
     const introduction = introductionRef.current.value;
 
     if (!user) {
-        setFeedback("You must be logged in to create a group.");
-        return;
+      showSuccessMessage("You must be logged in to create a group.");
+      return;
     }
-
 
     try {
-        const response = await axios.post(`${url}/groups/creategroup`, {
-            group_name: name, 
-            group_users_id: user.users_id, 
-            group_owner_id: user.users_id, 
-            group_introduction: introduction, 
-        });
+      const response = await axios.post(`${url}/groups/creategroup`, {
+        group_name: name,
+        group_users_id: user.users_id,
+        group_owner_id: user.users_id,
+        group_introduction: introduction,
+      });
 
-        console.log("Group created successfully:", response.data);
+      console.log("Group created successfully:", response.data);
 
-        setFeedback("Group created successfully!");
-         // Redirect to the group page after successful group creation
-       navigate(`/group/${response.data.group.group_id}`); // This is where the redirection happens
+      showSuccessMessage("Group created successfully!");
+      setTimeout(() => {
+        navigate(`/group/${response.data.group.group_id}`);
+      }, 2000);
 
-        // Clear the form
-        nameRef.current.value = "";
-        introductionRef.current.value = "";
+      // Clear the form
+      nameRef.current.value = "";
+      introductionRef.current.value = "";
     } catch (error) {
-        console.error("Error creating group:", error);
+      console.error("Error creating group:", error);
 
-        setFeedback(
-            error.response?.data?.error || "Failed to create group. Try again later."
-        );
+      showSuccessMessage(
+        error.response?.data?.error || "Failed to create group. Try again later."
+      );
     }
-};
+  };
 
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault(); 
-
-  //   const name = nameRef.current.value;
-  //   const introduction = introductionRef.current.value;
-
-  //   if (!user) {
-  //     setFeedback("You must be logged in to create a group.");
-  //     return;
-  //   }
-
-  //   console.log("Submitting group with data:", {
-  //     name,
-  //     users_id: user.users_id, 
-  //     owner_id: user.users_id, 
-  //     introduction
-  //   });
-
-  //   try {
-  //     const response = await axios.post(url + "/groups/creategroup", {
-  //       group_name: name,           
-  //       group_users_id: user.users_id,
-  //       group_owner_id: user.users_id,
-  //       group_introduction: introduction
-  //     });
-
-
-  //     console.log("Group created successfully:", response.data);
-
-  //     setFeedback("Group created successfully!");
-
-  //       // Clear the form
-  //     nameRef.current.value = "";
-  //     introductionRef.current.value = "";
-  //   } catch (error) {
-  //     console.error("Error creating group:", error);
-
-  //     setFeedback(
-  //       error.response?.data?.error || "Failed to create group. Try again later."
-  //     );
-  //   }
-  // };
+  const showSuccessMessage = (message) => {
+    setSuccessMessage(message);
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 2000);
+  };
 
   return (
     <div className="create-group-container">
@@ -115,7 +76,6 @@ function CreateGroup() {
           <input type="text" name="name" ref={nameRef} required />
         </div>
         <div>
-        <div>
           <label>Group Introduction</label>
           <textarea
             className="form-textarea"
@@ -125,11 +85,10 @@ function CreateGroup() {
             placeholder="Write something about your group..."
           />
         </div>
-        </div>
         <button type="submit">Submit</button>
       </form>
-      {/* Display feedback */}
-      {feedback && <p className="feedback">{feedback}</p>}
+      {/* Display success message popup */}
+      {successMessage && <div className="success-popup">{successMessage}</div>}
     </div>
   );
 }
