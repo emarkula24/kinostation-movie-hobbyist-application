@@ -47,6 +47,7 @@ The PostgreSQL database schema consists of the following tables:
 
 ![database diagram](./db_diagram.png)
 
+
 ## 💭 How can it be improved?
 
 - **🔍 Search**: Implement a more advanced search feature, allowing users to search by actor, director, and more.
