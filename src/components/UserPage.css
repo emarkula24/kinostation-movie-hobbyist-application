@@ -1,3 +1,12 @@
+.page-container {
+  background: conic-gradient(from 12.78deg at 28.99% 107.28%, 
+    rgba(25, 24, 23, 0.8) 0deg,  
+    rgba(99, 91, 72, 0.7) 120deg, 
+    rgba(25, 24, 23, 0.8) 260deg, 
+    rgba(69, 62, 56, 0.9) 360deg);
+}
+
+
 .user-page {
   max-width: 1000px;
   margin: 0 auto;
@@ -37,7 +46,7 @@
 }
 
 .logout-button {
-  background-color: #333;
+  background-color: rgba(92, 91, 91, 0.5); 
   color: white;
   border: none;
   border-radius: 5px;
@@ -112,7 +121,7 @@
 
 /* Favorite card container */
 .favorite-card {
-  background-color: #37312A;
+  background-color: rgba(55, 49, 42, 0.5);
   border: 2px solid #a7a7a7;
   border-radius: 10px;
   display: flex;
@@ -128,7 +137,7 @@
 
 .favorite-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
 }
 
 .favorite-icon {

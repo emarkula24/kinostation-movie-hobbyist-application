@@ -57,6 +57,7 @@ function PublicFavoritesPage() {
 
 
   return (
+    <div className="page-container">
     <div className="public-favorites-page">
       <h1>User_ID:{userId}'s Favorite List</h1> 
       {loading ? (
@@ -87,6 +88,7 @@ function PublicFavoritesPage() {
         <p>This user has no favorites yet.</p>
       )}
     </div>
+  </div>
   );
 }
 
