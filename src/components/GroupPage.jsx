@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./GroupPage.css";
 import { FaUserNinja } from "react-icons/fa"; 
@@ -12,6 +12,7 @@ function GroupPage() {
     const [movies , setMovies] = useState([]);
     const [joinStatus, setJoinStatus] = useState(""); // State for feedback messages
     const [user, setUser] = useState(null); // State to hold user data
+    const navigate = useNavigate();
    
 
     useEffect(() => {
@@ -88,12 +89,30 @@ function GroupPage() {
             setJoinStatus(error.response?.data?.error || "Failed to join group.");
         }
     };
-    
-    
+
+
+    // Function to handle group deletion
+    const handleDeleteGroup = async () => {
+        try {
+            const response = await axios.delete(
+                `${process.env.REACT_APP_API_URL}/groups/${groupId}`,
+                { data: { user_id: user.users_id } }  // Send user_id to verify authorization
+            );
+            console.log("Group deleted:", response.data);
+             // Show success alert
+        alert("Group deleted successfully!");
+            // Redirect to homepage after successful deletion
+            navigate('/');  // This will redirect to the homepage
+        } catch (error) {
+            console.error("Error deleting group:", error);
+            alert(error.response?.data?.error || "Failed to delete group.");
+        }
+    };
 
     if (!group) {
         return <h1>Loading group details...</h1>;
     }
+
 
     return (
         <div className="group-container">
@@ -106,6 +125,13 @@ function GroupPage() {
                     <p>
                         Created by: <span>{group.group_owner_email.split('@')[0]}</span> 
                     </p>
+                     {/* Show the Delete button only if the user is the owner */}
+                     {user && user.users_id === group.group_owner_id && (
+                        <button onClick={handleDeleteGroup} className="delete-button">
+                            Delete Group
+                        </button>
+                    )}
+
                     <button onClick={handleJoinGroup}>Join</button>
                     {joinStatus && <p className="join-status">{joinStatus}</p>}
 

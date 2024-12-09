@@ -86,5 +86,64 @@ router.post('/creategroup', async (req, res) => {
     }
 });
 
+// Delete a group
+router.delete('/:group_id', async (req, res) => {
+    const { group_id } = req.params;
+
+    // Validate group_id
+    if (!group_id) {
+        return res.status(400).json({ error: 'Group ID is required' });
+    }
+
+    try {
+        // 1. Remove notifications that reference the group members in the notification table
+        const removeNotificationsResult = await pool.query(
+            'DELETE FROM notification WHERE notification_group_id =$1 RETURNING *',
+            [group_id]
+        );
+
+        // Optionally log removed notifications
+        console.log('Removed notifications:', removeNotificationsResult.rowCount);
+
+        // 2. Remove all members from the group in the groupmember table
+        const removeMembersResult = await pool.query(
+            'DELETE FROM groupmember WHERE groupmember_group_id = $1 RETURNING *',
+            [group_id]
+        );
+
+        if (removeMembersResult.rowCount === 0) {
+            return res.status(400).json({ error: 'No members found for this group or group does not exist.' });
+        }
+
+        // 3. Now, delete the group from the usergroup table
+        const deleteGroupResult = await pool.query(
+            'DELETE FROM usergroup WHERE group_id = $1 RETURNING *',
+            [group_id]
+        );
+
+        if (deleteGroupResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Group not found' });
+        }
+
+        // 4. Return success message
+        res.status(200).json({
+            message: 'Group and its members, along with related notifications, deleted successfully.',
+            group_id: group_id
+        });
+
+    } catch (err) {
+        console.error('Error deleting group:', err);
+
+        // Handle specific error codes
+        if (err.code === '23503') {
+            res.status(400).json({ error: 'Foreign key constraint violation: Unable to delete group with existing members or notifications.' });
+        } else {
+            res.status(500).json({ error: 'Failed to delete group.' });
+        }
+    }
+});
+
+
+
 
 export default router

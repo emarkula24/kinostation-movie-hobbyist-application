@@ -162,7 +162,10 @@ Content-Type: application/json
     "password": "newpassword"
 }
 
-
 ### Retrieve all members of a group
 GET http://localhost:3001/groups/group_id/1/members
+Content-Type: application/json
+
+### Delete a group
+DELETE http://localhost:3001/groups/10
 Content-Type: application/json
