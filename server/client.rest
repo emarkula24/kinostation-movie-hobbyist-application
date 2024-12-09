@@ -177,3 +177,11 @@ Content-Type: application/json
 {
     "user_id": 5
 }
+
+### Leave Group (for a member who is not the owner)
+DELETE http://localhost:3001/groups/leave/13/member/1
+Content-Type: application/json
+
+{
+  "user_id": 1
+}

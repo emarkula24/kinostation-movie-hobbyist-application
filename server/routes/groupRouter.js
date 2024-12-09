@@ -203,6 +203,54 @@ router.delete('/:group_id/member/:member_id', async (req, res) => {
     }
 });
 
+// Remove a member from the group (any member can leave, but not the owner)
+router.delete('/leave/:group_id/member/:user_id', async (req, res) => {
+    const { group_id, user_id } = req.params;
+
+    try {
+        // Check if the group exists
+        const groupResult = await pool.query(
+            'SELECT * FROM usergroup WHERE group_id = $1',
+            [group_id]
+        );
+
+        if (groupResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Group not found' });
+        }
+
+        const groupOwnerId = groupResult.rows[0].group_owner_id;
+
+        // Prevent the group owner from leaving the group
+        if (parseInt(user_id) === groupOwnerId) {
+            return res.status(403).json({ error: 'The owner cannot leave the group.' });
+        }
+
+        // Delete notifications referencing the groupmember
+        await pool.query(
+            'DELETE FROM notification WHERE notification_groupmember_id = (SELECT groupmember_id FROM groupmember WHERE groupmember_group_id = $1 AND groupmember_users_id = $2 LIMIT 1)',
+            [group_id, user_id]
+        );
+
+        // Remove the member from the group
+        const removeMemberResult = await pool.query(
+            'DELETE FROM groupmember WHERE groupmember_group_id = $1 AND groupmember_users_id = $2 RETURNING *',
+            [group_id, user_id]
+        );
+
+        if (removeMemberResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Member not found in this group' });
+        }
+
+        // Return success response
+        res.status(200).json({
+            message: 'You have successfully left the group.',
+            removedMember: removeMemberResult.rows[0],
+        });
+    } catch (err) {
+        console.error('Error removing member:', err);
+        res.status(500).json({ error: 'Failed to remove member from group' });
+    }
+});
 
 
 export default router

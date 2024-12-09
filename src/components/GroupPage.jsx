@@ -13,7 +13,9 @@ function GroupPage() {
     const [joinStatus, setJoinStatus] = useState(""); // State for feedback messages
     const [user, setUser] = useState(null); // State to hold user data
     const navigate = useNavigate();
-   
+    const [isMember, setIsMember] = useState(false); // Track if the user is a member
+    const [statusMessage, setStatusMessage] = useState(""); // Unified status message state
+
 
     useEffect(() => {
         console.log("Fetching group with ID:", groupId); // Debug log
@@ -41,15 +43,25 @@ function GroupPage() {
                 );
                 setMembers(response.data.members); // Assuming the response contains a `members` array
                 console.log("Fetched group members:", response.data.members);
+
+                  // Check if the current user is in the members list
+                  if (user) {
+                    const isUserMember = response.data.members.some(
+                        (member) => member.groupmember_users_id === user.users_id
+                    );
+                    setIsMember(isUserMember);
+                }
             } catch (error) {
-                console.error("Error fetching group members:", error);
+                console.error("Error fetching group details:", error);
             }
         };
+
+        
 
         if (groupId) {
             fetchMembers();
         }
-    }, [groupId]);
+    }, [groupId, user]);
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -90,6 +102,22 @@ function GroupPage() {
         }
     };
 
+    const handleLeaveGroup = async () => {
+        try {
+            const response = await axios.delete(
+                `${process.env.REACT_APP_API_URL}/groups/leave/${groupId}/member/${user.users_id}`
+            );
+            setStatusMessage("You have successfully left the group.");
+            setIsMember(false);
+             // Re-fetch the group data, members, and movies after leaving
+        setGroup(null); // Trigger re-fetch of the group
+        setMembers([]); // Clear the members list temporarily to trigger the refet
+        navigate('/'); // This will redirect to the homepage
+        } catch (error) {
+            console.error("Error leaving group:", error);
+            setStatusMessage(error.response?.data?.error || "Failed to leave group.");
+        }
+    };
 
     // Function to handle group deletion
     const handleDeleteGroup = async () => {
@@ -108,6 +136,7 @@ function GroupPage() {
             alert(error.response?.data?.error || "Failed to delete group.");
         }
     };
+
      // Function to handle removing a member from the group
      const handleRemoveMember = async (memberId) => {
         try {
@@ -147,8 +176,20 @@ function GroupPage() {
                             Delete Group
                         </button>
                     )}
-
-                    <button onClick={handleJoinGroup}>Join</button>
+                    {user && user.users_id === group.group_owner_id ? (
+                        <p>You are the group owner.</p>
+                    ) : (
+                        isMember ? (
+                            <button onClick={handleLeaveGroup} className="leave-button">
+                                Leave Group
+                            </button>
+                        ) : (
+                            <button onClick={handleJoinGroup} className="join-button">
+                                Join Group
+                            </button>
+                        )
+                    )}
+                    {statusMessage && <p className="status-message">{statusMessage}</p>}
                     {joinStatus && <p className="join-status">{joinStatus}</p>}
 
                 </div>
@@ -180,12 +221,12 @@ function GroupPage() {
                                     <p>
                                         <FaUserNinja className='userIcon'/>
                                         ID: {member.groupmember_users_id}, Status: {member.groupmember_status}
-                                       {/* Only show the remove button if the member is not the group owner */}
-                            {member.groupmember_users_id !== group.group_owner_id && (
-                                <button onClick={() => handleRemoveMember(member.groupmember_users_id)}>
-                                    Remove
-                                </button>
-                            )}
+                                        {/* Only show the remove button if the user is the group owner */}
+                                {user && user.users_id === group.group_owner_id && member.groupmember_users_id !== group.group_owner_id && (
+                                    <button onClick={() => handleRemoveMember(member.groupmember_users_id)}>
+                                        Remove
+                                    </button>
+                                )}
                                     </p>
                                 </li>
                             ))}
@@ -193,46 +234,6 @@ function GroupPage() {
                 </div> 
 
           
-
-            {/* commented this to compare when it was hardcoded */}
-                        {/* <div className='group-movie'> commented this to  */ } 
-{/* //                         <div className='movie-title'> 
-//                             <h2>Movie Title</h2>
-//                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero architecto, iste quisquam non cumque iure alias nemo voluptas culpa eum delectus quibusdam dolor dicta esse quod nulla totam provident impedit.</p>
-//                             <div className='group-reviews'>
-//                                 <div className='review-item'>
-//                                     <FiPlus className='addIcon'/>
-//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
-//                                 </div>
-//                                 <div className='review-item'>
-//                                     <FiPlus className='addIcon'/>
-//                                     <p>Lorem ipsum dolor sit amet consectetur ad tur adipisicing elit. </p>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div> */}
-
-                    {/* <div className='group-members'>
-                                    <h2>Members</h2>
-                                    <ul>
-                                        <li>
-                                            <FaUserNinja className='userIcon'/>
-                                            Member 1
-                                        </li>
-                                        <li>
-                                            <FaUserNinja className='userIcon'/>
-                                            Member 2
-                                        </li>
-                                        <li>
-                                            <FaUserNinja className='userIcon'/>
-                                            Member 4
-                                        </li>
-                                        <li>
-                                            <FaUserNinja className='userIcon'/>
-                                            Member 5
-                                        </li>
-                                    </ul>
-                                </div> */}
         </div>
     );
 }
