@@ -17,7 +17,7 @@ Discover movies with detailed info, and ratings. Share your thoughts, rate films
 - [Erik Markula]() : BackEnd Development | DevOps
 - [Xuanyu Liu]() : BackEnd Development
 - [Jane]() : FrontEnd Development | UI/UX Design
-- [Bao Nguyen]() : FrontEnd Development
+- [Bao Nguyen]() : FrontEnd Development | UI/UX Design
 - [Bibek ]() : BackEnd Development
 
 ## 🌟 Features
