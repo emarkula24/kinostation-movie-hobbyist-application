@@ -43,6 +43,13 @@
     object-fit: cover;
 }
 
+.review-content {
+    max-width: 300px;   
+    word-wrap: break-word;
+}
+
+
+
 /* Review text details */
 .reviews-main > ul > li > h3 {
     font-size: 1.4rem;
@@ -53,6 +60,7 @@
     font-size: 1rem;
     line-height: 1.5;
 }
+
 
 /* Movie Details Section */
 .reviews-main > ul > li > div {

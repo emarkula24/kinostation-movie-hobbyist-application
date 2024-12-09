@@ -55,7 +55,7 @@ function Reviews() {
             <h3>{review.movie_title}</h3>
             <img src={review.movie_image} alt={review.movie_title} />
             <p><strong>Rating:</strong> {review.review_rating} / 5</p>
-            <p><strong>Review:</strong> {review.review_text}</p>
+            <p className="review-content"><strong>Review:</strong> {review.review_text}</p>
             <p><strong>Created At:</strong> {new Date(review.review_created_at).toLocaleString()}</p>
             <p><strong>Created By:</strong> {review.review_users_email}</p>
   
