@@ -22,6 +22,7 @@
 
 /* Individual review card styling */
 .reviews-main > ul > li {
+    max-width: 330px;
     display: flex;
     flex-direction: column;
     align-items: center;
