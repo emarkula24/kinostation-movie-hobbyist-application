@@ -111,13 +111,13 @@ Accept: application/json
 
 
 ### Create a Group
-POST http://localhost:3001/notification/group
+POST http://localhost:3001/groups/creategroup
 Content-Type: application/json
 
 {
-    "group_name": "getgrouptest2",
-    "group_users_id": 2, 
-    "group_owner_id": 2
+    "group_name": "getgrouptest14",
+    "group_users_id": 1, 
+    "group_owner_id": 1
 }
 
 ### Test : Successful request to join a group
@@ -161,3 +161,8 @@ Content-Type: application/json
     "email": "dwd@gmail.com",
     "password": "newpassword"
 }
+
+
+### Retrieve all members of a group
+GET http://localhost:3001/groups/group_id/1/members
+Content-Type: application/json

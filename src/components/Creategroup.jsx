@@ -22,7 +22,7 @@ function CreateGroup() {
     }
   }, [navigate]);
 
-  // Handle form submission
+  //Handle form submission
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +37,7 @@ function CreateGroup() {
 
 
     try {
-        const response = await axios.post(`${url}/groups`, {
+        const response = await axios.post(`${url}/groups/creategroup`, {
             group_name: name, 
             group_users_id: user.users_id, 
             group_owner_id: user.users_id, 
@@ -47,6 +47,8 @@ function CreateGroup() {
         console.log("Group created successfully:", response.data);
 
         setFeedback("Group created successfully!");
+         // Redirect to the group page after successful group creation
+       navigate(`/group/${response.data.group.group_id}`); // This is where the redirection happens
 
         // Clear the form
         nameRef.current.value = "";
@@ -80,7 +82,7 @@ function CreateGroup() {
   //   });
 
   //   try {
-  //     const response = await axios.post(url + "/notification/group", {
+  //     const response = await axios.post(url + "/groups/creategroup", {
   //       group_name: name,           
   //       group_users_id: user.users_id,
   //       group_owner_id: user.users_id,

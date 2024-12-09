@@ -46,53 +46,6 @@ const router = Router();
 // });
 
 
-// Create a group and insert the owner as a member
-router.post('/group', async (req, res) => {
-    const { group_name, group_users_id, group_owner_id,group_introduction} = req.body;
-
-    // Validate input
-    if (!group_name || !group_owner_id) {
-        return res.status(400).json({ error: 'Group name and owner ID are required' });
-    }
-
-    try {
-        // 1. Insert the group into the usergroup table
-        const groupResult = await pool.query(
-            'INSERT INTO usergroup (group_name, group_users_id, group_owner_id, group_introduction) VALUES ($1, $2, $3, $4) RETURNING group_id, group_name, group_owner_id, group_users_id, group_introduction',
-            [
-                group_name,
-                group_users_id || null, 
-                group_owner_id,
-                group_introduction || 'No introduction provided' // Default value if introduction is missing
-            ]
-        );
-
-        const group = groupResult.rows[0];
-
-        // 2. Insert the owner as the first member in the groupmember table (active status)
-        const memberResult = await pool.query(
-            'INSERT INTO groupmember (groupmember_group_id, groupmember_users_id, groupmember_status) VALUES ($1, $2, $3) RETURNING *',
-            [group.group_id, group_owner_id, 'active']
-        );
-
-        const member = memberResult.rows[0];
-
-        // 3. Return the group and the first member inserted
-        res.status(201).json({
-            message: 'Group created and owner added as member successfully.',
-            group: group,
-            member: member
-        });
-    } catch (err) {
-        console.error('Error creating group and adding member:', err);
-        if (err.code === '23503') {
-            res.status(400).json({ error: 'Invalid ownerId or userId. Ensure they exist.' });
-        } else {
-            res.status(500).json({ error: 'Failed to create group and add member.' });
-        }
-    }
-});
-
 // Request to join a group
 router.post('/group_id/:group_id/join', async (req, res) => {
     const { group_id } = req.params;  

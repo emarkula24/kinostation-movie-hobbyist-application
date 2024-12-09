@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./GroupPage.css";
+import { FaUserNinja } from "react-icons/fa"; 
 
 function GroupPage() {
     const { groupId } = useParams();
     const [group, setGroup] = useState(null);
-    const [members, setMembers] = useState(null);
+    const [members, setMembers] = useState([]);
     const [groupMovies, setGroupMovies] = useState(null);
     const [movies , setMovies] = useState([]);
     const [joinStatus, setJoinStatus] = useState(""); // State for feedback messages
     const [user, setUser] = useState(null); // State to hold user data
-
+   
 
     useEffect(() => {
         console.log("Fetching group with ID:", groupId); // Debug log
@@ -28,6 +29,25 @@ function GroupPage() {
             }
         };
         fetchGroup();
+    }, [groupId]);
+
+      // Fetch group members
+      useEffect(() => {
+        const fetchMembers = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_URL}/groups/group_id/${groupId}/members`
+                );
+                setMembers(response.data.members); // Assuming the response contains a `members` array
+                console.log("Fetched group members:", response.data.members);
+            } catch (error) {
+                console.error("Error fetching group members:", error);
+            }
+        };
+
+        if (groupId) {
+            fetchMembers();
+        }
     }, [groupId]);
 
     useEffect(() => {
@@ -109,6 +129,22 @@ function GroupPage() {
                 )}
                 </div>
             </div>
+ 
+                <div className="group-members">
+                    <h2>Group Members</h2>
+                        <ul>
+                            {members.map((member) => (
+                                <li key={member.groupmember_id}>
+                                    <p>
+                                        <FaUserNinja className='userIcon'/>
+                                        ID: {member.groupmember_users_id}, Status: {member.groupmember_status}
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                </div> 
+
+          
 
             {/* commented this to compare when it was hardcoded */}
                         {/* <div className='group-movie'> commented this to  */ } 
