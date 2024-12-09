@@ -21,12 +21,15 @@
 
         .creategroup-button {
             cursor: pointer;
-            background-color: $button-color;
+            background:linear-gradient(to right, $secondary-color, $button-color);
             padding: 10px 30px;
             border-radius: 10px;
             text-align: center;
             display: inline-block;
             @include font-settings($color: $text-light, $size: 1rem, $weight: bold);
+            &:hover {
+               transform: scale(1.05);
+            }
         }
     }
 
