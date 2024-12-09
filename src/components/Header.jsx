@@ -116,14 +116,13 @@ function Header( { setSelectedMovie }) {
                 </div>
                 <nav>
                     <ul>
-                        <li>Favorites</li>
-                        {/* <li onClick={
+                     <li onClick={
                             (e) => {
                                 e.preventDefault();
-                                window.location.href = '/GroupPage';
+                                navigate('/user');
                             }}>
-                            Community
-                        </li> */}
+                              Favorites
+                        </li>
                         <li onClick={
                             (e) => {
                                 e.preventDefault();
