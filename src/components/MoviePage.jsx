@@ -104,6 +104,39 @@ function MoviePage() {
     fetchReviews();
   }, [movie]);
 
+ // Fetch groups that the user is part of
+ useEffect(() => {
+  const fetchGroups = async () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    if (!user) {
+      console.error("User not found");
+      return;
+    }
+
+    try {
+      const response = await axios.get(url + "/groups", {
+        params: { userId: user.users_id },
+      });
+      setGroups(response.data); // Populate groups with the fetched data
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
+  };
+
+  fetchGroups();
+}, []);
+
+
+  // Handle add movie to group
+  const handleAddMovieToGroup = async (groupId) => {
+    if (!movie) {
+      console.error("No movie selected");
+      return;
+    }
+
+    // backend request to add movie to group
+  };
+  
   //add movie to favorites
   const handleFavorite = async () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -231,25 +264,29 @@ function MoviePage() {
             >Reviews</button>
           </div>
 
-          <div className='add-group'
-          onMouseLeave={() => setShowGroups(false)}
-          >
-
-            <div className='add-group-title' onClick={handleAddGroup}>
-              <IoMdAdd className='addIcon' />
+          <div className="add-group" onMouseLeave={() => setShowGroups(false)}>
+            <div className="add-group-title" onClick={() => setShowGroups(!showGroups)}>
+              <IoMdAdd className="addIcon" />
               <p>Add this movie to a group</p>
             </div>
 
-            {showGroups && 
-            <div className='groups-options'>
-              {groups.map((group, index) => (
-                <div className="groups-item" key={index}>
-                  <MdGroups className="groupIcon" />
-                  <p>{group}</p>
-                </div>
-              ))}
-            </div>}
-
+            {showGroups && (
+              <div className="groups-options">
+                {groups.length > 0 ? (
+                  groups.map((group) => (
+                    <div className="groups-item" key={group.group_id}>
+                      <MdGroups className="groupIcon" />
+                      <p>{group.group_name}</p>
+                      <button onClick={() => handleAddMovieToGroup(group.group_id)}>
+                        Add to Group
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <p>No groups available</p>
+                )}
+              </div>
+            )}
           </div>
 
          

@@ -51,5 +51,21 @@ const getGroupMovies = async (req, res, next) => {
     }
 }
 
+// const getUserGroups = async (req, res, next) => {
+//     const { userId } = req.query;  // Get the userId from query params
 
-export { getGroups, addGroup, getGroupById, getGroupMovies }
+//     if (!userId) {
+//         return res.status(400).json({ error: 'User ID is required' });
+//     }
+
+//     try {
+//         const result = await selectGroupsForUser(userId);  // Fetch user-specific groups
+//         return res.status(200).json(emptyOrRows(result));  // Return the groups data
+//     } catch (error) {
+//         console.error("Error fetching user-specific groups:", error.message);
+//         return next(error);
+//     }
+// };
+
+
+export { getGroups, addGroup, getGroupById, getGroupMovies}

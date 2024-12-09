@@ -8,6 +8,8 @@ router.post("/", addGroup)
 router.get("/:id", getGroupById);
 router.get("/:id/movies", getGroupMovies);
 
+// router.get("/usergroups", getUserGroups); 
+
 //fetch groupmember
 router.get('/group_id/:group_id/members', async (req, res) => {
     const { group_id } = req.params;

@@ -55,5 +55,21 @@ const selectGroupMovies = async (groupId) => {
     `, [groupId])
 }
 
+// const selectGroupsForUser = async (userId) => {
+//     return pool.query(`
+//         SELECT
+//             usergroup.group_id,
+//             usergroup.group_name,
+//             usergroup.group_owner_id,
+//             usergroup.group_introduction
+//         FROM 
+//             usergroup
+//         JOIN 
+//             groupmember ON groupmember.groupmember_group_id = usergroup.group_id
+//         WHERE
+//             groupmember.groupmember_users_id = $1
+//             AND groupmember.groupmember_status = 'active';  -- Only active memberships
+//     `, [userId]);
+// };
 
 export { selectAllGroups, createGroup, selectGroupById, selectGroupMovies };
