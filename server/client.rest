@@ -169,3 +169,11 @@ Content-Type: application/json
 ### Delete a group
 DELETE http://localhost:3001/groups/10
 Content-Type: application/json
+
+### Remove Group Member (Valid Owner, Member Exists)
+DELETE http://localhost:3001/groups/13/member/1
+Content-Type: application/json
+
+{
+    "user_id": 5
+}

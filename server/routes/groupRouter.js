@@ -8,7 +8,7 @@ router.post("/", addGroup)
 router.get("/:id", getGroupById);
 router.get("/:id/movies", getGroupMovies);
 
-
+//fetch groupmember
 router.get('/group_id/:group_id/members', async (req, res) => {
     const { group_id } = req.params;
     try {
@@ -143,6 +143,65 @@ router.delete('/:group_id', async (req, res) => {
     }
 });
 
+// Remove a member from the group (only the owner can do this)
+router.delete('/:group_id/member/:member_id', async (req, res) => {
+    const { group_id, member_id } = req.params; // `member_id` is the ID of the user to be removed
+    const { user_id } = req.body; // `user_id` is the ID of the requester (owner)
+
+    // Validate required parameters
+    if (!group_id || !member_id || !user_id) {
+        return res.status(400).json({ error: 'Group ID, member ID, and user ID are required.' });
+    }
+
+    try {
+        // 1. Verify the group exists and get the group owner's ID
+        const groupResult = await pool.query(
+            'SELECT group_owner_id FROM usergroup WHERE group_id = $1',
+            [group_id]
+        );
+
+        if (groupResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Group not found.' });
+        }
+
+        const groupOwnerId = groupResult.rows[0].group_owner_id;
+        // Delete notifications referencing the groupmember
+        await pool.query(
+            'DELETE FROM notification WHERE notification_groupmember_id = (SELECT groupmember_id FROM groupmember WHERE groupmember_group_id = $1 AND groupmember_users_id = $2)',
+            [group_id, member_id]
+        );
+
+        // 2. Ensure the requester is the owner of the group
+        if (parseInt(user_id) !== groupOwnerId) {
+            return res.status(403).json({ error: 'Only the group owner can remove members.' });
+        }
+
+        // 3. Ensure the member exists in the group
+        const memberCheckResult = await pool.query(
+            'SELECT * FROM groupmember WHERE groupmember_group_id = $1 AND groupmember_users_id = $2',
+            [group_id, member_id]
+        );
+
+        if (memberCheckResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Member not found in this group.' });
+        }
+
+        // 4. Remove the member from the group
+        const removeMemberResult = await pool.query(
+            'DELETE FROM groupmember WHERE groupmember_group_id = $1 AND groupmember_users_id = $2 RETURNING *',
+            [group_id, member_id]
+        );
+
+        // 5. Return success response
+        res.status(200).json({
+            message: 'Member removed successfully from the group.',
+            removedMember: removeMemberResult.rows[0],
+        });
+    } catch (err) {
+        console.error('Error removing member:', err);
+        res.status(500).json({ error: 'Failed to remove member from group.' });
+    }
+});
 
 
 

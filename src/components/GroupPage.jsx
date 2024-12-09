@@ -108,6 +108,22 @@ function GroupPage() {
             alert(error.response?.data?.error || "Failed to delete group.");
         }
     };
+     // Function to handle removing a member from the group
+     const handleRemoveMember = async (memberId) => {
+        try {
+            const response = await axios.delete(
+                `${process.env.REACT_APP_API_URL}/groups/${groupId}/member/${memberId}`,
+                { data: { user_id: user.users_id } }  // Send user_id to verify authorization
+            );
+            console.log("Member removed:", response.data);
+            // Update members list after removal
+            setMembers(members.filter(member => member.groupmember_users_id !== memberId));
+        } catch (error) {
+            console.error("Error removing member:", error);
+            alert(error.response?.data?.error || "Failed to remove member.");
+        }
+    };
+
 
     if (!group) {
         return <h1>Loading group details...</h1>;
@@ -164,6 +180,12 @@ function GroupPage() {
                                     <p>
                                         <FaUserNinja className='userIcon'/>
                                         ID: {member.groupmember_users_id}, Status: {member.groupmember_status}
+                                       {/* Only show the remove button if the member is not the group owner */}
+                            {member.groupmember_users_id !== group.group_owner_id && (
+                                <button onClick={() => handleRemoveMember(member.groupmember_users_id)}>
+                                    Remove
+                                </button>
+                            )}
                                     </p>
                                 </li>
                             ))}
