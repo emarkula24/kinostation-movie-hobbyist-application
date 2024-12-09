@@ -86,4 +86,24 @@ To run the project in your local environment, follow these steps:
     ```
 6. Open `http://localhost:3000` to view the application.
 
+
+## Testing the Project
+
+To start docker container use
+```sh
+docker compose up -d
+```
+To run the tests, use the following commands:
+```sh
+npm testStart
+```
+and 
+```sh
+npm run test
+```
+
+<!-- ## 📝 License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information. -->
+
+
 ## 🎥 Demo/Preview
