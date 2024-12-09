@@ -107,6 +107,7 @@ function UserPage() {
   };
 
   return (
+    <div className='page-container'>
     <div className="user-page">
       {user ? (
         <div className="user-display">
@@ -160,7 +161,9 @@ function UserPage() {
         <p>Loading user data...</p>
       )}
     </div>
+    </div>
   );
+  
 }
 
 export default UserPage;
