@@ -3,6 +3,8 @@ import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./GroupPage.css";
 import { FaUserNinja } from "react-icons/fa"; 
+import toast from 'react-hot-toast';
+
 
 function GroupPage() {
     const { groupId } = useParams();
@@ -10,11 +12,9 @@ function GroupPage() {
     const [members, setMembers] = useState([]);
     const [groupMovies, setGroupMovies] = useState(null);
     const [movies , setMovies] = useState([]);
-    const [joinStatus, setJoinStatus] = useState(""); // State for feedback messages
     const [user, setUser] = useState(null); // State to hold user data
     const navigate = useNavigate();
     const [isMember, setIsMember] = useState(false); // Track if the user is a member
-    const [statusMessage, setStatusMessage] = useState(""); // Unified status message state
 
 
     useEffect(() => {
@@ -95,10 +95,10 @@ function GroupPage() {
                 { users_id: user.users_id }
             );
             console.log("Join response:", response.data);
-            setJoinStatus("Join request sent successfully.");
+            toast.success("Join request sent successfully.");
         } catch (error) {
             console.error("Error joining group:", error);
-            setJoinStatus(error.response?.data?.error || "Failed to join group.");
+            toast.error(error.response?.data?.error || "Failed to join group.");
         }
     };
 
@@ -107,7 +107,7 @@ function GroupPage() {
             const response = await axios.delete(
                 `${process.env.REACT_APP_API_URL}/groups/leave/${groupId}/member/${user.users_id}`
             );
-            setStatusMessage("You have successfully left the group.");
+            toast.success("You have successfully left the group.");
             setIsMember(false);
              // Re-fetch the group data, members, and movies after leaving
         setGroup(null); // Trigger re-fetch of the group
@@ -115,7 +115,7 @@ function GroupPage() {
         navigate('/'); // This will redirect to the homepage
         } catch (error) {
             console.error("Error leaving group:", error);
-            setStatusMessage(error.response?.data?.error || "Failed to leave group.");
+            toast.error(error.response?.data?.error || "Failed to leave group.");
         }
     };
 
@@ -171,27 +171,36 @@ function GroupPage() {
                         Created by: <span>{group.group_owner_email.split('@')[0]}</span> 
                     </p>
                      {/* Show the Delete button only if the user is the owner */}
+                     <div className="group-btns"> 
                      {user && user.users_id === group.group_owner_id && (
+                        
                         <button onClick={handleDeleteGroup} className="delete-button">
                             Delete Group
                         </button>
                     )}
-                    {user && user.users_id === group.group_owner_id ? (
+                    {/* {user && user.users_id === group.group_owner_id ? (
                         <p>You are the group owner.</p>
-                    ) : (
+                    ) : ( */}
+                    
+                        {user && (
                         isMember ? (
+                            
                             <button onClick={handleLeaveGroup} className="leave-button">
                                 Leave Group
                             </button>
+                            
                         ) : (
+
                             <button onClick={handleJoinGroup} className="join-button">
                                 Join Group
                             </button>
+
                         )
                     )}
-                    {statusMessage && <p className="status-message">{statusMessage}</p>}
-                    {joinStatus && <p className="join-status">{joinStatus}</p>}
-
+                    </div>
+                </div>
+                <div>
+                    
                 </div>
             </div>
 
@@ -217,16 +226,16 @@ function GroupPage() {
                         <ul>
                             {members.map((member) => (
                                 <li key={member.groupmember_id}>
-                                    <p>
+
                                         <FaUserNinja className='userIcon'/>
                                         ID: {member.groupmember_users_id}, Status: {member.groupmember_status}
                                         {/* Only show the remove button if the user is the group owner */}
                                 {user && user.users_id === group.group_owner_id && member.groupmember_users_id !== group.group_owner_id && (
-                                    <button onClick={() => handleRemoveMember(member.groupmember_users_id)}>
+                                    <button className="delete-button" onClick={() => handleRemoveMember(member.groupmember_users_id)}>
                                         Remove
                                     </button>
                                 )}
-                                    </p>
+
                                 </li>
                             ))}
                         </ul>

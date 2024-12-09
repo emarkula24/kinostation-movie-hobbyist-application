@@ -16,6 +16,7 @@ import Notifications from './components/Notifications';
 import GroupPage from './components/GroupPage';
 import PublicFavoritesPage from './components/PublicFavoritesPage';
 import CreateGroup from './components/Creategroup';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -25,6 +26,7 @@ function App() {
     <div className="App">
       <Router>
       <Header setSelectedMovie={setSelectedMovie} />
+      <Toaster />
         <Routes>
           <Route path="/" element={<Home setSelectedMovie={setSelectedMovie} />} />
           <Route path="/login" element={<Login />} />
