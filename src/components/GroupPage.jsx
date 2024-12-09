@@ -145,11 +145,12 @@ function GroupPage() {
                 { data: { user_id: user.users_id } }  // Send user_id to verify authorization
             );
             console.log("Member removed:", response.data);
+            toast.success("Member removed successfully.");
             // Update members list after removal
             setMembers(members.filter(member => member.groupmember_users_id !== memberId));
         } catch (error) {
             console.error("Error removing member:", error);
-            alert(error.response?.data?.error || "Failed to remove member.");
+            toast.error(error.response?.data?.error || "Failed to remove member.");
         }
     };
 
