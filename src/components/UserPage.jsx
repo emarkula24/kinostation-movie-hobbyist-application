@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './UserPage.css';
 import { FaShareAlt, FaSignOutAlt, FaUser, FaHeart } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 function UserPage() {
   const [user, setUser] = useState(null);
@@ -87,7 +88,7 @@ function UserPage() {
     if (user) {
       const shareUrl = `localhost:3000/publicFavorites/${user.users_id}`;
       navigator.clipboard.writeText(shareUrl).then(() => {
-        alert('Favorites URL copied to clipboard!');
+        toast.success('Favorites URL copied to clipboard!');
       }).catch((error) => console.error('Error copying URL:', error));
     }
   };

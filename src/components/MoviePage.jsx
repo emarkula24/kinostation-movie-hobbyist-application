@@ -9,6 +9,7 @@ import { FaPencil } from "react-icons/fa6";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function MoviePage() {
   const { movieId } = useParams();
@@ -109,7 +110,7 @@ function MoviePage() {
 
     if (!user) {
         console.error("No user found in session storage.");
-        alert("You must be logged in to favorite a movie.");
+        toast.error("You must be logged in to favorite a movie.");
         return;
     }
 
@@ -122,14 +123,14 @@ function MoviePage() {
     try {
         const response = await axios.post(url + "/movie/addFavorite/", data);
         console.log("Added to favorites successfully:", response.data);
-        alert("Movie added to your favorites!");
+        toast.success("Movie added to your favorites!");
     } catch (error) {
         if (error.response) {
             console.error("Server responded with error:", error.response.data);
-            alert(`Error: ${error.response.data}`);
+            toast.error(`Error: ${error.response.data}`);
         } else {
             console.error("Request error:", error.message);
-            alert("An error occurred while adding to favorites.");
+            toast.error("An error occurred while adding to favorites.");
         }
     }
   };
