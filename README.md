@@ -16,7 +16,7 @@ Discover movies with detailed info, and ratings. Share your thoughts, rate films
 - [Mostafa Trahim]() : Scrum Master | FrontEnd Development
 - [Erik Markula]() : BackEnd Development | DevOps
 - [Xuanyu Liu]() : BackEnd Development
-- [Jane]() : FrontEnd Development | UI/UX Design
+- [Zhiying Huang]() : FrontEnd Development | UI/UX Design
 - [Bao Nguyen]() : FrontEnd Development | UI/UX Design
 - [Bibek ]() : BackEnd Development
 

@@ -85,7 +85,7 @@ function UserPage() {
 
   const handleShareFavorites = () => {
     if (user) {
-      const shareUrl = url + `/publicFavorites/${user.users_id}`;
+      const shareUrl = `localhost:3000/publicFavorites/${user.users_id}`;
       navigator.clipboard.writeText(shareUrl).then(() => {
         alert('Favorites URL copied to clipboard!');
       }).catch((error) => console.error('Error copying URL:', error));
@@ -96,8 +96,8 @@ function UserPage() {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       try {
         const response = await axios.delete(`http://localhost:3001/user/deleteAccount/${user.users_id}`);
-        sessionStorage.clear();  // Clear session storage after account deletion
-        navigate('/');  // Redirect to homepage or login page
+        sessionStorage.clear();  
+        navigate('/');  
         alert("Your account has been deleted successfully.");
       } catch (error) {
         console.error('Error deleting account:', error);
