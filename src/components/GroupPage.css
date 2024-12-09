@@ -77,6 +77,15 @@
     border-radius: 5px;
 }
 
+.join-button  {
+    border: none;
+    background-color: #c4c4c4;
+    color: #000000;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
 .group-details > p > span {
     font-size: 20px;
     font-weight: bold;
