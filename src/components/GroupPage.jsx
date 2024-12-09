@@ -9,6 +9,9 @@ function GroupPage() {
     const [members, setMembers] = useState(null);
     const [groupMovies, setGroupMovies] = useState(null);
     const [movies , setMovies] = useState([]);
+    const [joinStatus, setJoinStatus] = useState(""); // State for feedback messages
+    const [user, setUser] = useState(null); // State to hold user data
+
 
     useEffect(() => {
         console.log("Fetching group with ID:", groupId); // Debug log
@@ -41,6 +44,31 @@ function GroupPage() {
         };
         fetchMovies();
     }, [groupId]);
+
+
+    useEffect(() => {
+        // Retrieve user data from sessionStorage
+        const storedUser = sessionStorage.getItem("user");
+        if (storedUser) {
+            const userData = JSON.parse(storedUser);
+            setUser(userData); // Set user data
+        }
+    }, []);
+
+    const handleJoinGroup = async () => {
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/notification/group_id/${groupId}/join`,
+                { users_id: user.users_id }
+            );
+            console.log("Join response:", response.data);
+            setJoinStatus("Join request sent successfully.");
+        } catch (error) {
+            console.error("Error joining group:", error);
+            setJoinStatus(error.response?.data?.error || "Failed to join group.");
+        }
+    };
+    
     
 
     if (!group) {
@@ -58,7 +86,9 @@ function GroupPage() {
                     <p>
                         Created by: <span>{group.group_owner_email.split('@')[0]}</span> 
                     </p>
-                    <button>Join</button>
+                    <button onClick={handleJoinGroup}>Join</button>
+                    {joinStatus && <p className="join-status">{joinStatus}</p>}
+
                 </div>
             </div>
 
