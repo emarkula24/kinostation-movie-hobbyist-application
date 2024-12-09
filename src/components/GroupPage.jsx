@@ -211,8 +211,7 @@ function GroupPage() {
                     <p>No movies available for this group.</p>
                 )}
                 </div>
-            </div>
- 
+
                 <div className="group-members">
                     <h2>Group Members</h2>
                         <ul>
@@ -232,6 +231,9 @@ function GroupPage() {
                             ))}
                         </ul>
                 </div> 
+            </div>
+ 
+                
 
           
         </div>
