@@ -101,6 +101,7 @@ const Notifications = () => {
   };
   
   return (
+    <div className="page-container">
     <div className="notifications-page-container">
       <div className="notifications-container">
         <h1>Notifications</h1>
@@ -156,6 +157,7 @@ const Notifications = () => {
           <p>{successMessage}</p>
         </div>
       )}
+    </div>
     </div>
   );
 };
