@@ -1,5 +1,6 @@
-import { selectAllGroups, createGroup, selectGroupById, selectGroupMovies } from "../models/Groups.js";
+import { selectAllGroups, createGroup, selectGroupById, selectGroupMovies, addMovieToGroups } from "../models/Groups.js";
 import { emptyOrRows } from "../helpers/emptyOrRows.js";
+import { pool } from "../helpers/db.js";
 
 const getGroups = async (req, res, next) => {
     try {
@@ -51,21 +52,48 @@ const getGroupMovies = async (req, res, next) => {
     }
 }
 
-// const getUserGroups = async (req, res, next) => {
-//     const { userId } = req.query;  // Get the userId from query params
+const addMovieToGroup = async (req, res, next) => {
+    const { group_id, movie_id, user_id } = req.body;
+    const client = await pool.connect();
 
-//     if (!userId) {
-//         return res.status(400).json({ error: 'User ID is required' });
-//     }
+    try {
+        await client.query('BEGIN');
 
-//     try {
-//         const result = await selectGroupsForUser(userId);  // Fetch user-specific groups
-//         return res.status(200).json(emptyOrRows(result));  // Return the groups data
-//     } catch (error) {
-//         console.error("Error fetching user-specific groups:", error.message);
-//         return next(error);
-//     }
-// };
+        // Validate membership
+        const memberResult = await client.query(`
+            SELECT * FROM groupmember
+            WHERE groupmember_group_id = $1 AND groupmember_users_id = $2 AND groupmember_status = 'active';
+        `, [group_id, user_id]);
+
+        if (memberResult.rows.length === 0) {
+            await client.query('ROLLBACK');
+            return res.status(403).json({ error: "User is not a member of the group or is inactive." });
+        }
+
+        // Add movie to group
+        const result = await client.query(`
+            INSERT INTO groupmovie (groupmovie_group_id, groupmovie_movie_id)
+            SELECT $1, $2
+            WHERE NOT EXISTS (
+                SELECT 1 FROM groupmovie 
+                WHERE groupmovie_group_id = $1 AND groupmovie_movie_id = $2
+            )
+            RETURNING *;
+        `, [group_id, movie_id]);
+
+        await client.query('COMMIT');
+        return res.status(201).json(result.rows[0]);
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error("Error in transaction:", error.message);
+        return next(error);
+    } finally {
+        client.release();
+    }
+};
 
 
-export { getGroups, addGroup, getGroupById, getGroupMovies}
+
+
+
+export { getGroups, addGroup, getGroupById, getGroupMovies, addMovieToGroup}

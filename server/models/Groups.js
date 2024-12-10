@@ -55,21 +55,19 @@ const selectGroupMovies = async (groupId) => {
     `, [groupId])
 }
 
-// const selectGroupsForUser = async (userId) => {
-//     return pool.query(`
-//         SELECT
-//             usergroup.group_id,
-//             usergroup.group_name,
-//             usergroup.group_owner_id,
-//             usergroup.group_introduction
-//         FROM 
-//             usergroup
-//         JOIN 
-//             groupmember ON groupmember.groupmember_group_id = usergroup.group_id
-//         WHERE
-//             groupmember.groupmember_users_id = $1
-//             AND groupmember.groupmember_status = 'active';  -- Only active memberships
-//     `, [userId]);
-// };
+const addMovieToGroups = async (groupId, movieId) => {
+    return pool.query(`
+        INSERT INTO groupmovie (groupmovie_group_id, groupmovie_movie_id)
+        SELECT $1, $2
+        WHERE NOT EXISTS (
+            SELECT 1 FROM groupmovie 
+            WHERE groupmovie_group_id = $1 AND groupmovie_movie_id = $2
+        )
+        RETURNING *;
+    `, [groupId, movieId]);
+};
 
-export { selectAllGroups, createGroup, selectGroupById, selectGroupMovies };
+
+
+
+export { selectAllGroups, createGroup, selectGroupById, selectGroupMovies, addMovieToGroups };

@@ -203,15 +203,63 @@ function Header( { setSelectedMovie }) {
             {burgerMenuIsOpen && (
                 <div className="burger-menu">
                     <div className='burger-items'>
-                        <ul>
-                            <li>Favorites</li>
-                            <li>Community</li>
-                            <li>Trending</li>
+                    <ul>
+                        <li>
+                            <div className='profile-burger' >
+                                
+                            <div className='profile-burger' onClick={() => {
+                                    const user = sessionStorage.getItem('user'); 
+                                    if (user) {
+                                        navigate('/user'); 
+                                    } else {
+                                        navigate('/login'); 
+                                    }
+                                }}>
+                                <FaUserLarge className='userIcon' />
+                                    <span>
+                                        {sessionStorage.getItem('user') ? user.users_email.split('@')[0]  : 'Login'}
+                                    </span>
+                            </div>
+                            
+                            </div>
+                        </li>
+                        <div className='search-burger'>
+                            <div className='input-container-burger'>
+                                <FaSearch className="searchIcon" />
+                                <input
+                                    type='text'
+                                    placeholder='Search for a movie, tv show, person...'
+                                    value={query}
+                                    onChange={handleInputChange}
+                                    onKeyDown={handleKeyDown} 
+                                />
+                            </div>
+                        </div>
+
+                        <li onClick={() => {
+                                const user = sessionStorage.getItem('user'); 
+                                if (user) {
+                                    navigate('/notifications'); 
+                                } else {
+                                    navigate('/login'); 
+                                }
+                            }}>
+                            Notifications
+                        </li>
+                        <li onClick={
+                            (e) => {
+                                e.preventDefault();
+                                navigate('/user');}
+                            }>Favorites</li>
+                            <li onClick={
+                            (e) => {
+                                e.preventDefault();
+                                navigate('/Reviews');}
+                            }>Reviews</li>
                             <li onClick={
                                 (e) => {
                                     e.preventDefault();
-                                    navigate("/showtimes");
-                                }
+                                    navigate("/showtimes");}
                             }>Showtimes</li>
                         </ul>
                     </div>

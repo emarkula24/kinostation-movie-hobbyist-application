@@ -134,9 +134,29 @@ function MoviePage() {
       return;
     }
 
+    console.log("Adding movie to group:",groupId);
+    
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    if (!user) {
+      console.error("No user found in session storage.");
+      toast.error("You must be logged in to add a movie to a group.");
+      return;
+    }
+    try {
+      const response = await axios.post(url + "/movie/addToGroup", {
+        movie_id: movie.id,
+        group_id: groupId,
+        user_id: user.users_id,
+      });
+      console.log("Movie added to group successfully:", response.data);
+      toast.success("Movie added to group successfully!");
+    } catch (error) {
+      console.error("Error adding movie to group:", error);
+      toast.error("Failed to add movie to group.");
+    }
     // backend request to add movie to group
   };
-  
+
   //add movie to favorites
   const handleFavorite = async () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -274,12 +294,10 @@ function MoviePage() {
               <div className="groups-options">
                 {groups.length > 0 ? (
                   groups.map((group) => (
-                    <div className="groups-item" key={group.group_id}>
+                    <div className="groups-item" key={group.group_id} 
+                    onClick={() => handleAddMovieToGroup(group.group_id)}>
                       <MdGroups className="groupIcon" />
                       <p>{group.group_name}</p>
-                      <button onClick={() => handleAddMovieToGroup(group.group_id)}>
-                        Add to Group
-                      </button>
                     </div>
                   ))
                 ) : (
