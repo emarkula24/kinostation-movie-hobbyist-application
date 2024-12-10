@@ -72,24 +72,6 @@ function Categories({ setSelectedMovie }) {
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
           />
-          {/* <div
-            className="MovieCard_favoriteBtn"
-            onClick={(e) => {
-              e.stopPropagation();
-              alert("Favorite button clicked!");
-            }}
-          >
-            <i className="fas fa-heart"></i>
-          </div>
-          <div
-            className="MovieCard_sendtogroupBtn"
-            onClick={(e) => {
-              e.stopPropagation();
-              alert("Send to group button clicked!");
-            }}
-          >
-            <i className="fa-solid fa-star"></i>
-          </div> */}
         </div>
         <div className="MovieCard_title">
           <h3>{movie.title}</h3>
