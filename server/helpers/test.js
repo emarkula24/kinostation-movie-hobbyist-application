@@ -4,7 +4,6 @@ import { pool } from "./db.js"
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import { hash } from "bcrypt"
-import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 
 dotenv.config()
