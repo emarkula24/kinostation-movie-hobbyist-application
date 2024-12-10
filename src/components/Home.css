@@ -1,14 +1,118 @@
-@media (max-width: 768px) {
-  .home {
-    flex-direction: column;
-  }
+/* General resets */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box !important;
 }
 
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+/* Home container */
 .home {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 95%;  
-  background: linear-gradient(45deg, rgba(33, 32, 30, 0.8) 20%, rgba(55, 49, 42, 0.8) 80%);
+  height: 95%;
+  background-color: #21201E;
   gap: 0;
+  position: relative; /* Establish stacking context */
+  overflow: hidden;
+
+  /* Media query for mobile responsiveness */
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+/* Lines container */
+.lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1; /* Keep lines below components */
+  pointer-events: none; /* Prevent the lines from interfering with user interaction */
+}
+
+/* Content inside .home */
+.categories, .group-lists {
+  position: relative; /* Ensure content is in a higher stacking context */
+  z-index: 2; /* Higher than .lines */
+}
+
+/* Individual line */
+.line {
+  position: absolute;
+  width: 2.5px;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  background: rgba(255, 255, 255, 0); /* Fully transparent */
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 30vh; /* Increased height for a slower effect */
+    width: 100%;
+    top: -150%; /* Starts further up for gradual entry */
+    left: 0;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 75%, #ffffff 100%);
+    animation: drop 12s 0s infinite; /* Slower drop animation */
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
+  }
+
+  &:nth-child(1) {
+    margin-left: -40%;
+    &::after {
+      animation-delay: 2s;
+    }
+  }
+
+  &:nth-child(2) {
+    margin-left: -20%;
+    &::after {
+      animation-delay: 3s;
+    }
+  }
+
+  &:nth-child(3) {
+    margin-left: 0%;
+    &::after {
+      animation-delay: 4s;
+    }
+  }
+
+  &:nth-child(4) {
+    margin-left: 20%;
+    &::after {
+      animation-delay: 5s;
+    }
+  }
+
+  &:nth-child(5) {
+    margin-left: 40%;
+    &::after {
+      animation-delay: 6s;
+    }
+  }
+}
+
+/* Keyframes for drop animation */
+@keyframes drop {
+  0% {
+    top: -150%; /* Matches initial position */
+  }
+  100% {
+    top: 110%;
+  }
 }

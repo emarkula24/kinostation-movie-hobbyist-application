@@ -6,8 +6,19 @@ import './Home.css';
 function Home({ setSelectedMovie }) {
   return (
     <div className="home">
-      <Categories setSelectedMovie={setSelectedMovie} />
-      <GroupLists />
+      <div className="lines">
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div> 
+      </div>
+      <div className="categories">
+        <Categories setSelectedMovie={setSelectedMovie} />
+      </div>
+      <div className="group-lists">
+        <GroupLists />
+      </div>
     </div>
   );
 }
