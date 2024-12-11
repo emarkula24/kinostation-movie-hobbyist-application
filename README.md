@@ -17,7 +17,7 @@ Discover movies with detailed info, and ratings. Share your thoughts, rate films
 - [Erik Markula]() : BackEnd Development | DevOps
 - [Xuanyu Liu]() : BackEnd Development
 - [Zhiying Huang]() : FrontEnd Development | UI/UX Design
-- [Bao Nguyen]() : FrontEnd Development | UI/UX Design
+- [Bao Nguyen]() : FrontEnd Development
 - [Bibek ]() : BackEnd Development
 
 ## 🌟 Features
@@ -47,6 +47,9 @@ The PostgreSQL database schema consists of the following tables:
 
 ![database diagram](./db_diagram.png)
 
+## 🎨 UI design
+The figma link for UI wireframe and pages layout:
+https://www.figma.com/design/MDSTBxhqlFrHQ6SiiiHXxm/Movie-App?node-id=8-6&node-type=canvas&t=F5E6Sr74waIKYnuX-0
 
 ## 💭 How can it be improved?
 
