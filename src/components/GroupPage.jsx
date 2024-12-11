@@ -4,6 +4,10 @@ import axios from "axios";
 import "./GroupPage.css";
 import { FaUserNinja } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { FaPlus } from "react-icons/fa6";
+import { MdOutlineMessage } from "react-icons/md";
+
+
 
 function GroupPage() {
     const { groupId } = useParams();
@@ -175,7 +179,10 @@ function GroupPage() {
 
             console.log("reviewData", reviewData);
 
+            setAllReviews([...allReviews, reviewData.data]);
+
             toast.success("Review submitted successfully.");
+            setReview("");
         } catch (error) {
             console.error("Error submitting review:", error);
             toast.error(error.response?.data?.error || "Failed to submit review.");
@@ -232,25 +239,27 @@ function GroupPage() {
                                 <img src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.movie_image}`} alt={movie.movie_title} />
                                 <div className="movie-title">
                                     <h2>{movie.movie_title}</h2>
-                                </div>
-                                <div className="movie-review">
+                                
+                                    <div className="group-reviews">
                                     {
-                                        // if there are reviews for this movie
                                         allReviews.length > 0 && (
-                                            <div>
-                                                <ul>
-                                                    {allReviews.map((review) => (
-                                                        <li key={review.groupmoviereview_id}>
-                                                            <p>{review.groupmoviereview_review}</p>
-                                                            <p>{review.groupmoviereview_user}</p>
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                                            <div className="group-reviews">
+                                            {allReviews.map((review) => (
+                                                <div className="review-item" key={review.review_id}>
+                                                <MdOutlineMessage className="addIcon" />
+                                                <p>{review.groupmoviereview_review}</p>
+                                                <p><span>Created by:{review.groupmoviereview_user?.split('@',1)}</span></p>
+                                                </div>
+                                            ))}
                                             </div>
                                         )
                                     }
-                                    <input onChange={(e)=>setReview(e.target.value)} type="text" name="moviereview" placeholder="write your review" id="" />
-                                    <button onClick={(e)=>handleReviewSubmit(e, movie.movie_id)}>Submit</button>
+                                        <div className="review-item-submit">
+                                            <input onChange={(e)=>setReview(e.target.value)} type="text" name="moviereview" placeholder="write your review" id="" />
+                                            <button onClick={(e)=>handleReviewSubmit(e, movie.movie_id)}><FaPlus className="addIcon" /></button>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         ))

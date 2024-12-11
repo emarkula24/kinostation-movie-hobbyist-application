@@ -117,21 +117,22 @@
     padding: 10px;
     gap: 30px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+    /* cursor: pointer; */
     align-items: flex-start;
     color: #fff;
 }
 
-.group-movie:hover {
+/* .group-movie:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-}
+} */
 
 .movie-title {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    width: 90%;
 }
 
 .group-reviews {
@@ -139,6 +140,7 @@
     flex-direction: column;
     padding: 5px;
     gap: 10px;
+    width: 90%;
 }
 
 .review-item {
@@ -151,6 +153,55 @@
     width: 100%;
     gap: 5px;
     font-weight: 500;
+}
+
+.review-item > p {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.review-item > p > span {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.review-item-submit {
+    background-color: #545454;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    gap: 5px;
+    font-weight: 500;
+    color:#fff;
+}
+
+.review-item-submit > input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #545454;
+    color: #fff;
+}
+
+.review-item-submit > input::placeholder {
+    color: #fff;
+}
+
+.review-item-submit > input:focus {
+    outline: none;
+}
+
+.review-item-submit > button {
+    padding: 3px;
+    background-color: #545454;
+    color: #fff;
+    border: none;
+    border-radius: 40%;
+    cursor: pointer;
 }
 
 
