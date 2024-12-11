@@ -56,18 +56,20 @@ const selectGroupMovies = async (groupId) => {
 }
 
 const addMovieToGroups = async (groupId, movieId) => {
+    const checkQuery = `
+    SELECT 1 FROM groupmovie 
+    WHERE groupmovie_group_id = $1 AND groupmovie_movie_id = $2;
+    `;
+    const exists = await pool.query(checkQuery, [groupId, movieId]);
+        if (exists.rows.length) {
+            return { rows: [] }; 
+        }
     return pool.query(`
         INSERT INTO groupmovie (groupmovie_group_id, groupmovie_movie_id)
-        SELECT $1, $2
-        WHERE NOT EXISTS (
-            SELECT 1 FROM groupmovie 
-            WHERE groupmovie_group_id = $1 AND groupmovie_movie_id = $2
-        )
+        VALUES ($1, $2)
         RETURNING *;
-    `, [groupId, movieId]);
-};
-
-
+        `, [groupId, movieId])
+}
 
 
 export { selectAllGroups, createGroup, selectGroupById, selectGroupMovies, addMovieToGroups };

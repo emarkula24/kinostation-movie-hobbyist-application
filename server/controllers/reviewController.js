@@ -12,7 +12,6 @@ const getReviews = async (req, res, next) => {
 
 const postReview = async (req, res, next) => {
     try {
-
         const { user_id, user_email, movie_id, review, review_rating } = req.body;
 
         if (req.user.users_id !== user_id) {

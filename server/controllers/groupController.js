@@ -54,41 +54,28 @@ const getGroupMovies = async (req, res, next) => {
 
 const addMovieToGroup = async (req, res, next) => {
     const { group_id, movie_id, user_id } = req.body;
-    const client = await pool.connect();
-
+   
+    console.log("group_id:", group_id, "user_id:", user_id, "movie_id:", movie_id);
     try {
-        await client.query('BEGIN');
-
         // Validate membership
-        const memberResult = await client.query(`
+        const memberResult = await pool.query(`
             SELECT * FROM groupmember
             WHERE groupmember_group_id = $1 AND groupmember_users_id = $2 AND groupmember_status = 'active';
         `, [group_id, user_id]);
-
         if (memberResult.rows.length === 0) {
-            await client.query('ROLLBACK');
             return res.status(403).json({ error: "User is not a member of the group or is inactive." });
         }
-
+        
         // Add movie to group
-        const result = await client.query(`
-            INSERT INTO groupmovie (groupmovie_group_id, groupmovie_movie_id)
-            SELECT $1, $2
-            WHERE NOT EXISTS (
-                SELECT 1 FROM groupmovie 
-                WHERE groupmovie_group_id = $1 AND groupmovie_movie_id = $2
-            )
-            RETURNING *;
-        `, [group_id, movie_id]);
-
-        await client.query('COMMIT');
+        const result = await addMovieToGroups(group_id, movie_id)
+        console.log(result)
+        if (!result.rows.length) {
+            return res.status(200).json({ error: "Movie is already in the group." });
+        }
         return res.status(201).json(result.rows[0]);
     } catch (error) {
-        await client.query('ROLLBACK');
-        console.error("Error in transaction:", error.message);
-        return next(error);
-    } finally {
-        client.release();
+        console.error("Backend Error:", error);
+        return next(error)
     }
 };
 

@@ -8,7 +8,7 @@ router.post("/", addGroup)
 router.get("/:id", getGroupById);
 router.get("/:id/movies", getGroupMovies);
 
-router.post("/movie/addToGroup", addMovieToGroup);
+router.post("/addtogroup", addMovieToGroup);
 // router.get("/movie/addToGroup", addMovieToGroups);
 
 

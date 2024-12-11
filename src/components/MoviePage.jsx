@@ -137,19 +137,23 @@ function MoviePage() {
     console.log("Adding movie to group:",groupId);
     
     const user = JSON.parse(sessionStorage.getItem("user"));
+
     if (!user) {
       console.error("No user found in session storage.");
       toast.error("You must be logged in to add a movie to a group.");
       return;
     }
     try {
-      const response = await axios.post(url + "/movie/addToGroup", {
+      const response = await axios.post(url + "/groups/addToGroup", {
         movie_id: movie.id,
         group_id: groupId,
         user_id: user.users_id,
       });
       console.log("Movie added to group successfully:", response.data);
       toast.success("Movie added to group successfully!");
+      if (response.status === 200) {
+        alert("Movie is already in this group")
+      }
     } catch (error) {
       console.error("Error adding movie to group:", error);
       toast.error("Failed to add movie to group.");
