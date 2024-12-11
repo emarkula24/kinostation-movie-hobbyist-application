@@ -29,7 +29,7 @@ function MoviePage() {
   const addGroup = (groupName) => {
     setGroups([...groups, groupName]);
   };
-
+  
   // Fetch movie details
   useEffect(() => {
     const fetchMovie = async () => {
@@ -134,6 +134,7 @@ function MoviePage() {
       return;
     }
 
+   
     console.log("Adding movie to group:",groupId);
     
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -148,7 +149,12 @@ function MoviePage() {
         movie_id: movie.id,
         group_id: groupId,
         user_id: user.users_id,
+        movie_title: movie.title,
+        movie_description: movie.overview,
+        movie_image: movie.poster_path
       });
+
+
       console.log("Movie added to group successfully:", response.data);
       toast.success("Movie added to group successfully!");
       if (response.status === 200) {
@@ -261,8 +267,9 @@ function MoviePage() {
     } else {
       alert('You must be logged in to write a review');
     }
+    
   };
-
+  
   if (!movie) return <div>Select a movie to view details</div>;
 
   return (

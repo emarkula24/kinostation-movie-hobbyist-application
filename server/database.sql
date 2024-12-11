@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS groupmovie;
 DROP TABLE IF EXISTS groupmember;
 DROP TABLE IF EXISTS usergroup;
 DROP TABLE IF EXISTS review;
-DROP TABLE IF EXISTS favorite;
-DROP TABLE IF EXISTS movie;
+DROP TABLE IF EXISTS favorite CASCADE;
+DROP TABLE IF EXISTS movie CASCADE;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS notification;
 DROP TABLE IF EXISTS otp;
@@ -16,7 +16,7 @@ CREATE TABLE users (
 
 
 CREATE TABLE movie (
-    movie_id SERIAL PRIMARY KEY,
+    movie_id INTEGER,
     movie_image VARCHAR(255),
     movie_title VARCHAR(255),
     movie_description TEXT

@@ -53,9 +53,10 @@ const getGroupMovies = async (req, res, next) => {
 }
 
 const addMovieToGroup = async (req, res, next) => {
-    const { group_id, movie_id, user_id } = req.body;
+    console.log(req.body)
+    const { group_id, movie_id, user_id, movie_title, movie_description, movie_image } = req.body;
    
-    console.log("group_id:", group_id, "user_id:", user_id, "movie_id:", movie_id);
+    console.log(group_id, movie_id, user_id, movie_title, movie_description, movie_image)
     try {
         // Validate membership
         const memberResult = await pool.query(`
@@ -66,6 +67,13 @@ const addMovieToGroup = async (req, res, next) => {
             return res.status(403).json({ error: "User is not a member of the group or is inactive." });
         }
         
+        //Add movie to movie table
+
+        const movieResult = await pool.query(`
+            INSERT INTO movie (movie_title, movie_image, movie_description, movie_id)
+            VALUES ($1, $2, $3, $4);
+            `, [movie_title, movie_image, movie_description, movie_id])
+
         // Add movie to group
         const result = await addMovieToGroups(group_id, movie_id)
         console.log(result)

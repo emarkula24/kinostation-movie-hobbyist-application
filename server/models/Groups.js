@@ -64,7 +64,8 @@ const addMovieToGroups = async (groupId, movieId) => {
         if (exists.rows.length) {
             return { rows: [] }; 
         }
-    return pool.query(`
+    
+    return await pool.query(`
         INSERT INTO groupmovie (groupmovie_group_id, groupmovie_movie_id)
         VALUES ($1, $2)
         RETURNING *;

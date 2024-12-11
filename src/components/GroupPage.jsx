@@ -69,7 +69,7 @@ function GroupPage() {
         };
         fetchMovies();
     }, [groupId]);
-
+    console.log(movies)
     // Retrieve user data from sessionStorage
     useEffect(() => {
         const storedUser = sessionStorage.getItem("user");
@@ -178,13 +178,13 @@ function GroupPage() {
                     </div>
                 </div>
             </div>
-
+            {/* /fr96XzlzsONrQrGfdLMiwtQjott.jpg */}
             <div className="group-content">
                 <div className="group-movies">
                     {movies.length > 0 ? (
                         movies.map((movie) => (
                             <div className="group-movie" key={movie.groupmovie_id}>
-                                <img src={movie.movie_image} alt={movie.movie_title} />
+                                <img src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.movie_image}`} alt={movie.movie_title} />
                                 <div className="movie-title">
                                     <h2>{movie.movie_title}</h2>
                                 </div>
