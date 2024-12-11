@@ -13,8 +13,8 @@
 .categories {
   display: flex;
   flex-direction: column;
-  align-items: center;
   color: $text-light;
+  text-align: center;
 
   > h1 {
     padding: 5px;
@@ -45,21 +45,10 @@
 
   // Default width for larger screens (desktop)
   .category {
-    max-width: calc(17rem * 5 + 25px * 4); /* Space for 5 cards + gaps */
-  }
+    max-width: calc(17rem * 5 + 25px * 4); // Space for 5 cards + gaps
 
-  // Media query for tablets (e.g., iPads)
-  @media (max-width: 1024px) {
-    .category {
-      max-width: calc(17rem * 3 + 25px * 2); /* Space for 3 cards + gaps */
-    }
-  }
-
-  // Media query for small screens (e.g., phones)
-  @media (max-width: 768px) {
-    .category {
-      max-width: calc(17rem * 2 + 25px); /* Space for 2 cards + gaps */
-      gap: 15px; /* Reduce gap for better spacing */
+    @media (max-width: 768px) {
+      max-width: calc(14rem * 3 + 25px * 2); // Space for 3 cards + gaps
     }
   }
 
@@ -87,6 +76,22 @@
 
     &.next {
       right: -10px;
+    }
+  }
+
+  // Ensure buttons remain visible on smaller screens
+  @media (max-width: 768px) {
+    .scroll-btn {
+      font-size: 1.2rem; /* Adjust font size for smaller screens */
+      padding: 8px; /* Adjust padding for better fit */
+
+      &.back {
+        left: 5px; /* Shift closer to the content */
+      }
+
+      &.next {
+        right: 5px; /* Shift closer to the content */
+      }
     }
   }
 }
@@ -148,15 +153,14 @@
     height: 17rem; /* Smaller height */
 
     .MovieCard_logo img {
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       object-position: center;
       border-radius: inherit;
       background-color: black;
       @include bgConfig;
     }
-    
 
     .MovieCard_title {
       h3 {

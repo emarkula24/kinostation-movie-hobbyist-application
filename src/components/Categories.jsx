@@ -16,7 +16,37 @@ function Categories({ setSelectedMovie }) {
   });
   const navigate = useNavigate();
 
-  console.log(process.env);
+  // Function to calculate cards to show based on screen width
+  const calculateCardsToShow = () => {
+    return window.innerWidth <= 768 ? 3 : 5; // Show 3 cards for small screens, 5 for larger screens
+  };
+
+  // State to hold the number of cards to show
+  const [cardsToShow, setCardsToShow] = useState(calculateCardsToShow());
+
+  // Adjust cardsToShow on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newCardsToShow = calculateCardsToShow();
+      setCardsToShow(newCardsToShow);
+      // Update the visible range based on the new number of cards to show
+      setVisibleRange((prevState) => {
+        const updatedRange = {};
+        Object.keys(prevState).forEach((category) => {
+          const { startIndex, endIndex } = prevState[category];
+          updatedRange[category] = {
+            startIndex: Math.max(startIndex, 0), // Ensure startIndex is not negative
+            endIndex: Math.min(endIndex, newCardsToShow * 4), // Ensure that visible range doesn't go beyond available movies
+          };
+        });
+        return updatedRange;
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    // Cleanup on component unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // The empty dependency array ensures this effect runs once when the component is mounted
 
   // Fetch movie data
   useEffect(() => {
@@ -26,7 +56,6 @@ function Categories({ setSelectedMovie }) {
         const popularResponse = await axios.get(BASE_URL + "/popular");
         const topRatedResponse = await axios.get(BASE_URL + "/toprated");
 
-        console.log('trendingResponse', trendingResponse.data);
         setTrendingMovies(trendingResponse.data.slice(0, 20));
         setPopularMovies(popularResponse.data.slice(0, 20));
         setTopRatedMovies(topRatedResponse.data.slice(0, 20));
@@ -51,18 +80,24 @@ function Categories({ setSelectedMovie }) {
         : category === "popular"
         ? popularMovies
         : topRatedMovies;
-    
+
     let { startIndex, endIndex } = visibleRange[category];
 
     if (direction === "next" && endIndex < totalMovies.length) {
       setVisibleRange((prevState) => ({
         ...prevState,
-        [category]: { startIndex: startIndex + 5, endIndex: endIndex + 5 },
+        [category]: {
+          startIndex: startIndex + cardsToShow,
+          endIndex: endIndex + cardsToShow,
+        },
       }));
     } else if (direction === "back" && startIndex > 0) {
       setVisibleRange((prevState) => ({
         ...prevState,
-        [category]: { startIndex: startIndex - 5, endIndex: endIndex - 5 },
+        [category]: {
+          startIndex: startIndex - cardsToShow,
+          endIndex: endIndex - cardsToShow,
+        },
       }));
     }
   };
@@ -99,30 +134,28 @@ function Categories({ setSelectedMovie }) {
 
   return (
     <div className="category-container">
-      {categoriesData.map((category, index) => {
-        return (
-          <div className="categories" key={index}>
-            <h1>{category.title}</h1>
-            <div className="scroll-container">
-              <button
-                className="scroll-btn back"
-                onClick={() => scrollRow("back", category.category)}
-              >
-                &lt;
-              </button>
-              <div className="category">
-                {renderMovies(category.movies, category.category)}
-              </div>
-              <button
-                className="scroll-btn next"
-                onClick={() => scrollRow("next", category.category)}
-              >
-                &gt;
-              </button>
+      {categoriesData.map((category, index) => (
+        <div className="categories" key={index}>
+          <h1>{category.title}</h1>
+          <div className="scroll-container">
+            <button
+              className="scroll-btn back"
+              onClick={() => scrollRow("back", category.category)}
+            >
+              &lt;
+            </button>
+            <div className="category">
+              {renderMovies(category.movies, category.category)}
             </div>
+            <button
+              className="scroll-btn next"
+              onClick={() => scrollRow("next", category.category)}
+            >
+              &gt;
+            </button>
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 }
