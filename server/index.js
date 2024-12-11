@@ -7,7 +7,7 @@ import movieRouter from './routes/movieRouter.js';
 import userpage from "./routes/userpageRouter.js"
 import notificationRouter from'./routes/notificationRouter.js'
 
-const port = 3001;
+const port = process.env.APP_PORT;
 
 const app = express();
 app.use(cors());
