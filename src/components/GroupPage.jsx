@@ -238,12 +238,11 @@ function GroupPage() {
                                         // if there are reviews for this movie
                                         allReviews.length > 0 && (
                                             <div>
-                                                <h3>Reviews:</h3>
                                                 <ul>
                                                     {allReviews.map((review) => (
                                                         <li key={review.groupmoviereview_id}>
                                                             <p>{review.groupmoviereview_review}</p>
-                                                            <p>By: {review.groupmoviereview_user}</p>
+                                                            <p>{review.groupmoviereview_user}</p>
                                                         </li>
                                                     ))}
                                                 </ul>
