@@ -16,7 +16,7 @@ CREATE TABLE users (
 
 
 CREATE TABLE movie (
-    movie_id INTEGER,
+    movie_id INTEGER PRIMARY KEY,
     movie_image VARCHAR(255),
     movie_title VARCHAR(255),
     movie_description TEXT
@@ -58,7 +58,7 @@ CREATE TABLE groupmember (
     groupmember_status VARCHAR(50) CHECK (groupmember_status IN ('active', 'inactive', 'pending')),
     FOREIGN KEY (groupmember_group_id) REFERENCES usergroup(group_id),
     FOREIGN KEY (groupmember_users_id) REFERENCES "users"(users_id),
-    UNIQUE(groupmember_group_id, groupmember_users_id) )
+    UNIQUE(groupmember_group_id, groupmember_users_id) );
 
 CREATE TABLE groupmovie (
     groupmovie_id SERIAL PRIMARY KEY,
@@ -68,6 +68,17 @@ CREATE TABLE groupmovie (
     FOREIGN KEY (groupmovie_movie_id) REFERENCES movie(movie_id)
 );
 
+CREATE TABLE groupmoviereview (
+    groupmoviereview_id SERIAL PRIMARY KEY,
+    groupmoviereview_group_id INTEGER,
+    groupmoviereview_movie_id INTEGER,
+    groupmoviereview_users_id INTEGER,
+    groupmoviereview_review TEXT,
+    FOREIGN KEY (groupmoviereview_group_id) REFERENCES usergroup(group_id),
+    FOREIGN KEY (groupmoviereview_movie_id) REFERENCES movie(movie_id),
+    FOREIGN KEY (groupmoviereview_users_id) REFERENCES "users"(users_id)
+);
+
 CREATE TABLE otp(
     otp_id SERIAL PRIMARY KEY,
     otp_users_id INTEGER,
@@ -75,7 +86,7 @@ CREATE TABLE otp(
     otp_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     otp_validated BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (otp_users_id) REFERENCES "users"(users_id)
-)
+);
 
 CREATE TABLE sharedfavorite (
   shared_favorite_id SERIAL PRIMARY KEY,

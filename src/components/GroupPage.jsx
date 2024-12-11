@@ -13,6 +13,8 @@ function GroupPage() {
     const [user, setUser] = useState(null); // State to hold user data
     const navigate = useNavigate();
     const [isMember, setIsMember] = useState(false); // Track if the user is a member
+    const [review, setReview] = useState("");
+    const [allReviews, setAllReviews] = useState([]);
 
     // Fetch group details
     useEffect(() => {
@@ -70,6 +72,23 @@ function GroupPage() {
         fetchMovies();
     }, [groupId]);
     console.log(movies)
+
+    // fetch all reviews
+    useEffect(() => {
+        const fetchAllReviews = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_URL}/groups/${groupId}/reviews`
+                );
+                console.log("response", response.data);
+                setAllReviews(response.data);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        };
+        fetchAllReviews();
+    }, []);
+
     // Retrieve user data from sessionStorage
     useEffect(() => {
         const storedUser = sessionStorage.getItem("user");
@@ -137,6 +156,32 @@ function GroupPage() {
         }
     };
 
+    // Handle submitting a review
+    const handleReviewSubmit = async (e, movie_id) => {
+        console.log("review", review);
+        e.preventDefault();
+
+        if(review.length === 0){
+            return toast.error("Please write a review.");
+        }
+
+        try {
+            const reviewData = await axios.post(`${process.env.REACT_APP_API_URL}/groups/addReviewToGroupMovie`, {
+                group_id: groupId,
+                movie_id,
+                review,
+                user_id: user.users_id
+            });
+
+            console.log("reviewData", reviewData);
+
+            toast.success("Review submitted successfully.");
+        } catch (error) {
+            console.error("Error submitting review:", error);
+            toast.error(error.response?.data?.error || "Failed to submit review.");
+        }
+    };
+
     if (!group) {
         return <h1>Loading group details...</h1>;
     }
@@ -187,6 +232,26 @@ function GroupPage() {
                                 <img src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.movie_image}`} alt={movie.movie_title} />
                                 <div className="movie-title">
                                     <h2>{movie.movie_title}</h2>
+                                </div>
+                                <div className="movie-review">
+                                    {
+                                        // if there are reviews for this movie
+                                        allReviews.length > 0 && (
+                                            <div>
+                                                <h3>Reviews:</h3>
+                                                <ul>
+                                                    {allReviews.map((review) => (
+                                                        <li key={review.groupmoviereview_id}>
+                                                            <p>{review.groupmoviereview_review}</p>
+                                                            <p>By: {review.groupmoviereview_user}</p>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )
+                                    }
+                                    <input onChange={(e)=>setReview(e.target.value)} type="text" name="moviereview" placeholder="write your review" id="" />
+                                    <button onClick={(e)=>handleReviewSubmit(e, movie.movie_id)}>Submit</button>
                                 </div>
                             </div>
                         ))

@@ -72,5 +72,51 @@ const addMovieToGroups = async (groupId, movieId) => {
         `, [groupId, movieId])
 }
 
+const addMovieReviewToGroups = async (groupId, movieId, userId, review) => {
+    return await pool.query(`
+        INSERT INTO groupmoviereview (groupmoviereview_group_id, groupmoviereview_movie_id, groupmoviereview_users_id, groupmoviereview_review)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+        `, [groupId, movieId, userId, review])
+};
 
-export { selectAllGroups, createGroup, selectGroupById, selectGroupMovies, addMovieToGroups };
+const selectGroupMovieReviews = async (groupId) => {
+
+    // first get all the movies in the group
+    const movies = await pool.query(`
+        SELECT
+            movie.movie_id
+        FROM
+            groupmovie
+        INNER JOIN
+            movie ON groupmovie.groupmovie_movie_id = movie.movie_id
+        WHERE
+            groupmovie.groupmovie_group_id = $1;
+    `, [groupId]);
+
+    console.log('all movies in group', movies.rows);
+
+    // then get all the reviews for each movie if exists in groupmoviereview table
+    const reviews = await Promise.all(movies.rows.map(async (movie) => {
+        const result = await pool.query(`
+            SELECT
+                groupmoviereview.groupmoviereview_id,
+                groupmoviereview.groupmoviereview_movie_id,
+                groupmoviereview.groupmoviereview_review,
+                users.users_email AS groupmoviereview_user
+            FROM
+                groupmoviereview
+            INNER JOIN USERS ON groupmoviereview.groupmoviereview_users_id = users.users_id
+            WHERE
+                groupmoviereview.groupmoviereview_movie_id = $1 and groupmoviereview.groupmoviereview_group_id = $2;
+        `, [movie.movie_id, groupId]);
+        return result.rows;
+    }));
+
+
+    // return all the reviews in a flat array
+    return reviews;
+};
+
+
+export { selectAllGroups, createGroup, selectGroupById, selectGroupMovies, addMovieToGroups, addMovieReviewToGroups, selectGroupMovieReviews };

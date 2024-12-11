@@ -1,4 +1,4 @@
-import { selectAllGroups, createGroup, selectGroupById, selectGroupMovies, addMovieToGroups } from "../models/Groups.js";
+import { selectAllGroups, createGroup, selectGroupById, selectGroupMovies, addMovieToGroups, addMovieReviewToGroups, selectGroupMovieReviews } from "../models/Groups.js";
 import { emptyOrRows } from "../helpers/emptyOrRows.js";
 import { pool } from "../helpers/db.js";
 
@@ -88,7 +88,47 @@ const addMovieToGroup = async (req, res, next) => {
 };
 
 
+// add review to the group movie
+const addReviewToGroupMovie = async (req, res, next) => {
+    const { group_id, movie_id, review, user_id } = req.body;
+    console.log('group_id', group_id, 'movie_id', movie_id, 'review', review, 'user_id', user_id)
+
+    if(review.length  === 0){
+        return res.status(400).json({ error: "Review cannot be empty" });
+    }
+
+    // Validate membership
+    const memberResult = await pool.query(`
+            SELECT * FROM groupmember
+            WHERE groupmember_group_id = $1 AND groupmember_users_id = $2 AND groupmember_status = 'active';
+        `, [group_id, user_id]);
+    if (memberResult.rows.length === 0) {
+        return res.status(403).json({ error: "User is not a member of the group or is inactive." });
+    }
+
+    // Add movie review to group
+    const result = await addMovieReviewToGroups(group_id, movie_id, user_id, review)
+    console.log(result)
+    return res.status(201).json(result.rows[0]);
+};
+
+// get all group reviews
+const getGroupReviews = async (req, res, next) => {
+    const { id } = req.params;
+    console.log('got id in getGroupReviews', id)
+    try {
+        const result = await selectGroupMovieReviews(id);
+        console.log('result in getGroupReviews', result)
+        return res.status(200).json(result[0]);
+    }
+    catch (error) {
+        console.error("Error fetching group movies:", error.message);
+        return next(error);
+    }
+};
 
 
 
-export { getGroups, addGroup, getGroupById, getGroupMovies, addMovieToGroup}
+
+
+export { getGroups, addGroup, getGroupById, getGroupMovies, addMovieToGroup, addReviewToGroupMovie, getGroupReviews }

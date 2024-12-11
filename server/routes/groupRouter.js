@@ -1,5 +1,5 @@
 import Router from "express"
-import { getGroups, addGroup, getGroupById, getGroupMovies, addMovieToGroup } from "../controllers/groupController.js";
+import { getGroups, addGroup, getGroupById, getGroupMovies, addMovieToGroup, addReviewToGroupMovie, getGroupReviews } from "../controllers/groupController.js";
 import { pool } from "../helpers/db.js";
 const router = Router()
 
@@ -7,6 +7,8 @@ router.get("/", getGroups)
 router.post("/", addGroup)
 router.get("/:id", getGroupById);
 router.get("/:id/movies", getGroupMovies);
+router.post("/addReviewToGroupMovie", addReviewToGroupMovie);
+router.get("/:id/reviews", getGroupReviews);
 
 router.post("/addtogroup", addMovieToGroup);
 // router.get("/movie/addToGroup", addMovieToGroups);
