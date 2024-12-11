@@ -9,11 +9,7 @@ function Categories({ setSelectedMovie }) {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [visibleRange, setVisibleRange] = useState({
-    trending: { startIndex: 0, endIndex: 5 },
-    popular: { startIndex: 0, endIndex: 5 },
-    topRated: { startIndex: 0, endIndex: 5 },
-  });
+
   const navigate = useNavigate();
 
   // Function to calculate cards to show based on screen width
@@ -24,19 +20,25 @@ function Categories({ setSelectedMovie }) {
   // State to hold the number of cards to show
   const [cardsToShow, setCardsToShow] = useState(calculateCardsToShow());
 
-  // Adjust cardsToShow on window resize
+  // State for visible ranges
+  const [visibleRange, setVisibleRange] = useState({
+    trending: { startIndex: 0, endIndex: calculateCardsToShow() },
+    popular: { startIndex: 0, endIndex: calculateCardsToShow() },
+    topRated: { startIndex: 0, endIndex: calculateCardsToShow() },
+  });
+
+  // Adjust cardsToShow and visibleRange on window resize
   useEffect(() => {
     const handleResize = () => {
       const newCardsToShow = calculateCardsToShow();
       setCardsToShow(newCardsToShow);
-      // Update the visible range based on the new number of cards to show
+
       setVisibleRange((prevState) => {
         const updatedRange = {};
         Object.keys(prevState).forEach((category) => {
-          const { startIndex, endIndex } = prevState[category];
           updatedRange[category] = {
-            startIndex: Math.max(startIndex, 0), // Ensure startIndex is not negative
-            endIndex: Math.min(endIndex, newCardsToShow * 4), // Ensure that visible range doesn't go beyond available movies
+            startIndex: 0,
+            endIndex: newCardsToShow,
           };
         });
         return updatedRange;
@@ -44,9 +46,8 @@ function Categories({ setSelectedMovie }) {
     };
 
     window.addEventListener("resize", handleResize);
-    // Cleanup on component unmount
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // The empty dependency array ensures this effect runs once when the component is mounted
+  }, []);
 
   // Fetch movie data
   useEffect(() => {
@@ -65,7 +66,7 @@ function Categories({ setSelectedMovie }) {
     };
 
     fetchMovies();
-  }, [TMDB_API_KEY]);
+  }, [BASE_URL]);
 
   // Handle movie card click
   const handleMovieClick = (movie) => {
