@@ -223,7 +223,7 @@ function GroupPage() {
                     </div>
                 </div>
             </div>
-            {/* /fr96XzlzsONrQrGfdLMiwtQjott.jpg */}
+            
             <div className="group-content">
                 <div className="group-movies">
                     {movies.length > 0 ? (
