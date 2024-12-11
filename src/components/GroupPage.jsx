@@ -75,7 +75,7 @@ function GroupPage() {
         };
         fetchMovies();
     }, [groupId]);
-    console.log(movies)
+    
 
     // fetch all reviews
     useEffect(() => {
@@ -84,7 +84,7 @@ function GroupPage() {
                 const response = await axios.get(
                     `${process.env.REACT_APP_API_URL}/groups/${groupId}/reviews`
                 );
-                console.log("response", response.data);
+                
                 setAllReviews(response.data);
             } catch (error) {
                 console.error("Error fetching reviews:", error);
@@ -162,7 +162,7 @@ function GroupPage() {
 
     // Handle submitting a review
     const handleReviewSubmit = async (e, movie_id) => {
-        console.log("review", review);
+        
         e.preventDefault();
 
         if(review.length === 0){
@@ -177,7 +177,7 @@ function GroupPage() {
                 user_id: user.users_id
             });
 
-            console.log("reviewData", reviewData);
+           
 
             setAllReviews([...allReviews, reviewData.data]);
 

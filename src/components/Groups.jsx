@@ -13,7 +13,7 @@ function Groups() {
     useEffect(() => {
         axios.get(url + "/groups")
             .then(response => {
-            console.log(response.data)
+            
             setGroups(response.data);
             }).catch(error => {
             alert(error.response.data.error ? error.response.data.error : error)

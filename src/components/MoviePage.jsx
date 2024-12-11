@@ -81,9 +81,9 @@ function MoviePage() {
       const response = await axios.get(url + '/reviews/review' , {
         params: { movie_id: movie.id }
       });
-      console.log('response', response);
+      
       setReviews(response.data);
-      console.log('reviews', reviews);
+      
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
@@ -135,7 +135,7 @@ function MoviePage() {
     }
 
    
-    console.log("Adding movie to group:",groupId);
+   
     
     const user = JSON.parse(sessionStorage.getItem("user"));
 
@@ -155,7 +155,7 @@ function MoviePage() {
       });
 
 
-      console.log("Movie added to group successfully:", response.data);
+      
       toast.success("Movie added to group successfully!");
       if (response.status === 200) {
         alert("Movie is already in this group")
@@ -181,11 +181,11 @@ function MoviePage() {
     const movie_id = movie.id;
 
     const data = { users_id, movie_id };
-    console.log("Request body data:", data);
+    
 
     try {
         const response = await axios.post(url + "/movie/addFavorite/", data);
-        console.log("Added to favorites successfully:", response.data);
+       
         toast.success("Movie added to your favorites!");
     } catch (error) {
         if (error.response) {
@@ -250,7 +250,7 @@ function MoviePage() {
           }
         });
   
-        console.log("Review submitted successfully");
+        
   
         // Fetch updated reviews list
         fetchReviews();

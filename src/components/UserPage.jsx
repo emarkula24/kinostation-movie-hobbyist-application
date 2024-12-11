@@ -87,7 +87,7 @@ function UserPage() {
 
   const handleShareFavorites = () => {
     if (user) {
-      console.log(frontURL +`/publicFavorites/${user.users_id}`)
+
       const shareUrl = frontURL +`/publicFavorites/${user.users_id}`;
       navigator.clipboard.writeText(shareUrl).then(() => {
         toast.success('Favorites URL copied to clipboard!');

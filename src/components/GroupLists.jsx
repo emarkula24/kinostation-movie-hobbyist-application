@@ -12,7 +12,7 @@ function GroupLists() {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/groups`);
                 setGroups(response.data);
-                console.log("Groups:", response.data);
+                
             } catch (error) {
                 console.error("Error fetching groups:", error);
             }

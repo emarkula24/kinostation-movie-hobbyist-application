@@ -14,10 +14,10 @@ function Login() {
     const navigate = useNavigate();
 
     const refreshToken = async () => {
-        console.log('react refresh token function');
+        
         try {
           const res = await axios.post(url + "/user/refresh", { token: user.refreshToken });
-          console.log('response data from refresh token: ', res.data);
+          
           setUser({
             ...user,
             accessToken: res.data.accessToken,
@@ -42,7 +42,7 @@ function Login() {
           const decodedToken = jwtDecode(user.accessToken);
           if (decodedToken.exp * 1000 < currentDate.getTime()) {
             const data = await refreshToken();
-            console.log('data from axiosJWT: ', data);
+            
             config.headers["authorization"] = "Bearer " + data.accessToken;
           }
           return config;
@@ -70,7 +70,7 @@ function Login() {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log('response data from login: ', response.data);
+            
             setUser(response.data);
             // set session storage
             sessionStorage.setItem('user', JSON.stringify(response.data));

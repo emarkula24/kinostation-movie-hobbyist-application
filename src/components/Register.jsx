@@ -45,7 +45,7 @@ function Register() {
                   'Content-Type': 'application/json'
               }
           });
-          console.log('response data from register: ', response.data);
+          
 
      // Show success alert
       alert('Registration successful! Redirecting to login page.');

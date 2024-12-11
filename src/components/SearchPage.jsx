@@ -13,8 +13,7 @@ const SearchPage = ({ setSelectedMovie }) => {
   const query = new URLSearchParams(location.search).get('query');
   
   const navigate = useNavigate();
-  console.log(process.env)
-  console.log(url)
+
   useEffect(() => {
     if (query && query.length > 0) {
       const fetchMovies = async () => {

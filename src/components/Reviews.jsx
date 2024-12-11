@@ -12,7 +12,7 @@ function Reviews() {
   useEffect(() => {
     axios.get(url + "/reviews")
       .then(response => {
-        console.log(response.data);
+        
         setReviews(response.data);
       }).catch(error => {
         alert(error.response?.data?.error || error);
@@ -29,12 +29,12 @@ function Reviews() {
   }, [reviews]);
 
   const fetchReviewedMovies = async (movieId) => {
-    console.log("Fetching movie for ID:", movieId);
+    
     try {
       const response = await axios.get(url + "/movie/findbyid", {
         params: { movie_id: movieId }
       });
-      console.log("Movie Data:", response.data);
+      
 
       
       setReviewedMovies(prevMovies => [
