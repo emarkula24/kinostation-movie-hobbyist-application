@@ -250,3 +250,20 @@
     width: 30px;
     height: 30px;
 }
+@media (max-width: 928px) {
+    .group-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .group-content {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .group-movie {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

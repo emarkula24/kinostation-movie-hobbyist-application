@@ -360,6 +360,12 @@ h1 {
         padding: 20px;
     }
 
+    .favorite-btn {
+        position: absolute;
+        top: 90px;
+        right: 10px;
+    }
+
     .movie-info {
         flex-direction: column;
         width: 100%;
