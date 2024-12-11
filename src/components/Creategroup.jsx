@@ -34,6 +34,8 @@ function CreateGroup() {
     }
 
     try {
+      console.log(`${url}/groups/creategroup`)
+      
       const response = await axios.post(`${url}/groups/creategroup`, {
         group_name: name,
         group_users_id: user.users_id,

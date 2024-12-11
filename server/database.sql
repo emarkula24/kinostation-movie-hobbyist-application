@@ -1,3 +1,4 @@
+-- Active: 1733414769068@@movie-app-db.postgres.database.azure.com@5432@movieapp
 DROP TABLE IF EXISTS groupmovie;
 DROP TABLE IF EXISTS groupmember;
 DROP TABLE IF EXISTS usergroup;
@@ -7,6 +8,7 @@ DROP TABLE IF EXISTS movie CASCADE;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS notification;
 DROP TABLE IF EXISTS otp;
+DROP TABLE IF EXISTS sharedfavorite;
 
 CREATE TABLE users (
   users_id SERIAL PRIMARY KEY,

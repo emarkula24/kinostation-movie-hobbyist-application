@@ -125,19 +125,37 @@ movieRouter.post("/addFavorite", async (req, res) => {
     try {
         await client.query('BEGIN'); // Start a transaction
 
+        const checkQuerymovie = `
+        SELECT 1 FROM movie
+        WHERE movie_id = $1;
+        `;
+        const existsMovie = await pool.query(checkQuerymovie, [movie_id]);
+            if (existsMovie.rows.length) {
+                return { rows: [] }; 
+            }
+
         // Step 1: Insert movie into the movie table if it doesn't exist
         const movieInsertResult = await client.query(
             `INSERT INTO movie (movie_id) 
              VALUES ($1)
-             ON CONFLICT (movie_id) DO NOTHING RETURNING *`,
+             RETURNING *`,
             [movie_id]
         );
 
+        const checkQuery = `
+        SELECT 1 FROM favorite 
+        WHERE favorite_users_id = $1 AND favorite_movie_id = $2;
+        `;
+
+        const exists = await pool.query(checkQuery, [users_id, movie_id]);
+            if (exists.rows.length) {
+                return { rows: [] }; 
+            }
         // Step 2: Insert the movie into the favorite table
         const favoriteInsertResult = await client.query(
             `INSERT INTO favorite (favorite_users_id, favorite_movie_id) 
              VALUES ($1, $2)
-             ON CONFLICT (favorite_users_id, favorite_movie_id) DO NOTHING RETURNING *`,
+             RETURNING *`,
             [users_id, movie_id]
         );
 

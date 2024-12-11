@@ -18,7 +18,7 @@ function Header( { setSelectedMovie }) {
     const [showtimes, setShowtimes] = useState(new Set());
     const [isTyping, setIsTyping] = useState(false);
     const [showResults, setShowResults] = useState(false);  // Controls the visibility of search results
-    const url = process.env.REACT_APP_API_UR
+    const url = process.env.REACT_APP_API_URL
     const [burgerMenuIsOpen, setBurgerMenuIsOpen] = useState(false);
 
     const toggleBurgerMenu = () => {

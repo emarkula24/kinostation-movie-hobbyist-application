@@ -13,7 +13,7 @@ function UserPage() {
   const navigate = useNavigate();
   const url = process.env.REACT_APP_API_URL
   const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-
+  const frontURL = process.env.REACT_APP_FRONT_URL;
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
@@ -83,10 +83,12 @@ function UserPage() {
       navigate('/');
     }
   };
+ 
 
   const handleShareFavorites = () => {
     if (user) {
-      const shareUrl = `localhost:3000/publicFavorites/${user.users_id}`;
+      console.log(frontURL +`/publicFavorites/${user.users_id}`)
+      const shareUrl = frontURL +`/publicFavorites/${user.users_id}`;
       navigator.clipboard.writeText(shareUrl).then(() => {
         toast.success('Favorites URL copied to clipboard!');
       }).catch((error) => console.error('Error copying URL:', error));
@@ -96,7 +98,7 @@ function UserPage() {
   const handleDeleteAccount = async () => {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       try {
-        const response = await axios.delete(`http://localhost:3001/user/deleteAccount/${user.users_id}`);
+        const response = await axios.delete(`${url}/user/deleteAccount/${user.users_id}`);
         sessionStorage.clear();  
         navigate('/');  
         alert("Your account has been deleted successfully.");
