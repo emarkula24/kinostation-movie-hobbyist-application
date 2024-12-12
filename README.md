@@ -79,15 +79,20 @@ To run the project in your local environment, follow these steps:
     ```
 3. 🔑 Set up the environment variables required for API keys and database configuration.
 4. 🗄️ Initialize the PostgreSQL database.
-5. 🚀 Run the development server using 
-    ```sh
+5. 🚀 Run the development server by navigating to the server directory and using 
+    ``` sh
     npm run devStart
     ```
     or 
-    ```sh
+    ``` sh
     yarn dev
     ```
-6. Open `http://localhost:3000` to view the application.
+   
+6. Run the application using
+    ``` sh
+    npm start
+    ```
+7. Open `http://localhost:3000` to view the application.
 
 
 ## Testing the Project
