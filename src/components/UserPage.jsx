@@ -36,7 +36,7 @@ function UserPage() {
           params: { api_key: TMDB_API_KEY }
         })
       );
-
+      
       const movieDetailsResponses = await Promise.all(movieDetailsPromises);
       const movieDetails = movieDetailsResponses.map(response => response.data);
 

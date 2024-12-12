@@ -187,7 +187,7 @@ function MoviePage() {
 
     try {
         const response = await axios.post(url + "/movie/addFavorite/", data);
-       
+        console.log(response)
         toast.success("Movie added to your favorites!");
     } catch (error) {
         if (error.response) {
