@@ -53,6 +53,10 @@
     @media (max-width: 768px) {
       max-width: calc(14rem * 3 + 25px * 2); // Space for 3 cards + gaps
     }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      max-width: calc(16rem * 4 + 25px * 3); // Space for 4 cards + gaps
+    }
   }
 
   // Scroll buttons
@@ -94,6 +98,21 @@
 
       &.next {
         right: 5px; /* Shift closer to the content */
+      }
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .scroll-btn {
+      font-size: 1.4rem; /* Slightly larger for tablets */
+      padding: 10px;
+
+      &.back {
+        left: 10px;
+      }
+
+      &.next {
+        right: 10px;
       }
     }
   }
@@ -186,6 +205,49 @@
       p {
         @include font-settings($text-light, 0.6rem);
       }
+    }
+  }
+}
+
+// Adjust MovieCard size and layout for iPad screens
+@media (min-width: 769px) and (max-width: 1024px) {
+  .MovieCard {
+    width: 15rem; /* Adjusted size for iPads */
+    height: 22rem;
+
+    .MovieCard_logo img {
+      object-fit: cover;
+      object-position: center;
+      border-radius: inherit;
+      background-color: black;
+      @include bgConfig;
+    }
+
+    .MovieCard_title {
+      h3 {
+        @include font-settings($text-light, 1rem, bold);
+      }
+
+      p {
+        @include font-settings($text-light, 0.8rem);
+      }
+    }
+  }
+
+  .category {
+    max-width: calc(16rem * 4 + 25px * 3); // Space for 4 cards + gaps
+  }
+
+  .scroll-btn {
+    font-size: 1.4rem; /* Slightly larger for tablets */
+    padding: 10px;
+
+    &.back {
+      left: 10px;
+    }
+
+    &.next {
+      right: 10px;
     }
   }
 }
