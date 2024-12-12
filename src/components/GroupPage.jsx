@@ -245,11 +245,13 @@ function GroupPage() {
                                         allReviews.length > 0 && (
                                             <div className="group-reviews">
                                             {allReviews.map((review) => (
-                                                <div className="review-item" key={review.review_id}>
+                                                review.groupmoviereview_movie_id === movie.movie_id && (
+                                                    <div className="review-item" key={review.review_id}>
                                                 <MdOutlineMessage className="addIcon" />
                                                 <p>{review.groupmoviereview_review}</p>
                                                 <p><span>Created by:{review.groupmoviereview_user?.split('@',1)}</span></p>
                                                 </div>
+                                                )
                                             ))}
                                             </div>
                                         )
