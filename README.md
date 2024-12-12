@@ -45,7 +45,7 @@ Discover movies with detailed info, and ratings. Share your thoughts, rate films
 
 The PostgreSQL database schema consists of the following tables:
 
-![database diagram](./db_diagram.png)
+![database diagram](./db_diagram.PNG)
 
 ## 🎨 UI Design
 The figma link for UI wireframe and pages layout:
