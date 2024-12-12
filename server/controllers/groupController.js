@@ -68,18 +68,25 @@ const addMovieToGroup = async (req, res, next) => {
         }
         
         //Add movie to movie table
-
-        const movieResult = await pool.query(`
-            INSERT INTO movie (movie_title, movie_image, movie_description, movie_id)
-            VALUES ($1, $2, $3, $4);
-            `, [movie_title, movie_image, movie_description, movie_id])
+        const movieExists = await pool.query(`
+            SELECT 1 FROM movie WHERE movie_id = $1;
+        `, [movie_id]);
+        if (movieExists.rows.length === 0) {
+            const movieResult = await pool.query(`
+                INSERT INTO movie (movie_title, movie_image, movie_description, movie_id)
+                VALUES ($1, $2, $3, $4);
+                `, [movie_title, movie_image, movie_description, movie_id])
+            if (movieResult.rows.length > 0) {
+                return res.status(200).json({ error: "Movie is already in the group." });
+            }
+        } 
 
         // Add movie to group
         const result = await addMovieToGroups(group_id, movie_id)
-        console.log(result)
-        if (!result.rows.length) {
+        if (result === "{ rows : [] }") {
             return res.status(200).json({ error: "Movie is already in the group." });
         }
+
         return res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error("Backend Error:", error);

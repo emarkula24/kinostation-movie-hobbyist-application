@@ -62,7 +62,7 @@ const addMovieToGroups = async (groupId, movieId) => {
     `;
     const exists = await pool.query(checkQuery, [groupId, movieId]);
         if (exists.rows.length) {
-            return { rows: [] }; 
+            return { rows: []}; 
         }
     
     return await pool.query(`

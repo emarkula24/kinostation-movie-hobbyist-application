@@ -154,9 +154,11 @@ function MoviePage() {
         movie_image: movie.poster_path
       });
 
-
       
+      if (response.status === 201) {
       toast.success("Movie added to group successfully!");
+      }
+
       if (response.status === 200) {
         alert("Movie is already in this group")
       }

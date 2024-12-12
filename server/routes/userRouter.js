@@ -178,22 +178,25 @@ router.delete("/deleteAccount/:userId", async (req, res) => {
         await pool.query("BEGIN");
 
         // Delete related data from associated tables
+        await pool.query(`DELETE FROM sharedfavorite WHERE shared_favorite_movie_id IN (SELECT favorite_movie_id FROM favorite WHERE favorite_users_id = $1)`, [userId]);
+        await pool.query(`DELETE FROM groupmoviereview WHERE groupmoviereview_users_id = $1`, [userId]);
+        await pool.query(`DELETE FROM groupmovie WHERE groupmovie_group_id IN (SELECT group_id FROM usergroup WHERE group_users_id = $1 OR group_owner_id = $1)`, [userId]);
+        // First, delete notifications related to the user's groups
+        
+
         await pool.query("DELETE FROM favorite WHERE favorite_users_id = $1", [userId]);
         await pool.query("DELETE FROM review WHERE review_users_id = $1", [userId]);
-
-        // First, delete notifications related to the user's groups
-        await pool.query("DELETE FROM notification WHERE notification_group_id IN (SELECT group_id FROM usergroup WHERE group_owner_id = $1 OR group_users_id = $1)", [userId]);
-
+        await pool.query("DELETE FROM otp WHERE otp_users_id = $1", [userId]);
     // Delete notifications related to the user
         await pool.query("DELETE FROM notification WHERE notification_users_id = $1", [userId]);
         await pool.query("DELETE FROM groupmember WHERE groupmember_group_id IN (SELECT group_id FROM usergroup WHERE group_owner_id = $1 OR group_users_id = $1)", [userId]);
-
+        await pool.query("DELETE FROM notification WHERE notification_group_id IN (SELECT group_id FROM usergroup WHERE group_owner_id = $1 OR group_users_id = $1)", [userId]);
         // Now, delete the groups where the user is the member or the owner
         await pool.query("DELETE FROM usergroup WHERE group_users_id = $1", [userId]); // User as a member of groups
         await pool.query("DELETE FROM usergroup WHERE group_owner_id = $1", [userId]); // User as the group owner
         
         // Delete OTP records associated with the user
-        await pool.query("DELETE FROM otp WHERE otp_users_id = $1", [userId]);
+        
 
         // Delete the user record
         const result = await pool.query("DELETE FROM users WHERE users_id = $1 RETURNING *", [userId]);
