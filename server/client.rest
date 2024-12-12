@@ -105,6 +105,17 @@ Content-Type: application/json
     "movie_id": 12
 }
 
+### Get all groups
+GET http://localhost:3001/groups
+Content-Type: application/json
+{
+  "usergroup.group_id": 1
+  "usergroup.group_name": movie maniacs,
+  "usergroup.group_owner_id": 2,
+  "usergroup.group_users_id": 3,
+  "usergroup.group_introduction:" "we love movies"
+}
+
 ### Test - Get Groups for a Specific User
 GET http://localhost:3001/notification/group/user/1
 Accept: application/json
@@ -184,4 +195,15 @@ Content-Type: application/json
 
 {
   "user_id": 1
+}
+
+# Get group reviews
+GET http://localhost:3001/groups/:id/reviews
+Content-Type: application/json
+
+{
+  "groupmoviereview.groupmoviereview_id": 2,
+  "groupmoviereview.groupmoviereview_movie_id" 32145:,
+  "groupmoviereview.groupmoviereview_review": "it was good",
+  "users.users_email AS groupmoviereview_user: user@email.com"
 }
