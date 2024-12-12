@@ -4,6 +4,7 @@ import { BiSolidCoffee } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast  from 'react-hot-toast';
 
 function Register() {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ function Register() {
       // Check for at least one uppercase letter in password
     const uppercaseRegex = /[A-Z]/;
     if (!uppercaseRegex.test(password)) {
-      alert('Password must contain at least one uppercase letter.');
+      toast.error('Password must contain at least one uppercase letter.');
       return;
     }
 
@@ -48,7 +49,7 @@ function Register() {
           
 
      // Show success alert
-      alert('Registration successful! Redirecting to login page.');
+      toast.success('Registration successful! Redirecting to login page.');
            // Redirect to login on success
       navigate('/login');
         }catch(error){

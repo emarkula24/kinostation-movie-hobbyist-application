@@ -4,6 +4,7 @@ import { BiSolidCoffee } from "react-icons/bi";
 import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
+import toast from 'react-hot-toast';
 
 const url = process.env.REACT_APP_API_URL
 function Login() {
@@ -56,7 +57,7 @@ function Login() {
     const loginUser = async (e) => {
         e.preventDefault();
         if(email === '' || password === '') {
-            alert('All fields are required');
+            toast.error('All fields are required');
             return;
         }
         try{
@@ -80,9 +81,9 @@ function Login() {
             console.log('error while login: ', error);
             // Check if error response exists and show the message
         if (error.response && error.response.data && error.response.data.message) {
-            alert(error.response.data.message); // Display server-provided error message
+            toast.error(error.response.data.message);
         } else {
-            alert('password is incorrect');
+            toast.error('password is incorrect');
         }
         }
     }
