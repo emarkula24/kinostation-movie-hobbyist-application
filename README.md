@@ -41,6 +41,10 @@ Discover movies with detailed info, and ratings. Share your thoughts, rate films
 **🛢 Database** The PostgreSQL schema is normalized, allowing for efficient storage and retrieval of movie-related data.
 <!-- **🐳 Deployment** The application is containerized using Docker, ensuring seamless deployment and scaling. -->
 
+## 📄 API Documentation
+
+The REST API documentation is available in the server folder, inside the *client.rest* file. This file contains all the necessary endpoints and their methods.
+
 ## 📚 Database Schema
 
 The PostgreSQL database schema consists of the following tables:
