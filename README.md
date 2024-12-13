@@ -18,7 +18,7 @@ Discover movies with detailed info, and ratings. Share your thoughts, rate films
 - [Xuanyu Liu]() : BackEnd Development
 - [Zhiying Huang]() : FrontEnd Development | UI/UX Design
 - [Bao Nguyen]() : FrontEnd Development
-- [Bibek ]() : BackEnd Development
+- [Bibek Tondon]() : BackEnd Development
 
 ## 🌟 Features
 
