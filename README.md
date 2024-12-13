@@ -111,6 +111,7 @@ npm run test
 ```
 
 ## 🎥 Demo/Preview
+View the working live demo here: [Movie application](https://purple-meadow-09333ff03.4.azurestaticapps.net/)
 
 ## 📝 License
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
