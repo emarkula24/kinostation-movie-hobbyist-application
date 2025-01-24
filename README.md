@@ -1,4 +1,4 @@
-# Movie Application 🎥
+# Kinostation 🎥
 
 
 ## 📖 Overview
